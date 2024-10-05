@@ -1,3 +1,5 @@
+import CalculatorForm from "./CalculatorForm/CalculatorForm";
+
 export const App = () => {
   return (
     <div
@@ -10,7 +12,7 @@ export const App = () => {
         color: '#010101',
       }}
     >
-      Team 3 Fullstack Final Project
+
     </div>
   );
 };
