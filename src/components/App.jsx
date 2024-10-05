@@ -1,16 +1,14 @@
+import { Header } from './Header/Header';
+import { Routes, Route } from 'react-router-dom';
+import { MainPage } from 'pages/MainPage';
+
 export const App = () => {
   return (
-    <div
-      style={{
-        height: '100vh',
-        display: 'flex',
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 40,
-        color: '#010101',
-      }}
-    >
-      Team 3 Fullstack Final Project
+    <div>
+      <Header />
+      <Routes>
+        <Route path="/" element={<MainPage />} />
+      </Routes>
     </div>
   );
 };
