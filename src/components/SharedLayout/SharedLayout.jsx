@@ -1,5 +1,6 @@
 import React from 'react';
 import abstract from '../../images/abstract.png';
+import rectangle from '../../images/rectangle.png';
 import banana from '../../images/banana.png';
 import strawberry from '../../images/strawberry.png';
 import leaves from '../../images/leaves.png';
@@ -27,8 +28,17 @@ export const SharedLayout = () => {
           </div>
         </div>
       ) : (
-        <div className="absolute right-0 -z-1">
-          <img src={leaves2} alt="leaves" />
+        <div>
+          <div className="absolute right-0 -z-1">
+            <img src={leaves2} alt="leaves" />
+          </div>
+          <div className="absolute right-0 bottom-0 -z-10 h-full w-auto">
+            <img
+              src={rectangle}
+              alt="rectangle"
+              className="h-full w-[35vw] object-cover"
+            />
+          </div>
         </div>
       )}
     </div>

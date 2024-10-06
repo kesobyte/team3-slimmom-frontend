@@ -18,7 +18,7 @@ export const App = () => {
       <div className="fixed -z-[1]">
         <SharedLayout />
       </div>
-      <div className="max-w-[1300px] mx-auto">
+      <div className="max-w-[1400px] mx-auto">
         <Header />
         <Routes>
           {/* Public */}

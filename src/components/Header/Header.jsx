@@ -9,15 +9,15 @@ export const Header = () => {
   const isLoggedIn = useAuth();
 
   return (
-    <div className="flex pt-[80px] justify-between">
-      <div className="flex gap-[20px]">
+    <div className="flex xl:pt-[80px] justify-between">
+      <div className="flex w-full px-[32px] py-[16px] xl:p-0 border-b-[2px] xl:border-none justify-between xl:gap-[20px] xl:w-auto">
         <Logo />
-        <div className="flex items-end">
+        <div className="hidden xl:flex xl:items-end">
           <svg width={2} height={32}>
             <use href={`${svg}#short-line`} />
           </svg>
         </div>
-        <div className="flex items-end pb-[10px]">
+        <div className="flex items-center xl:items-end xl:pb-[10px]">
           <Navigation />
         </div>
       </div>

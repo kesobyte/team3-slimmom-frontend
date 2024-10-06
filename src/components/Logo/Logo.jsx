@@ -6,7 +6,7 @@ export const Logo = () => {
   return (
     <div>
       <Link to="/">
-        <img className="pb-[8px]" src={logo} alt="logo" width={167} />
+        <img className="xl:pb-[8px]" src={logo} alt="logo" width={167} />
       </Link>
     </div>
   );
