@@ -2,51 +2,73 @@ import React, { useContext, useState } from 'react';
 import { Formik, ErrorMessage, Form } from 'formik';
 import { AiFillEye, AiFillEyeInvisible } from 'react-icons/ai';
 import * as yup from 'yup';
-import { useNavigate } from 'react-router-dom';
-import { useLogInUserMutation } from '../redux/auth';
-import { useDispatch } from 'react-redux';
-import { setUser } from '../redux/authSlice';
-import Snowfall from 'react-snowfall';
 // import { Error, Input, List } from 'components/Form/Form.styled';
 // import { Button } from 'components/Button/Button';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useLogInUserMutation, useRegisterUserMutation } from '../redux/auth';
+import { useDispatch } from 'react-redux';
+import { setCredentials, setUser } from '../redux/authSlice';
 import { ButtonWrapper, H2, Wrapper } from '../components/RegisterPage/RegisterPage.styled';
 import { WrapperWithFruits } from 'components/RegisterPage/RegisterPage.styled';
 // import { Loader } from 'components/Loader/Loader';
+import Snowfall from 'react-snowfall';
 // import { ThemeContext } from 'components/Context/Context';
 import { routes } from 'components/Routes/routes';
 
 const schema = yup.object().shape({
-  email: yup.string().email().required('Email is required field'),
+  name: yup
+    .string()
+    .min(4, 'Name must be more than or equal to 4 letters')
+    .max(50, 'Name must be less than or equal to 50 letters')
+    .required('Name is required field'),
 
   password: yup
     .string()
     .min(6, 'Password must be more than or equal to 6 letters')
-    .max(16, 'Pame must be more than or equal to 16 letters')
+    .max(16, 'Password must be less than or equal to 16 letters')
     .required('Password is required field'),
+
+  email: yup.string().email('Invalid email').required('Email is required field'),
 });
 
 const initialValues = {
+  name: '',
   email: '',
   password: '',
 };
 
-const LoginPage = () => {
+const RegisterPage = () => {
+  const { isChristmas } = useContext(ThemeContext);
+  const location = useLocation();
+  const userDataForRegister = location.state?.userDataForRegister;
+
+  localStorage.setItem('params', JSON.stringify(userDataForRegister));
+
   const navigate = useNavigate();
-  const [loginUser, { status }] = useLogInUserMutation();
+  const [registerUser, { status: registerStatus }] = useRegisterUserMutation();
   const dispatch = useDispatch();
-  // const { isChristmas } = useContext(ThemeContext);
+  const [loginUser, { status: loginStatus }] = useLogInUserMutation();
   const [isShowPassword, setIsShowPassword] = useState(false);
 
   const handleSubmit = async (values, { resetForm }) => {
-    const user = await loginUser(values).unwrap();
+    const userDataForRegisterAll = { ...values, ...userDataForRegister };
 
-    dispatch(setUser(user));
-    navigate(routes.diary);
-    resetForm();
+    try {
+      const user = await registerUser(userDataForRegisterAll).unwrap();
+      const loginValues = { email: values.email, password: values.password };
+      const userLogin = await loginUser(loginValues).unwrap();
+
+      dispatch(setCredentials(user));
+      dispatch(setUser(userLogin));
+      navigate(routes.diary);
+      resetForm();
+    } catch (error) {
+      console.error('Error registering user:', error);
+    }
   };
 
   const handleClick = () => {
-    navigate(routes.register);
+    navigate(routes.login);
   };
 
   const handleShowPassword = () => {
@@ -55,23 +77,28 @@ const LoginPage = () => {
 
   return (
     <WrapperWithFruits>
-     {isChristmas && <Snowfall />}
+      {isChristmas && <Snowfall />}
 
-      {status === 'pending' && <Loader />}
-
-      <Wrapper style={{ paddingBottom: '255px' }}>
-        <H2>Log In</H2>
+      {(registerStatus === 'pending' || loginStatus === 'pending') && <Loader />}
+      <Wrapper>
+        <H2>Register</H2>
 
         <Formik initialValues={initialValues} onSubmit={handleSubmit} validationSchema={schema}>
           <Form>
             <List style={{ display: 'grid', gridTemplateColumns: 'revert' }}>
               <li>
                 <label>
+                  <Input type='name' name='name' placeholder='Name *' />
+
+                  <ErrorMessage name='name' component={Error} />
+                </label>
+              </li>
+
+              <li>
+                <label>
                   <Input type='email' name='email' placeholder='Email *' />
 
                   <ErrorMessage name='email' component={Error} />
-
-                  {status === 'rejected' && <Error>Email or password is wrong</Error>}
                 </label>
               </li>
 
@@ -107,20 +134,18 @@ const LoginPage = () => {
                   )}
 
                   <ErrorMessage name='password' component={Error} />
-
-                  {status === 'rejected' && <Error>Email or password is wrong</Error>}
                 </label>
               </li>
             </List>
 
             <ButtonWrapper>
               <Button type='submit' full={true} style={{ width: '200px' }}>
-                Log In
+                Register
               </Button>
 
               <div onClick={handleClick}>
                 <Button type='button' full={false}>
-                  Register
+                  Log In
                 </Button>
               </div>
             </ButtonWrapper>
@@ -131,4 +156,4 @@ const LoginPage = () => {
   );
 };
 
-export default LoginPage;
+export default RegisterPage;
