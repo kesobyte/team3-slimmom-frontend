@@ -1,5 +1,5 @@
 export const useAuth = () => {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
 
   return isLoggedIn;
 };

@@ -10,7 +10,7 @@ export const Header = () => {
 
   return (
     <div className="flex xl:pt-[80px] justify-between">
-      <div className="flex w-full px-[32px] py-[16px] xl:p-0 border-b-[2px] xl:border-none justify-between xl:gap-[20px] xl:w-auto">
+      <div className="flex w-full md:px-[32px] md:pt-[16px] md:pb-[8px] p-[20px] xl:p-0 border-b-[2px] xl:border-none justify-between xl:gap-[20px] xl:w-auto">
         <Logo />
         <div className="hidden xl:flex xl:items-end">
           <svg width={2} height={32}>

@@ -5,11 +5,11 @@ import svg from '../../images/vector.svg';
 
 export const Logo = () => {
   return (
-    <div className="flex pb-[10px] items-center">
+    <div className="flex xl:pb-[10px] items-center">
       <Link to="/" className="flex">
-        <img className="w-[70px] m-0 p-0" src={logo} alt="logo" />
+        <img className="xl:w-[70px] w-[47px] m-0 p-0" src={logo} alt="logo" />
 
-        <div className="flex items-end gap-[6px] ml-[-12px]">
+        <div className="md:flex xl:items-end items-center gap-[6px] xl:ml-[-12px] ml-[8px] hidden">
           <svg width={49} height={17}>
             <use href={`${svg}#slim`}></use>
           </svg>
