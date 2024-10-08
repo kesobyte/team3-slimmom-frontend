@@ -41,16 +41,16 @@ export const SharedLayout = () => {
         </div>
       ) : (
         <div>
-          <div className="absolute right-0 xl:bottom-0 bottom-[-160px] md:block hidden -z-1">
-            <img src={leaves2} alt="leaves" className="xl:rotate-0 rotate-90" />
+          <div className="absolute right-0 xl:bottom-0 bottom-[-160px] xl:block hidden -z-1">
+            <img src={leaves2} alt="leaves" />
           </div>
-          {/* <div className="absolute right-0 bottom-0 -z-10 h-full w-auto">
+          <div className="absolute right-0 bottom-0 -z-10 h-full w-auto xl:block hidden">
             <img
               src={rectangle}
               alt="rectangle"
-              className="xl:h-full xl:w-[35vw] xl:block hidden object-cover"
+              className="xl:h-full xl:w-[40vw] object-cover"
             />
-          </div> */}
+          </div>
         </div>
       )}
     </div>

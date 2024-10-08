@@ -2,13 +2,21 @@ import React from 'react';
 
 export const DiaryPage = () => {
   return (
-    <div className="flex gap-[10%] justify-between xl:pt-[160px] md:pt-[100px] pt-[32px] xl:px-[20px] md:px-[32px] px-[20px]">
-      <div className="w-[65%]">
-        <p>DiaryPage</p>
+    <>
+      <div className="max-w-[1400px] mx-auto">
+        <div className="flex xl:flex-row flex-col xl:pt-[160px] md:pt-[100px] pt-[32px] xl:px-[0px] md:px-[32px] px-[20px] min-h-full">
+          <div className="w-[70vw]">
+            <p>DiaryPage</p>
+          </div>
+          <div className="w-[30vw] hidden xl:block">
+            <p>RightSideBar</p>
+          </div>
+        </div>
       </div>
-      <div className="w-[25%]">
+      {/* Tablet / Mobile */}
+      <div className="w-full md:px-[32px] px-[20px] xl:hidden bg-[#f0f1f3]">
         <p>RightSideBar</p>
       </div>
-    </div>
+    </>
   );
 };
