@@ -25,8 +25,16 @@
 </symbol>
 
 <!-- Close Icon -->
-<symbol id="close-icon" xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 16 16" fill="none">
-  <path d="M1 15L15 1" stroke="#212121" stroke-width="2"/>
+<symbol id="close-icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none">
+  <g clip-path="url(#clip0_21006_2)">
+    <path d="M5 5L19 19" stroke="#212121" stroke-width="2"/>
+    <path d="M5 19L19 5" stroke="#212121" stroke-width="2"/>
+  </g>
+  <defs>
+    <clipPath id="clip0_21006_2">
+      <rect width="24" height="24" fill="white"/>
+    </clipPath>
+  </defs>
 </symbol>
 
 </svg>
