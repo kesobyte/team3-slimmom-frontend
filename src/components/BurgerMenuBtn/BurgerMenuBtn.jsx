@@ -12,7 +12,7 @@ export const BurgerMenuBtn = () => {
   return (
     <div className="relative z-50">
       <button onClick={toggleMenu}>
-        <svg width={18} height={12}>
+        <svg width={22} height={22}>
           <use
             href={`${svg}${isMenuOpen ? '#close-icon' : '#burger-icon'}`}
           ></use>

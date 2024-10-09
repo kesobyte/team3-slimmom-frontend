@@ -47,10 +47,6 @@ export const Header = () => {
       <div className="md:hidden bg-[#EFF1F3] flex justify-end px-[15px]">
         {isLoggedIn ? <UserInfo /> : ''}
       </div>
-
-      <div>
-        <BurgerMenu />
-      </div>
     </>
   );
 };
