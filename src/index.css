@@ -41,3 +41,22 @@ img {
   max-width: 100%;
   height: auto;
 }
+
+/* BurgerMenu Animation */
+
+@keyframes slideIn {
+  from {
+    transform: translateX(
+      100%
+    ); /* Start from outside the right of the screen */
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0); /* Slide into its final position */
+    opacity: 1;
+  }
+}
+
+.animate-slideIn {
+  animation: slideIn 0.3s ease-out;
+}
