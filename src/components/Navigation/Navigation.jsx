@@ -27,7 +27,7 @@ export const Navigation = () => {
           </NavLink>
         </div>
       ) : (
-        <div className="flex items-end gap-[24px]">
+        <div className="xl:flex items-end gap-[24px] hidden">
           <NavLink
             to="/diary"
             className={({ isActive }) =>
