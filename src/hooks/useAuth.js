@@ -1,5 +1,9 @@
-export const useAuth = () => {
-  const isLoggedIn = false;
+import { useSelector } from 'react-redux';
+import { getIsLoggedIn, getUser } from '../redux/auth/selectors';
 
-  return isLoggedIn;
+export const useAuth = () => {
+  const isLoggedIn = useSelector(getIsLoggedIn);
+  const user = useSelector(getUser);
+
+  return { isLoggedIn, user };
 };

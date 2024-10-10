@@ -11,7 +11,7 @@ import { useAuth } from 'hooks/useAuth';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 
 export const App = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
 
   return (
     <div className="relative">
@@ -22,30 +22,22 @@ export const App = () => {
         <Header />
         <Routes>
           {/* Public */}
-          {!isLoggedIn ? (
-            <Route path="/" element={<MainPage />} />
-          ) : (
-            <Route path="/" element={<DiaryPage />} />
-          )}
+          <Route path="/" element={isLoggedIn ? <DiaryPage /> : <MainPage />} />
 
           {/* Restricted Routes */}
           <Route
             path="/login"
             element={
-              <div>
-                <RestrictedRoute component={LoginPage} redirectTo="/diary" />
-              </div>
+              <RestrictedRoute component={LoginPage} redirectTo="/diary" />
             }
           />
           <Route
             path="/register"
             element={
-              <div>
-                <RestrictedRoute
-                  component={RegistrationPage}
-                  redirectTo="/diary"
-                />
-              </div>
+              <RestrictedRoute
+                component={RegistrationPage}
+                redirectTo="/diary"
+              />
             }
           />
 
@@ -53,20 +45,13 @@ export const App = () => {
           <Route
             path="/diary"
             element={
-              <div>
-                <ProtectedRoute component={DiaryPage} redirectTo="/login" />
-              </div>
+              <ProtectedRoute component={DiaryPage} redirectTo="/login" />
             }
           />
           <Route
             path="/calculator"
             element={
-              <div>
-                <ProtectedRoute
-                  component={CalculatorPage}
-                  redirectTo="/login"
-                />
-              </div>
+              <ProtectedRoute component={CalculatorPage} redirectTo="/login" />
             }
           />
 
