@@ -1,11 +1,8 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
-// const apiUrl = process.env.API_URL;
-
-// Provided API
-axios.defaults.baseURL =
-  'https://goit-slimmom-team-03-d472951ab141.herokuapp.com/api';
+// Provided API from .env
+axios.defaults.baseURL = process.env.API_URL;
 
 // Utility to add JWT
 const setAuthHeader = token => {
