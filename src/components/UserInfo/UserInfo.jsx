@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import svg from '../../images/vector.svg';
 import { logout } from '../../redux/auth/authOperations';
@@ -8,6 +8,10 @@ export const UserInfo = () => {
   const dispatch = useDispatch();
   const { user, isLoggedIn } = useAuth();
 
+  useEffect(() => {
+    console.log('UserInfo state:', { user, isLoggedIn });
+  }, [user, isLoggedIn]);
+
   const handleLogout = () => {
     dispatch(logout());
   };
@@ -15,7 +19,7 @@ export const UserInfo = () => {
   return (
     isLoggedIn && (
       <div className="flex items-center gap-[20px] text-[14px] font-bold">
-        <p className="">{user?.name || 'User'}</p>
+        <p>{user?.name || 'User'}</p>
         <svg height={32} width={2}>
           <use href={`${svg}#short-line`}></use>
         </svg>

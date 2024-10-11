@@ -14,14 +14,14 @@ import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
 
 export const App = () => {
-  const { isLoggedIn, user, token } = useAuth();
+  const { isLoggedIn, token } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!user && token) {
+    if (token && !isLoggedIn) {
       dispatch(refreshUser());
     }
-  }, [dispatch, user, token]);
+  }, [dispatch, isLoggedIn, token]);
 
   return (
     <div className="relative">
