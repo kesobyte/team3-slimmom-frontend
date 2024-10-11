@@ -1,13 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {
-  register,
-  login,
-  logout,
-  refresh,
-  verifyEmail,
-  resendVerifyEmail,
-  getCurrentUser,
-} from './authOperations';
+import { register, login, logout, refreshUser } from './authOperations';
 
 const initialState = {
   user: null,
@@ -66,61 +58,20 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = payload;
       })
-      .addCase(refresh.pending, state => {
+      .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
       })
-      .addCase(refresh.fulfilled, (state, { payload }) => {
-        state.token = payload.token;
-        state.isLoggedIn = true;
-        state.isRefreshing = false;
-        state.error = null;
-      })
-      .addCase(refresh.rejected, (state, { payload }) => {
-        state.isRefreshing = false;
-        state.error = payload;
-      })
-      .addCase(verifyEmail.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(verifyEmail.fulfilled, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(verifyEmail.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      })
-      .addCase(resendVerifyEmail.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(resendVerifyEmail.fulfilled, state => {
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(resendVerifyEmail.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      })
-      .addCase(getCurrentUser.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(getCurrentUser.fulfilled, (state, { payload }) => {
+      .addCase(refreshUser.fulfilled, (state, { payload }) => {
         state.user = payload.user;
         state.isLoggedIn = true;
-        state.isLoading = false;
+        state.isRefreshing = false;
         state.error = null;
       })
-      .addCase(getCurrentUser.rejected, (state, { payload }) => {
-        state.isLoading = false;
+      .addCase(refreshUser.rejected, (state, { payload }) => {
+        state.isRefreshing = false;
         state.error = payload;
-      })
-      .addMatcher(
-        action => action.type.endsWith('/rejected'),
-        (state, { payload }) => {
-          state.error = payload;
-        }
-      );
+      });
   },
 });
 
-export default authSlice.reducer;
+export const authReducer = authSlice.reducer;

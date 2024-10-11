@@ -2,7 +2,8 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 
 // Provided API from .env
-axios.defaults.baseURL = process.env.API_URL;
+axios.defaults.baseURL =
+  'https://goit-slimmom-team-03-d472951ab141.herokuapp.com/api';
 
 // Utility to add JWT
 const setAuthHeader = token => {
@@ -20,9 +21,10 @@ export const register = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('/auth/register', credentials);
+      setAuthHeader(response.data.token);
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -33,10 +35,11 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('/auth/login', credentials);
-      setAuthHeader(response.data.token);
-      return response.data;
+      const { user, token } = response.data;
+      setAuthHeader(token);
+      return { user, token };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );
@@ -46,22 +49,29 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
   try {
     await axios.post('/auth/logout');
     clearAuthHeader();
-    return;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data);
+    return thunkAPI.rejectWithValue(error.message);
   }
 });
 
-// Refresh Token
-export const refresh = createAsyncThunk(
+// Refresh User
+export const refreshUser = createAsyncThunk(
   'auth/refresh',
-  async (refreshToken, thunkAPI) => {
+  async (_, thunkAPI) => {
+    const state = thunkAPI.getState();
+    const persistedToken = state.auth.token;
+
+    if (!persistedToken) {
+      return thunkAPI.rejectWithValue('No token found');
+    }
+
     try {
-      const response = await axios.post('/auth/refresh', { refreshToken });
-      setAuthHeader(response.data.token);
-      return response.data;
+      setAuthHeader(persistedToken);
+      const response = await axios.get('/auth/refresh');
+      const { user, token } = response.data; // Assuming refresh also returns a new token
+      return { user, token };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      return thunkAPI.rejectWithValue(error.message);
     }
   }
 );

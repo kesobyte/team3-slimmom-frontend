@@ -7,7 +7,7 @@ import svg from '../../images/vector.svg';
 import { useAuth } from 'hooks/useAuth';
 
 export const Header = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
