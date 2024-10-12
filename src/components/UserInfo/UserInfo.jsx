@@ -55,7 +55,7 @@ export const UserInfo = () => {
           <use href={`${svg}#short-line`}></use>
         </svg>
         <button
-          className="text-textgray hover:text-orange"
+          className="text-textgray hover:text-orange cursor-pointer"
           onClick={handleLogout}
           disabled={isLoading}
         >

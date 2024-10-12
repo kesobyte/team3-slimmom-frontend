@@ -4,8 +4,11 @@ import { jwtDecode } from 'jwt-decode';
 import { toast } from 'react-toastify';
 
 // Provided API from .env
-axios.defaults.baseURL =
-  'https://goit-slimmom-team-03-d472951ab141.herokuapp.com/api';
+// axios.defaults.baseURL =
+//   'https://goit-slimmom-team-03-d472951ab141.herokuapp.com/api';
+
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
+// axios.defaults.baseURL = process.env.REACT_APP_LOCAL_API_URL;
 
 // Utility to add JWT
 const setAuthHeader = token => {
@@ -22,17 +25,28 @@ let refreshTimeout;
 const scheduleTokenRefresh = (token, dispatch) => {
   if (refreshTimeout) clearTimeout(refreshTimeout);
 
-  const { exp } = jwtDecode(token);
-  const currentTime = Date.now() / 1000;
+  try {
+    const { exp } = jwtDecode(token);
+    const currentTime = Date.now() / 1000;
 
-  const timeUntilExpiry = exp - currentTime;
+    const timeUntilExpiry = exp - currentTime;
 
-  // Schedule refresh 1 minute before expiry
-  const refreshTime = Math.max(timeUntilExpiry - 60, 0) * 1000;
+    if (timeUntilExpiry <= 0) {
+      // Token expired, log out the user
+      dispatch(logout());
+      return;
+    }
 
-  refreshTimeout = setTimeout(() => {
-    dispatch(refreshUser());
-  }, refreshTime);
+    // Schedule refresh 1 minute before expiry
+    const refreshTime = Math.max(timeUntilExpiry - 60, 0) * 1000;
+
+    refreshTimeout = setTimeout(() => {
+      dispatch(refreshUser());
+    }, refreshTime);
+  } catch (error) {
+    console.error('Error decoding JWT', error);
+    dispatch(logout());
+  }
 };
 
 // Register
@@ -64,6 +78,16 @@ export const login = createAsyncThunk(
     try {
       const response = await axios.post('/auth/login', credentials);
       const { user, accessToken, refreshToken } = response.data;
+
+      // // Check if the user is verified
+      // if (!user.verified) {
+      //   toast.error('Please verify your email before logging in.');
+      //   return thunkAPI.rejectWithValue({
+      //     status: 403,
+      //     message: 'Email not verified',
+      //   });
+      // }
+
       setAuthHeader(accessToken);
       scheduleTokenRefresh(accessToken, thunkAPI.dispatch);
       return { user, token: accessToken, refreshToken };
@@ -123,22 +147,14 @@ export const refreshUser = createAsyncThunk(
 
       return { user, token: accessToken, refreshToken: newRefreshToken };
     } catch (error) {
+      // Handle refresh token expiration
+      if (error.response?.status === 401) {
+        thunkAPI.dispatch(logout());
+      }
+
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message
       );
-    }
-  }
-);
-
-// Verify Email
-export const verifyEmail = createAsyncThunk(
-  'auth/verifyEmail',
-  async (verificationToken, thunkAPI) => {
-    try {
-      const response = await axios.get(`/auth/${verificationToken}`);
-      return response.data;
-    } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
     }
   }
 );
