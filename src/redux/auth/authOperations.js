@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { jwtDecode } from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 // Provided API from .env
 axios.defaults.baseURL =
@@ -41,9 +42,12 @@ export const register = createAsyncThunk(
     try {
       const response = await axios.post('/auth/register', credentials);
       setAuthHeader(response.data.token);
+      toast.success('Account created successfully!');
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      const status = error.response?.status;
+      const message = error.response?.data?.message || error.message;
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );
@@ -55,14 +59,18 @@ export const login = createAsyncThunk(
     try {
       const response = await axios.post('/auth/login', credentials);
       const { user, accessToken, refreshToken } = response.data;
-
-      // Save the token
       setAuthHeader(accessToken);
       scheduleTokenRefresh(accessToken, thunkAPI.dispatch);
-
       return { user, token: accessToken, refreshToken };
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.message);
+      const status = error.response?.status;
+      const message = error.response?.data?.message || error.message;
+
+      if (status === 401) {
+        toast.error('Invalid credentials, please try again.');
+      }
+
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );

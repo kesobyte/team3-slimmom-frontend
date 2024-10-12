@@ -31,11 +31,11 @@ export const SharedLayout = () => {
               className="w-[250px] xl:w-full"
             />
           </div>
-          <div className="absolute xl:right-[20%] xl:bottom-auto right-[30%] bottom-[-3%] md:block hidden -z-1">
+          <div className="absolute xl:right-[20%] md:bottom-auto md:right-[2%] bottom-[-3%] md:block hidden -z-1">
             <img
               src={leaves}
               alt="leaves"
-              className="w-[500px] xl:w-full xl:rotate-0 rotate-90"
+              className="w-[500px] xl:w-full md:rotate-0 rotate-90"
             />
           </div>
         </div>
