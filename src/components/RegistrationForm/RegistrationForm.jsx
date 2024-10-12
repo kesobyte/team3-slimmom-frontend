@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/authOperations';
 import { getIsLoading } from '../../redux/auth/selectors';
-import { NavLink, useNavigate } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BtnLoader } from 'components/BtnLoader/BtnLoader';
@@ -10,7 +10,6 @@ import { BtnLoader } from 'components/BtnLoader/BtnLoader';
 export const RegistrationForm = () => {
   const dispatch = useDispatch();
   const isLoading = useSelector(getIsLoading);
-  const navigate = useNavigate();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -39,7 +38,6 @@ export const RegistrationForm = () => {
       setName('');
       setEmail('');
       setPassword('');
-      // navigate('/login');
     } catch (error) {}
   };
 
@@ -84,7 +82,7 @@ export const RegistrationForm = () => {
           <NavLink to="/login">
             <button
               type="button"
-              className="flex w-[182px] py-[13px] px-[37px] bg-white items-center justify-center rounded-[30px] border-[1px] border-orange text-orange font-bold text-[14px] hover:bg-orange hover:text-white"
+              className="flex w-[182px] py-[13px] px-[37px] bg-white items-center justify-center rounded-[30px] border-[2px] border-orange text-orange font-bold text-[14px] hover:bg-orange hover:text-white"
               disabled={isLoading}
             >
               Login

@@ -60,7 +60,6 @@ const authSlice = createSlice({
       .addCase(logout.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.error = payload;
-        state.isLoggedIn = false;
       })
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;

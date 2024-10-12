@@ -47,6 +47,11 @@ export const register = createAsyncThunk(
     } catch (error) {
       const status = error.response?.status;
       const message = error.response?.data?.message || error.message;
+
+      if (status === 409) {
+        toast.error('Email is already in use.');
+      }
+
       return thunkAPI.rejectWithValue({ status, message });
     }
   }

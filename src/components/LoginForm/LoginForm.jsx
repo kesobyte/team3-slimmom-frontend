@@ -64,7 +64,7 @@ export const LoginForm = () => {
           <NavLink to="/register">
             <button
               type="submit"
-              className="flex w-[182px] py-[13px] px-[37px] bg-white items-center justify-center rounded-[30px] border-[1px] border-orange text-orange font-bold text-[14px] hover:bg-orange hover:text-white"
+              className="flex w-[182px] py-[13px] px-[37px] bg-white items-center justify-center rounded-[30px] border-[2px] border-orange text-orange font-bold text-[14px] hover:bg-orange hover:text-white"
               disabled={isLoading}
             >
               Register
