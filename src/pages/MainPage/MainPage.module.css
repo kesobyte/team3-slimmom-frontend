@@ -1,0 +1,158 @@
+.formWrapper{
+    display:flex;
+}
+
+  .form {
+    width: 280px;
+    font-family: Verdana;
+    text-align: center;
+  }
+
+  .formTitle{
+    font-size: 18px;
+    line-height: calc(25.2/18);
+    display: block;
+    margin-bottom: 34px;
+    font-weight: 700;
+    text-align: start;
+  }
+
+  .formInputs{
+  width: 240px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  }
+
+  .label {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  height: 24px;
+  position: relative;
+  margin-bottom:32px;
+}
+
+
+.labelText{
+position: absolute; 
+top: 0;
+left: 0;   
+color: #9B9FAA;
+font-size: 14px;
+line-height: calc(17.01/14);
+letter-spacing: 0.04em;
+}
+
+.input{
+padding-left: 5px;
+border-bottom: 1px solid #E0E0E0;
+}
+
+.radioWrapper{
+
+font-weight: 700; 
+text-align: start;
+}
+
+.radioTitleLabel{
+    color: #9B9FAA;
+    margin-bottom: 8px;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    line-height: calc(17.01 / 14);
+}
+
+.radioOptions{
+  display: flex;  
+  gap:24px;
+}
+
+.radioOptionsWrapper{
+    display: flex;
+    gap:8px;
+    font-weight: 400;
+    line-height: calc(17.01/14);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #9B9FAA;
+
+}
+
+.radioInput{
+opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+.radioLabelWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-top: 1px solid #E0E0E0;
+}
+
+.radioCircle{
+    height: 20px;
+    width:20px;
+    border: 1px solid #E0E0E0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.radioSelector{
+    height: 10px;
+    width:10px;
+    border-radius: 50%;
+     display: block;
+}
+
+.radioLabelText{
+margin-left: 8px;
+}
+
+.radioArea:checked + .radioLabelWrapper > .radioCircle > .radioSelector {
+  background-color: #FC842D;
+
+}
+
+.button{
+    background-color: #FC842D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(17.01/14);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
+    letter-spacing: 0.04em;
+}
+
+@media screen and (min-width: 768px) {
+ .form {
+    width: 704px;
+  }
+
+   .formTitle{
+    font-size: 34px;
+    line-height: calc(47.6/34);
+    margin-bottom: 68px;
+  }
+
+  .formInputs{
+  width: 512px;
+  display: flex;
+  margin-bottom: 60px;
+  gap:32px;
+  }
+
+  .formSections{
+    width: 240px;
+  }
+}
