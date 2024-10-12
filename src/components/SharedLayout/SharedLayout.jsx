@@ -6,9 +6,13 @@ import strawberry from '../../images/strawberry.png';
 import leaves from '../../images/leaves.png';
 import leaves2 from '../../images/leaves-2.png';
 import { useAuth } from 'hooks/useAuth';
+import { useLocation } from 'react-router-dom';
 
 export const SharedLayout = () => {
   const { isLoggedIn } = useAuth();
+  const location = useLocation(); // Get the current route
+
+  const isMainPage = location.pathname === '/' && !isLoggedIn;
 
   return (
     <div className="relative h-[100vh] w-[100vw]">
@@ -31,11 +35,19 @@ export const SharedLayout = () => {
               className="w-[250px] xl:w-full"
             />
           </div>
-          <div className="absolute xl:right-[20%] md:bottom-auto md:right-[2%] bottom-[-3%] md:block hidden -z-1">
+          <div
+            className={`absolute md:block hidden -z-1 ${
+              isMainPage
+                ? 'xl:right-[20%] xl:bottom-auto md:bottom-0 md:right-[30%]'
+                : 'xl:right-[20%] md:bottom-auto md:right-[2%] bottom-[-3%]'
+            }`}
+          >
             <img
               src={leaves}
               alt="leaves"
-              className="w-[500px] xl:w-full md:rotate-0 rotate-90"
+              className={`w-[500px] xl:w-full xl:rotate-0 ${
+                isMainPage ? 'md:rotate-90' : 'xl:rotate-0'
+              }`}
             />
           </div>
         </div>
