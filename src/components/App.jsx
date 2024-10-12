@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { MainPage } from 'pages/MainPage/MainPage';
 import { LoginPage } from 'pages/LoginPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
+import { VerificationPage } from 'pages/VerificationPage';
 import { DiaryPage } from 'pages/DiaryPage';
 import { CalculatorPage } from 'pages/CalculatorPage';
 import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
@@ -16,18 +17,17 @@ import { logout } from '../redux/auth/authOperations';
 import { useIdleTimer } from 'react-idle-timer';
 
 export const App = () => {
-  const { token, isLoggedIn } = useAuth();
+  const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (token && !isLoggedIn) {
-      console.log('Dispatching refreshUser action...');
+    if (isLoggedIn) {
       dispatch(refreshUser());
     }
-  }, [dispatch, token, isLoggedIn]);
+  }, [dispatch, isLoggedIn]);
 
   useIdleTimer({
-    timeout: 15 * 60 * 1000, // 15 minutes
+    timeout: 60 * 60 * 1000, // 1 Hour
     onIdle: () => dispatch(logout()),
     debounce: 500,
   });
@@ -55,6 +55,15 @@ export const App = () => {
             element={
               <RestrictedRoute
                 component={RegistrationPage}
+                redirectTo="/diary"
+              />
+            }
+          />
+          <Route
+            path="/verify"
+            element={
+              <RestrictedRoute
+                component={VerificationPage}
                 redirectTo="/diary"
               />
             }
