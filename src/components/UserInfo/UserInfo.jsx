@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch } from 'react-redux';
 import svg from '../../images/vector.svg';
 import { logout } from '../../redux/auth/authOperations';
