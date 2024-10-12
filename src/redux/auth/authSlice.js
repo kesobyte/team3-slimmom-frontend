@@ -34,6 +34,7 @@ const authSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(login.fulfilled, (state, { payload }) => {
+        state.user = payload.user;
         state.token = payload.token;
         state.refreshToken = payload.refreshToken;
         state.isLoggedIn = true;
@@ -51,6 +52,7 @@ const authSlice = createSlice({
       .addCase(logout.fulfilled, state => {
         state.user = null;
         state.token = null;
+        state.refreshToken = null;
         state.isLoggedIn = false;
         state.isLoading = false;
         state.error = null;
@@ -62,19 +64,18 @@ const authSlice = createSlice({
       })
       .addCase(refreshUser.pending, state => {
         state.isRefreshing = true;
-        state.isLoading = true; // Add loading during refresh
+        state.isLoading = true;
       })
       .addCase(refreshUser.fulfilled, (state, { payload }) => {
         state.user = payload.user;
-        state.token = payload.token; // Update the token if returned in refresh
+        state.token = payload.token;
         state.isLoggedIn = true;
         state.isRefreshing = false;
-        state.isLoading = false; // Stop loading after refresh completes
         state.error = null;
       })
       .addCase(refreshUser.rejected, (state, { payload }) => {
         state.isRefreshing = false;
-        state.isLoading = false; // Stop loading if refresh fails
+        state.isLoading = false;
         state.error = payload;
       });
   },

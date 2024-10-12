@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
+import { jwtDecode } from 'jwt-decode';
 
 // Provided API from .env
 axios.defaults.baseURL =
@@ -12,7 +13,25 @@ const setAuthHeader = token => {
 
 // Utility to delete JWT
 const clearAuthHeader = () => {
-  axios.defaults.headers.common.Authorization = '';
+  delete axios.defaults.headers.common.Authorization;
+};
+
+// Utility to schedule token refresh
+let refreshTimeout;
+const scheduleTokenRefresh = (token, dispatch) => {
+  if (refreshTimeout) clearTimeout(refreshTimeout);
+
+  const { exp } = jwtDecode(token);
+  const currentTime = Date.now() / 1000;
+
+  const timeUntilExpiry = exp - currentTime;
+
+  // Schedule refresh 1 minute before expiry
+  const refreshTime = Math.max(timeUntilExpiry - 60, 0) * 1000;
+
+  refreshTimeout = setTimeout(() => {
+    dispatch(refreshUser());
+  }, refreshTime);
 };
 
 // Register
@@ -35,15 +54,13 @@ export const login = createAsyncThunk(
   async (credentials, thunkAPI) => {
     try {
       const response = await axios.post('/auth/login', credentials);
-      const { accessToken, refreshToken } = response.data;
+      const { user, accessToken, refreshToken } = response.data;
 
       // Save the token
       setAuthHeader(accessToken);
+      scheduleTokenRefresh(accessToken, thunkAPI.dispatch);
 
-      // Dispatch getCurrentUser to fetch user data after login
-      thunkAPI.dispatch(getCurrentUser());
-
-      return { token: accessToken, refreshToken };
+      return { user, token: accessToken, refreshToken };
     } catch (error) {
       return thunkAPI.rejectWithValue(error.message);
     }
@@ -63,6 +80,7 @@ export const logout = createAsyncThunk('auth/logout', async (_, thunkAPI) => {
     setAuthHeader(token);
     await axios.post('/auth/logout');
     clearAuthHeader();
+    clearTimeout(refreshTimeout);
   } catch (error) {
     return thunkAPI.rejectWithValue(error.message);
   }
@@ -73,18 +91,24 @@ export const refreshUser = createAsyncThunk(
   'auth/refresh',
   async (_, thunkAPI) => {
     const state = thunkAPI.getState();
-    const persistedToken = state.auth.token;
+    const refreshToken = state.auth.refreshToken;
 
-    if (!persistedToken) {
-      return thunkAPI.rejectWithValue('No token found');
+    if (!refreshToken) {
+      return thunkAPI.rejectWithValue('No refresh token found');
     }
 
     try {
-      setAuthHeader(persistedToken);
-      const response = await axios.get('/auth/refresh');
-      const { user, token } = response.data;
-      setAuthHeader(token);
-      return { user, token };
+      const response = await axios.post('/auth/refresh', { refreshToken });
+      const {
+        user,
+        accessToken,
+        refreshToken: newRefreshToken,
+      } = response.data;
+
+      setAuthHeader(accessToken);
+      scheduleTokenRefresh(accessToken, thunkAPI.dispatch);
+
+      return { user, token: accessToken, refreshToken: newRefreshToken };
     } catch (error) {
       return thunkAPI.rejectWithValue(
         error.response?.data?.message || error.message

@@ -8,10 +8,6 @@ export const UserInfo = () => {
   const dispatch = useDispatch();
   const { user, isLoggedIn } = useAuth();
 
-  useEffect(() => {
-    console.log('UserInfo state:', { user, isLoggedIn });
-  }, [user, isLoggedIn]);
-
   const handleLogout = () => {
     dispatch(logout());
   };

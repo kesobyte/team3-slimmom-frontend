@@ -12,16 +12,25 @@ import { SharedLayout } from './SharedLayout/SharedLayout';
 import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
+import { logout } from '../redux/auth/authOperations';
+import { useIdleTimer } from 'react-idle-timer';
 
 export const App = () => {
-  const { isLoggedIn, token } = useAuth();
+  const { token, isLoggedIn } = useAuth();
   const dispatch = useDispatch();
 
   useEffect(() => {
     if (token && !isLoggedIn) {
+      console.log('Dispatching refreshUser action...');
       dispatch(refreshUser());
     }
-  }, [dispatch, isLoggedIn, token]);
+  }, [dispatch, token, isLoggedIn]);
+
+  useIdleTimer({
+    timeout: 15 * 60 * 1000, // 15 minutes
+    onIdle: () => dispatch(logout()),
+    debounce: 500,
+  });
 
   return (
     <div className="relative">

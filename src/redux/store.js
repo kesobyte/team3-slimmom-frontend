@@ -12,11 +12,10 @@ import {
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 
-// Persisting relevant fields from auth slice to local storage
 const authPersistConfig = {
   key: 'auth',
   storage,
-  whitelist: ['token', 'user', 'isLoggedIn', 'refreshToken'],
+  whitelist: ['user', 'token', 'refreshToken'],
 };
 
 const persistedReducer = persistReducer(authPersistConfig, authReducer);
