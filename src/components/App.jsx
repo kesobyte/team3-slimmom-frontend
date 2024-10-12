@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
 import { logout } from '../redux/auth/authOperations';
 import { useIdleTimer } from 'react-idle-timer';
+import { ToastContainer } from 'react-toastify';
 
 export const App = () => {
   const { isLoggedIn } = useAuth();
@@ -92,6 +93,7 @@ export const App = () => {
           />
         </Routes>
       </div>
+      <ToastContainer />
     </div>
   );
 };

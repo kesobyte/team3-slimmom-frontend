@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { register } from '../../redux/auth/authOperations';
 import { getIsLoading } from '../../redux/auth/selectors';
 import { NavLink } from 'react-router-dom';
-import { toast, ToastContainer } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BtnLoader } from 'components/BtnLoader/BtnLoader';
 
@@ -43,7 +43,6 @@ export const RegistrationForm = () => {
 
   return (
     <div>
-      <ToastContainer />
       <p className="flex md:justify-start justify-center text-[14px] font-bold text-orange tracking-[0.56px] uppercase">
         Register
       </p>
