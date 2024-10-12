@@ -165,9 +165,21 @@ export const resendVerifyEmail = createAsyncThunk(
   async (email, thunkAPI) => {
     try {
       const response = await axios.post('/auth/verify', { email });
+
+      toast.success('Verification email sent successfully.');
+
       return response.data;
     } catch (error) {
-      return thunkAPI.rejectWithValue(error.response.data);
+      const status = error.response?.status;
+      const message = error.response?.data?.message || error.message;
+
+      if (status === 404) {
+        toast.error('Email not registered.');
+      } else if (status === 400) {
+        toast.info('Email was already verified.');
+      }
+
+      return thunkAPI.rejectWithValue({ status, message });
     }
   }
 );

@@ -3,6 +3,7 @@ import { Routes, Route } from 'react-router-dom';
 import { MainPage } from 'pages/MainPage';
 import { LoginPage } from 'pages/LoginPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
+import { VerificationPage } from 'pages/VerificationPage';
 import { DiaryPage } from 'pages/DiaryPage';
 import { CalculatorPage } from 'pages/CalculatorPage';
 import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
@@ -54,6 +55,15 @@ export const App = () => {
             element={
               <RestrictedRoute
                 component={RegistrationPage}
+                redirectTo="/diary"
+              />
+            }
+          />
+          <Route
+            path="/verify"
+            element={
+              <RestrictedRoute
+                component={VerificationPage}
                 redirectTo="/diary"
               />
             }
