@@ -6,6 +6,7 @@ module.exports = {
       colors: {
         textgray: '#9B9FAA',
         orange: '#FC842D',
+        darkorange: '#F7700F',
       },
       keyframes: {
         fadeIn: {

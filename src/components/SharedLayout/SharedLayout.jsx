@@ -8,7 +8,7 @@ import leaves2 from '../../images/leaves-2.png';
 import { useAuth } from 'hooks/useAuth';
 
 export const SharedLayout = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
 
   return (
     <div className="relative h-[100vh] w-[100vw]">

@@ -7,7 +7,7 @@ import svg from '../../images/vector.svg';
 import { useAuth } from 'hooks/useAuth';
 
 export const Header = () => {
-  const isLoggedIn = useAuth();
+  const { isLoggedIn } = useAuth();
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
   const toggleMenu = () => {
@@ -18,7 +18,7 @@ export const Header = () => {
     <div className="relative z-50">
       <div className="max-w-[1400px] mx-auto">
         <div className="flex xl:pt-[80px] justify-between border-b-[2px] xl:border-none">
-          <div className="flex w-full md:px-[32px] md:py-[16px] md:pb-[8px] p-[20px] xl:p-0 justify-between xl:gap-[20px] xl:w-auto">
+          <div className="flex w-full md:pl-[32px] md:py-[16px] md:pb-[8px] p-[20px] xl:p-0 justify-between xl:gap-[20px] xl:w-auto">
             <Logo />
             <div className="hidden xl:flex xl:items-end">
               <svg width={2} height={32}>
@@ -31,11 +31,30 @@ export const Header = () => {
           </div>
 
           {/* Tablet and desktop user info */}
-          <div className="md:flex xl:items-end items-center hidden">
+          <div className="xl:items-end items-center md:flex hidden">
             <div className="xl:mr-0 mr-[32px]">
               {isLoggedIn ? <UserInfo /> : ''}
             </div>
-            <div className="flex items-center justify-center mr-[32px] xl:hidden">
+            {isLoggedIn ? (
+              <div className="flex items-center justify-center mr-[32px] xl:hidden">
+                <button onClick={toggleMenu}>
+                  <svg width={24} height={24}>
+                    <use
+                      href={`${svg}${
+                        isMenuOpen ? '#close-icon' : '#burger-icon'
+                      }`}
+                    ></use>
+                  </svg>
+                </button>
+              </div>
+            ) : (
+              ''
+            )}
+          </div>
+
+          {/* Mobile burger menu */}
+          {isLoggedIn ? (
+            <div className="flex items-center justify-center mr-[20px] md:hidden">
               <button onClick={toggleMenu}>
                 <svg width={24} height={24}>
                   <use
@@ -46,18 +65,9 @@ export const Header = () => {
                 </svg>
               </button>
             </div>
-          </div>
-
-          {/* Mobile burger menu */}
-          <div className="flex items-center justify-center mr-[20px] md:hidden">
-            <button onClick={toggleMenu}>
-              <svg width={24} height={24}>
-                <use
-                  href={`${svg}${isMenuOpen ? '#close-icon' : '#burger-icon'}`}
-                ></use>
-              </svg>
-            </button>
-          </div>
+          ) : (
+            ''
+          )}
         </div>
       </div>
 

@@ -9,9 +9,28 @@ import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { useAuth } from 'hooks/useAuth';
 import { SharedLayout } from './SharedLayout/SharedLayout';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { refreshUser } from '../redux/auth/authOperations';
+import { logout } from '../redux/auth/authOperations';
+import { useIdleTimer } from 'react-idle-timer';
 
 export const App = () => {
-  const isLoggedIn = useAuth();
+  const { token, isLoggedIn } = useAuth();
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (token && !isLoggedIn) {
+      console.log('Dispatching refreshUser action...');
+      dispatch(refreshUser());
+    }
+  }, [dispatch, token, isLoggedIn]);
+
+  useIdleTimer({
+    timeout: 15 * 60 * 1000, // 15 minutes
+    onIdle: () => dispatch(logout()),
+    debounce: 500,
+  });
 
   return (
     <div className="relative">
@@ -22,30 +41,22 @@ export const App = () => {
         <Header />
         <Routes>
           {/* Public */}
-          {!isLoggedIn ? (
-            <Route path="/" element={<MainPage />} />
-          ) : (
-            <Route path="/" element={<DiaryPage />} />
-          )}
+          <Route path="/" element={isLoggedIn ? <DiaryPage /> : <MainPage />} />
 
           {/* Restricted Routes */}
           <Route
             path="/login"
             element={
-              <div>
-                <RestrictedRoute component={LoginPage} redirectTo="/diary" />
-              </div>
+              <RestrictedRoute component={LoginPage} redirectTo="/diary" />
             }
           />
           <Route
             path="/register"
             element={
-              <div>
-                <RestrictedRoute
-                  component={RegistrationPage}
-                  redirectTo="/diary"
-                />
-              </div>
+              <RestrictedRoute
+                component={RegistrationPage}
+                redirectTo="/diary"
+              />
             }
           />
 
@@ -53,20 +64,13 @@ export const App = () => {
           <Route
             path="/diary"
             element={
-              <div>
-                <ProtectedRoute component={DiaryPage} redirectTo="/login" />
-              </div>
+              <ProtectedRoute component={DiaryPage} redirectTo="/login" />
             }
           />
           <Route
             path="/calculator"
             element={
-              <div>
-                <ProtectedRoute
-                  component={CalculatorPage}
-                  redirectTo="/login"
-                />
-              </div>
+              <ProtectedRoute component={CalculatorPage} redirectTo="/login" />
             }
           />
 
