@@ -50,7 +50,6 @@ export const LoginForm = () => {
           </button>
         </div>
       </form>
-      {isLoading && <Loader />}
     </div>
   );
 };
