@@ -32,10 +32,13 @@ const [dWeight, setDWeight] = useState('');
         <div className={css.formWrapper}>
           <form className={css.form}>
             <span className={css.formTitle}>
-              Calculate your daily calorie intake right now
+              <span className={css.formTitleSection}>
+                Calculate your daily calorie
+              </span>
+              <span className={css.formTitleSection}>intake right now</span>
             </span>
             <div className={css.formInputs}>
-              <div className={css.formSections}>
+              <div className={css.formSection}>
                 <label className={css.label}>
                   {height === '' && (
                     <span className={css.labelText}>Height *</span>
@@ -77,7 +80,7 @@ const [dWeight, setDWeight] = useState('');
                   />
                 </label>
               </div>
-              <div className={css.formSections}>
+              <div className={css.formSection}>
                 <label className={css.label}>
                   {dWeight === '' && (
                     <span className={css.labelText}>Desired weight *</span>

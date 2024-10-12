@@ -17,6 +17,10 @@
     text-align: start;
   }
 
+  .formTitleSection{
+    display: block;
+  }
+
   .formInputs{
   width: 240px;
   font-weight: 700;
@@ -152,7 +156,7 @@ margin-left: 8px;
   gap:32px;
   }
 
-  .formSections{
+  .formSection{
     width: 240px;
   }
 }
