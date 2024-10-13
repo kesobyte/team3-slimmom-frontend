@@ -1,106 +1,116 @@
-import React, { useState } from 'react';
+import { useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
-import { Logo } from 'components/Logo/Logo';
-import { Navigation } from 'components/Navigation/Navigation';
-import { UserInfo } from 'components/UserInfo/UserInfo';
-import svg from '../../images/vector.svg';
-import { useAuth } from 'hooks/useAuth';
 
-export const Header = () => {
-  const { isLoggedIn } = useAuth();
-  const [isMenuOpen, setIsMenuOpen] = useState(false);
+import { Box, Flex, Link } from '@chakra-ui/react';
 
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
-  };
+import { authSelectors } from 'redux/auth/authSelectors';
+import SmallLogo from 'components/Logo/SmallLogo';
+import UserMenu from 'components/UserMenu/UserMenu';
+import Logo from 'components/Logo/Logo';
+import HamburgerMenu from 'components/HamburgerMenu/HamburgerMenu';
+import GrayBar from 'components/GrayBar/GrayBar';
+
+const Header = () => {
+  const isLogin = useSelector(authSelectors.isLoggedIn);
+
+  const getStyle = ({ isActive }) =>
+    isActive ? { color: '#212121' } : { color: '#9B9FAA' };
 
   return (
-    <div className="relative z-50">
-      <div className="max-w-[1400px] mx-auto">
-        <div className="flex xl:pt-[80px] justify-between border-b-[2px] xl:border-none">
-          <div className="flex w-full md:pl-[32px] md:py-[16px] md:pb-[8px] p-[20px] xl:p-0 justify-between xl:gap-[20px] xl:w-auto">
-            <Logo />
-            <div className="hidden xl:flex xl:items-end">
-              <svg width={2} height={32}>
-                <use href={`${svg}#short-line`} />
-              </svg>
-            </div>
-            <div className="flex items-center xl:items-end xl:pb-[10px]">
-              <Navigation />
-            </div>
-          </div>
+    <>
+      <Flex
+        position="absolute"
+        top="0"
+        left="0"
+        w="100%"
+        p="20px"
+        zIndex="100"
+        justifyContent="space-between"
+        borderBottom={{
+          base: '2px solid #E0E0E0',
+          lg: 'none',
+        }}
+      >
+        {!isLogin ? (
+          <Flex
+            alignItems="center"
+            gap="20px"
+            w="100%"
+            justifyContent={{ xs: 'space-between', lg: 'flex-start' }}
+          >
+            <Box>
+              <Flex display={{ xs: 'none', md: 'flex' }}>
+                <Logo />
+              </Flex>
+              <Flex display={{ xs: 'flex', md: 'none' }}>
+                <SmallLogo />
+              </Flex>
+            </Box>
+            <Flex gap="20px">
+              <Link
+                _hover={{ textDecor: 'none' }}
+                fontFamily="-moz-initial"
+                fontSize="14px"
+                as={NavLink}
+                to="/login"
+                style={getStyle}
+              >
+                SIGIN IN
+              </Link>
+              <Link
+                _hover={{ textDecor: 'none' }}
+                fontFamily="-moz-initial"
+                fontSize="14px"
+                as={NavLink}
+                to="/registration"
+                style={getStyle}
+              >
+                REGISTRATION
+              </Link>
+            </Flex>
+          </Flex>
+        ) : (
+          <Flex justifyContent="space-between" w="100%">
+            <Flex alignItems="center" gap="20px">
+              <Logo />
+              <Flex display={{ xs: 'none', lg: 'flex' }} gap="16px">
+                <Link
+                  _hover={{ textDecor: 'none' }}
+                  fontFamily="-moz-initial"
+                  fontSize="14px"
+                  as={NavLink}
+                  to="/calculator"
+                  style={getStyle}
+                >
+                  CALCULATOR
+                </Link>
+                <Link
+                  _hover={{ textDecor: 'none' }}
+                  fontFamily="-moz-initial"
+                  fontSize="14px"
+                  as={NavLink}
+                  to="/diary"
+                  style={getStyle}
+                >
+                  DIARY
+                </Link>
+              </Flex>
+            </Flex>
 
-          {/* Tablet and desktop user info */}
-          <div className="xl:items-end items-center md:flex hidden">
-            <div className="xl:mr-0 mr-[32px]">
-              {isLoggedIn ? <UserInfo /> : ''}
-            </div>
-            {isLoggedIn ? (
-              <div className="flex items-center justify-center mr-[32px] xl:hidden">
-                <button onClick={toggleMenu}>
-                  <svg width={24} height={24}>
-                    <use
-                      href={`${svg}${
-                        isMenuOpen ? '#close-icon' : '#burger-icon'
-                      }`}
-                    ></use>
-                  </svg>
-                </button>
-              </div>
-            ) : (
-              ''
-            )}
-          </div>
-
-          {/* Mobile burger menu */}
-          {isLoggedIn ? (
-            <div className="flex items-center justify-center mr-[20px] md:hidden">
-              <button onClick={toggleMenu}>
-                <svg width={24} height={24}>
-                  <use
-                    href={`${svg}${
-                      isMenuOpen ? '#close-icon' : '#burger-icon'
-                    }`}
-                  ></use>
-                </svg>
-              </button>
-            </div>
-          ) : (
-            ''
-          )}
-        </div>
-      </div>
-
-      {/* Mobile view user info below header */}
-      <div className="md:hidden bg-[#EFF1F3] flex justify-end px-[15px]">
-        {isLoggedIn ? <UserInfo /> : ''}
-      </div>
-
-      {/* BurgerMenu */}
-      {isMenuOpen && (
-        <div className="fixed md:top-[70px] top-[85px] left-0 w-full h-full bg-[#264061] animate-slideIn z-40">
-          <div className="flex flex-col items-center gap-[24px] uppercase text-[24px] font-bold md:pt-[100px] pt-[60px]">
-            <NavLink
-              to="/diary"
-              onClick={toggleMenu}
-              className={({ isActive }) =>
-                isActive ? 'text-white' : ' text-[#9B9FAA]'
-              }
-            >
-              Diary
-            </NavLink>
-            <NavLink
-              to="/calculator"
-              onClick={toggleMenu}
-              className={({ isActive }) =>
-                isActive ? 'text-white' : ' text-[#9B9FAA]'
-              }
-            >
-              Calculator
-            </NavLink>
-          </div>
-        </div>
-      )}
-    </div>
+            <Flex display="flex" alignItems="center">
+              <Box display={{ xs: 'none', md: 'flex' }} mr="53px">
+                <UserMenu />
+              </Box>
+              <HamburgerMenu />
+            </Flex>
+          </Flex>
+        )}
+        <Box position="absolute" bottom="-42px" left="0" w="100%">
+          <GrayBar />
+        </Box>
+      </Flex>
+    </>
   );
 };
+
+export default Header;

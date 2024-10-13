@@ -1,105 +1,53 @@
-import { createSlice } from '@reduxjs/toolkit';
-import {
-  register,
-  login,
-  logout,
-  refreshUser,
-  resendVerifyEmail,
-} from './authOperations';
+import {createSlice} from "@reduxjs/toolkit";
+import authOperations from "./authOperations";
+import storage from 'redux-persist/lib/storage';
+import {persistReducer} from "redux-persist";
 
 const initialState = {
-  user: null,
-  token: null,
+  user: {username: null, email: null},
+  accessToken: null,
   refreshToken: null,
+  sid: null,
   isLoggedIn: false,
-  isRefreshing: false,
-  isLoading: false,
-  error: null,
-};
+}
 
-const authSlice = createSlice({
+export const authSlice = createSlice({
   name: 'auth',
   initialState,
-  reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(register.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(register.fulfilled, (state, { payload }) => {
+      .addCase(authOperations.register.fulfilled, (state, {payload}) => {
         state.user = payload.user;
-        state.token = payload.token;
+      })
+      .addCase(authOperations.logIn.fulfilled, (state, {payload}) => {
+        state.user.username = payload['user']['username'];
+        state.user.email = payload['user']['email'];
+        state.accessToken = payload['accessToken'];
+        state.refreshToken = payload['refreshToken'];
+        state.sid = payload['sid'];
         state.isLoggedIn = true;
-        state.isLoading = false;
-        state.error = null;
       })
-      .addCase(register.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
+      .addCase(authOperations.logOut.fulfilled, (state) => {
+        state.user.username = initialState.username;
+        state.accessToken = initialState.accessToken;
+        state.refreshToken = initialState.refreshToken;
+        state.sid = initialState.sid;
+        state.isLoggedIn = initialState.isLoggedIn;
       })
-      .addCase(login.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(login.fulfilled, (state, { payload }) => {
-        state.user = payload.user;
-        state.token = payload.token;
-        state.refreshToken = payload.refreshToken;
+      .addCase(authOperations.refresh.fulfilled, (state, {payload}) => {
+        state.accessToken = payload['newAccessToken'];
+        state.refreshToken = payload['newRefreshToken'];
+        state.sid = payload['sid'];
         state.isLoggedIn = true;
-        state.isLoading = false;
-        state.error = null;
+        state.isFetchingCurrentUser = false;
       })
+  }
+})
 
-      .addCase(login.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      })
-      .addCase(logout.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(logout.fulfilled, state => {
-        state.user = null;
-        state.token = null;
-        state.refreshToken = null;
-        state.isLoggedIn = false;
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(logout.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      })
-      .addCase(refreshUser.pending, state => {
-        state.isRefreshing = true;
-        state.isLoading = true;
-      })
-      .addCase(refreshUser.fulfilled, (state, { payload }) => {
-        state.token = payload.token;
-        state.isLoggedIn = true;
-        state.isRefreshing = false;
-        state.error = null;
-        state.isLoading = false;
-      })
-      .addCase(refreshUser.rejected, (state, { payload }) => {
-        state.isRefreshing = false;
-        state.isLoading = false;
-        state.error = payload;
-        state.token = null;
-        state.refreshToken = null;
-        state.user = null;
-        state.isLoggedIn = false;
-      })
-      .addCase(resendVerifyEmail.pending, state => {
-        state.isLoading = true;
-      })
-      .addCase(resendVerifyEmail.fulfilled, state => {
-        state.isLoading = false;
-        state.error = null;
-      })
-      .addCase(resendVerifyEmail.rejected, (state, { payload }) => {
-        state.isLoading = false;
-        state.error = payload;
-      });
-  },
-});
+const persistConfig = {
+  key: 'watermelon/slimMom',
+  storage,
+  // whitelist: ['token'],
+}
 
-export const authReducer = authSlice.reducer;
+export const persistedAuthReducer = persistReducer(persistConfig, authSlice.reducer)

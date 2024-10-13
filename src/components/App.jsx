@@ -1,97 +1,47 @@
-import { Header } from './Header/Header';
-import { Routes, Route } from 'react-router-dom';
-import { MainPage } from 'pages/MainPage';
-import { LoginPage } from 'pages/LoginPage';
-import { RegistrationPage } from 'pages/RegistrationPage';
-import { VerificationPage } from 'pages/VerificationPage';
-import { DiaryPage } from 'pages/DiaryPage';
-import { CalculatorPage } from 'pages/CalculatorPage';
-import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
-import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
-import { useAuth } from 'hooks/useAuth';
-import { SharedLayout } from './SharedLayout/SharedLayout';
-import { useEffect } from 'react';
 import { useDispatch } from 'react-redux';
-import { refreshUser } from '../redux/auth/authOperations';
-import { logout } from '../redux/auth/authOperations';
-import { useIdleTimer } from 'react-idle-timer';
+import { lazy, Suspense, useEffect } from 'react';
+import { Container } from '@chakra-ui/react';
+
+import { Outlet, Route, Routes } from 'react-router-dom';
+import { LogInPage } from '../pages/LogInPage/LogInPage';
+import Header from './Header/Header';
+
+import authOperations from 'redux/auth/authOperations';
+
+import CalculatorPage from '../pages/CalculatorPage/CalculatorPage';
+import DiaryPage from 'pages/DiaryPage/DiaryPage';
+import { RegistrationPage } from '../pages/RegistrationPage/RegistrationPage';
+import HomePage from '../pages/HomePage/HomePage';
+
+const UiKit = lazy(() => import('./UiKit/UiKit'));
 
 export const App = () => {
-  const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
-
   useEffect(() => {
-    if (isLoggedIn) {
-      dispatch(refreshUser());
-    }
-  }, [dispatch, isLoggedIn]);
-
-  useIdleTimer({
-    timeout: 60 * 60 * 1000, // 1 Hour
-    onIdle: () => dispatch(logout()),
-    debounce: 500,
-  });
+    dispatch(authOperations.refresh());
+  }, [dispatch]);
 
   return (
-    <div className="relative">
-      <div className="fixed -z-[1]">
-        <SharedLayout />
-      </div>
-      <div>
-        <Header />
+    <Container
+      maxW={{ sm: '768px', md: '1280px' }}
+      position="relative"
+      pt={{ xs: '152px', md: '180px', lg: '293px' }}
+    >
+      <Header />
+
+      <Suspense fallback={<div>Loading...</div>}>
         <Routes>
-          {/* Public */}
-          <Route path="/" element={isLoggedIn ? <DiaryPage /> : <MainPage />} />
-
-          {/* Restricted Routes */}
-          <Route
-            path="/login"
-            element={
-              <RestrictedRoute component={LoginPage} redirectTo="/diary" />
-            }
-          />
-          <Route
-            path="/register"
-            element={
-              <RestrictedRoute
-                component={RegistrationPage}
-                redirectTo="/diary"
-              />
-            }
-          />
-          <Route
-            path="/verify"
-            element={
-              <RestrictedRoute
-                component={VerificationPage}
-                redirectTo="/diary"
-              />
-            }
-          />
-
-          {/* Protected Routes */}
-          <Route
-            path="/diary"
-            element={
-              <ProtectedRoute component={DiaryPage} redirectTo="/login" />
-            }
-          />
-          <Route
-            path="/calculator"
-            element={
-              <ProtectedRoute component={CalculatorPage} redirectTo="/login" />
-            }
-          />
-
-          {/* Routing for non-existent pages */}
-          <Route
-            path="/*"
-            element={
-              <ProtectedRoute component={DiaryPage} redirectTo="/diary" />
-            }
-          />
+          <Route path="/" element={<Outlet />}>
+            <Route index element={<HomePage />} />
+            <Route path="login" element={<LogInPage />} />
+            <Route path="registration" element={<RegistrationPage />} />
+            <Route path="calculator" element={<CalculatorPage />} />
+            <Route path="diary" element={<DiaryPage />} />
+            <Route path="uikit" element={<UiKit />} />
+          </Route>
+          <Route path="*" element={<div>404</div>} />
         </Routes>
-      </div>
-    </div>
+      </Suspense>
+    </Container>
   );
 };
