@@ -185,5 +185,16 @@ margin-left: 8px;
 
 .button{
   margin-bottom: 398px;
+  margin-right: 75px;
 }
+}
+
+@media screen and (min-width: 1280px) {
+  .form{
+    width: 608px;
+    text-align: end;
+  }
+
+
+
 }
