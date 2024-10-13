@@ -15,7 +15,7 @@ export const DiaryPage = () => {
         </div>
       </div>
       {/* Tablet / Mobile */}
-      <div className="w-full md:px-[32px] px-[20px] xl:hidden bg-[#f0f1f3]">
+      <div className="w-full xl:hidden bg-[#f0f1f3]">
         <RightSideBar />
       </div>
     </>

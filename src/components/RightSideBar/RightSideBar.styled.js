@@ -3,22 +3,21 @@ import styled from 'styled-components';
 
 export const Wrapper = styled.div`
   background-color: 'transparent';
-  padding: 40px 20px 84px 20px;
+  padding: 40px 0;
 
-  @media (min-width: 768px) and (max-width: 1023px) {
+  @media (min-width: 768px) and (max-width: 1279px) {
     padding: 80px 0px 80px 32px;
     display: flex;
-    // background-image: url();
     background-repeat: no-repeat;
     background-position: bottom 0px left 385px;
     background-size: auto;
   }
-  @media (min-width: 1024px) and (max-width: 1120px) {
+  @media (min-width: 1280px) and (max-width: 1440px) {
     background-color: transparent;
     padding: 0px;
     margin-right: 55px;
   }
-  @media (min-width: 1121px) and (max-width: 1280px) {
+  @media (min-width: 1440px) and (max-width: 1600px) {
     margin-right: 105px;
     padding: 0px;
   }
@@ -26,7 +25,6 @@ export const Wrapper = styled.div`
     margin-right: 105px;
     padding: 0px;
   }
-
 `;
 
 export const SummaryWrap = styled.div`

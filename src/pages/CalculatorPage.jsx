@@ -1,4 +1,5 @@
 import React from 'react';
+import { RightSideBar } from 'components/RightSideBar/RightSideBar';
 
 export const CalculatorPage = () => {
   return (
@@ -9,13 +10,13 @@ export const CalculatorPage = () => {
             <p>CalculatorPage</p>
           </div>
           <div className="w-[30vw] hidden xl:block">
-            <p>RightSideBar</p>
+            <RightSideBar />
           </div>
         </div>
       </div>
       {/* Tablet / Mobile */}
-      <div className="w-full md:px-[32px] px-[20px] xl:hidden bg-[#f0f1f3]">
-        <p>RightSideBar</p>
+      <div className="w-full xl:hidden bg-[#f0f1f3]">
+        <RightSideBar />
       </div>
     </>
   );
