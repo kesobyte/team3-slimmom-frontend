@@ -2,6 +2,8 @@ import React from 'react';
 import css from './MainPage.module.css';
 import { useState } from 'react';
 import backArrow from './backArrow.png';
+import { useMediaQuery } from 'react-responsive';
+import svg from './icons.svg'
 
 export const MainPage = () => {
 const [bloodType, setBloodType] = useState('');
@@ -11,6 +13,8 @@ const [cWeight, setCWeight] = useState('');
   const [dWeight, setDWeight] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [result, setResult] = useState();
+  const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   
   const handleBloodTypeChange = event => {
     setBloodType(event.target.value);
@@ -50,25 +54,46 @@ const [cWeight, setCWeight] = useState('');
       <div className={css.overlayWrapper}>
         {isModalOpen === true && (
           <div className={css.overlay}>
-            <button className={css.overlayClose} onClick={handleModalClose}>
-              <img src={backArrow} width="12px" height="7px" />
-            </button>
+            
+              <button className={css.overlayBack} onClick={handleModalClose}>
+                <img src={backArrow} width="12px" height="7px" />
+              </button>
+            
             <div className={css.modal}>
-              <div className={css.modalTitle}>
-                Your recommended daily calorie intake is
+              <button className={css.overlayClose} onClick={handleModalClose}>
+                <svg width="11.67px" height="11.67px" className={css.modalIcon}>
+                  <use href={`${svg}#icon-close`}></use>
+                </svg>
+              </button>
+              <div className={css.modalContainer}>
+                {isMobile && (
+                  <div className={css.modalTitle}>
+                    Your recommended daily calorie intake is
+                  </div>
+                )}
+                {isTablet && (
+                  <div className={css.modalTitle}>
+                    <div>Your recommended daily</div>
+                    <div>calorie intake is</div>
+                  </div>
+                )}
+                <div className={css.modalValueWrapper}>
+                  <span className={css.modalValue}>{result}</span>
+                  <span className={css.modalValueUnit}>ккал</span>
+                </div>
+                <div className={css.foodsWrapper}>
+                  <div className={css.modalHeading}>
+                    Foods you should not eat
+                  </div>
+                  <ul className={css.modalList}>
+                    <li>Flour products</li>
+                    <li>Milk</li>
+                    <li>Red meat</li>
+                    <li>Smoked meats</li>
+                  </ul>
+                </div>
+                <button className={css.modalSubmit}>Start losing weight</button>
               </div>
-              <div className={css.modalValueWrapper}>
-                <span className={css.modalValue}>{result}</span>
-                <span className={css.modalValueUnit}>ккал</span>
-              </div>
-              <div className={css.modalHeading}>Foods you should not eat</div>
-              <ul className={css.modalList}>
-                <li>Flour products</li>
-                <li>Milk</li>
-                <li>Red meat</li>
-                <li>Smoked meats</li>
-              </ul>
-              <button className={css.button}>Start losing weight</button>
             </div>
           </div>
         )}

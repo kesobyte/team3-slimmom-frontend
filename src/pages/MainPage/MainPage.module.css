@@ -153,6 +153,7 @@ margin-left: 8px;
     border-radius: 30px;
     box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
     letter-spacing: 0.04em;
+    margin-bottom: 100px;
 }
 
 @media screen and (min-width: 768px) {
@@ -193,8 +194,8 @@ margin-left: 8px;
 }
 
 .button{
-  margin-bottom: 398px;
-  margin-right: 75px;
+  /*margin-bottom: 398px;
+  margin-right: 75px;*/
 }
 }
 
@@ -217,21 +218,21 @@ margin-left: 8px;
   left: 0;
   width: 100%;
   height: 100%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   background-color:#EFF1F3;
-
   z-index: 1;
 }
 
-.overlayClose{
+.overlayBack{
   width: 100%;
   position: absolute;
   top:0;
   padding-left: 20px;
   padding-top: 17px;
   padding-bottom: 16px;
+}
+
+.overlayClose{
+  display: none;
 }
 
 .modal{
@@ -250,6 +251,7 @@ margin-left: 8px;
 
 .modalTitle{
 font-size: 18px;
+line-height: calc(25.2/18);
 margin-bottom: 42px;
 text-align: start;
 }
@@ -257,9 +259,12 @@ text-align: start;
 .modalValueWrapper{
   color:#264061;
   padding-bottom: 32px;
-  border-bottom: 1px solid #E0E0E0;
-  margin-bottom: 20px;
-;
+  text-align: center;
+}
+
+.foodsWrapper{
+border-top: 1px solid #E0E0E0;
+padding-top: 20px;
 }
 
 .modalValue{
@@ -295,6 +300,90 @@ gap:14.65px;
 margin-bottom: 40px;
 }
 
+.modalSubmit{
+   background-color: #FC842D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(17.01/14);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
+    letter-spacing: 0.04em;
+    margin-bottom: 119px;
+}
+
 @media screen and (min-width: 768px) {
+
+.overlayBack{
+  display: none;
+}  
+
+.overlayClose{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top:19px;
+  right:20px;
   
+}
+
+.modal{
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding-top: 64px;
+  padding-left: 82px;
+  padding-right: 82px;
+  
+}
+
+.modalContainer{
+width: 508px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.modalTitle{
+font-size: 26px;
+line-height: calc(36.4/26);
+margin-bottom: 20px;
+text-align: center;
+}
+
+.modalValueWrapper{
+  
+  
+}
+
+.foodsWrapper{
+width: 330px;
+border-top: 1px solid #E0E0E0;
+padding-top: 12px;
+}
+
+.modalSubmit{
+   background-color: #FC842D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(17.01/14);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
+    letter-spacing: 0.04em;
+  margin-bottom: 80px;
+}
+
+
 }
