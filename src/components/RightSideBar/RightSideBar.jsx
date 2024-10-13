@@ -3,14 +3,14 @@ import { Wrapper, SummaryWrap, FoodWrap, Title, Item, Text, RedText } from './Ri
 
 export const RightSideBar = () => {
 
-    const date = useSelector((state) => state.products.date);
-    const dailyRate = useSelector((state) => state.auth.userInfo.dailyRate);
-    const notAllowedProducts = useSelector((state) => state.auth.userInfo.notAllowedProducts);
-    const productsList = useSelector((state) => state.products.productsList);
+    const date = useSelector((state) => state.products?.date) || "No date available";
+    const dailyRate = useSelector((state) => state.auth?.userInfo?.dailyRate) || 0;
+    const notAllowedProducts = useSelector((state) => state.auth?.userInfo?.notAllowedProducts) || [];
+    const productsList = useSelector((state) => state.products?.productsList) || [];
     const totalCalories = productsList.map(product => product.productCalories)
         .reduce((prev, product) => { return Number.parseInt(prev) + Number.parseInt(product) }, 0);
     const leftCalories = dailyRate - totalCalories;
-    const nOfNorm = (totalCalories / dailyRate) * 100;
+    const nOfNorm = dailyRate ? (totalCalories / dailyRate) * 100 : 0;
 
     return (
         <Wrapper>
@@ -43,7 +43,7 @@ export const RightSideBar = () => {
             </SummaryWrap>
             <FoodWrap>
                 <Title>Food not recommended</Title>
-                {notAllowedProducts ? 
+                {notAllowedProducts.length > 0 ? 
                     <ul>
                         {notAllowedProducts.map((prod, index) => (
                             <Text key={index}>
@@ -55,5 +55,5 @@ export const RightSideBar = () => {
                 }
             </FoodWrap>
         </Wrapper>
-    )
+    );
 };
