@@ -1,9 +1,15 @@
+.pageContainer{
+  padding-top: 32px;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+
 .formWrapper{
-    display:flex;
+    
 }
 
   .form {
-    width: 280px;
     font-family: Verdana;
     text-align: center;
   }
@@ -195,6 +201,21 @@ margin-left: 8px;
     text-align: end;
   }
 
+}
 
+.overlayWrapper{
+  position: relative;
+}
 
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #fff;
+  z-index: 1;
 }
