@@ -157,6 +157,13 @@ margin-left: 8px;
 }
 
 @media screen and (min-width: 768px) {
+
+  .pageContainer{
+  padding-top: 100px;
+  padding-left:32px;
+  padding-right:32px;
+}
+
  .form {
     text-align: start;
   }
@@ -194,14 +201,15 @@ margin-left: 8px;
 }
 
 .button{
-  /*margin-bottom: 398px;
-  margin-right: 75px;*/
+  margin-bottom: 398px;
+  /*margin-right: 75px;*/
 }
 }
 
 @media screen and (min-width: 1280px) {
-  .form{
-    text-align: end;
+
+  .button{
+   margin-left:336px;
   }
 
 }
@@ -219,7 +227,7 @@ margin-left: 8px;
   width: 100%;
   height: 100%;
   background-color:#EFF1F3;
-  z-index: 1;
+  z-index: 3;
 }
 
 .overlayBack{
@@ -245,7 +253,7 @@ margin-left: 8px;
   font-family: Verdana;
   font-weight: 700;
   text-align: center;
-  z-index: 2;
+  z-index: 5;
   background-color:#fff;
 }
 
@@ -317,6 +325,12 @@ margin-bottom: 40px;
 }
 
 @media screen and (min-width: 768px) {
+
+  .overlay{
+    background-color: #2121211F;
+    position: fixed;
+    z-index: 51;
+  }
 
 .overlayBack{
   display: none;
