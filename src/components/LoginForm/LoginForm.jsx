@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { login } from '../../redux/auth/authOperations';
 import { getIsLoading } from '../../redux/auth/selectors';
-import { NavLink } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { BtnLoader } from 'components/BtnLoader/BtnLoader';
@@ -61,7 +61,7 @@ export const LoginForm = () => {
           >
             {isLoading ? <BtnLoader color="#fff" /> : 'Login'}
           </button>
-          <NavLink to="/register">
+          <Link to="/register">
             <button
               type="submit"
               className="flex w-[182px] py-[13px] px-[37px] bg-white items-center justify-center rounded-[30px] border-[2px] border-orange text-orange font-bold text-[14px] hover:bg-orange hover:text-white"
@@ -69,9 +69,17 @@ export const LoginForm = () => {
             >
               Register
             </button>
-          </NavLink>
+          </Link>
         </div>
       </form>
+
+      <div>
+        <Link to="/verify">
+          <p className="text-[12px] underline hover:text-orange cursor-pointer mt-[20px]">
+            Resend verification email
+          </p>
+        </Link>
+      </div>
     </div>
   );
 };

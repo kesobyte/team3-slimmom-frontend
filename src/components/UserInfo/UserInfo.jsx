@@ -49,13 +49,13 @@ export const UserInfo = () => {
 
   return (
     isLoggedIn && (
-      <div className="flex items-center gap-[20px] text-[14px] font-bold">
+      <div className="flex items-center gap-[20px] text-[14px] font-bold cursor-default">
         <p className="text-nowrap">{user?.name || 'User'}</p>
         <svg height={32} width={2}>
           <use href={`${svg}#short-line`}></use>
         </svg>
         <button
-          className="text-textgray hover:text-orange"
+          className="text-textgray hover:text-orange cursor-pointer"
           onClick={handleLogout}
           disabled={isLoading}
         >
