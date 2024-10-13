@@ -7,10 +7,11 @@ export const App = () => {
         justifyContent: 'center',
         alignItems: 'center',
         fontSize: 40,
-        color: '#010101',
+        color: '#ffff',
+        background: '#000',
       }}
     >
-      Team 3 Fullstack Final Project
+      manuel saavedra
     </div>
   );
 };
