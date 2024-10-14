@@ -179,7 +179,7 @@ const [cWeight, setCWeight] = useState('');
                       <div className={css.radioOptionsWrapper}>
                         <input
                           type="radio"
-                          name="blood-type-1"
+                          name="blood-type"
                           value="1"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="1"
@@ -194,7 +194,7 @@ const [cWeight, setCWeight] = useState('');
                       <div className={css.radioOptionsWrapper}>
                         <input
                           type="radio"
-                          name="blood-type-2"
+                          name="blood-type"
                           value="2"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="2"
@@ -209,7 +209,7 @@ const [cWeight, setCWeight] = useState('');
                       <div className={css.radioOptionsWrapper}>
                         <input
                           type="radio"
-                          name="blood-type-3"
+                          name="blood-type"
                           value="3"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="3"
@@ -224,7 +224,7 @@ const [cWeight, setCWeight] = useState('');
                       <div className={css.radioOptionsWrapper}>
                         <input
                           type="radio"
-                          name="blood-type-4"
+                          name="blood-type"
                           value="4"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="4"
