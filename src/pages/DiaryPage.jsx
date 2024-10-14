@@ -73,7 +73,7 @@ export const DiaryPage = () => {
               pauseOnHover
             />
           </div>
-          <div className="w-[30vw] hidden xl:block">
+          <div className="w-[35vw] hidden xl:block">
             <RightSideBar />
           </div>
         </div>
