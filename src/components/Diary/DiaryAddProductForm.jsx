@@ -17,6 +17,7 @@ import { searchProducts } from '../../redux/product/productOperation';
 import { getProductLoading, getProducts } from '../../redux/product/selector';
 import { toast } from 'react-toastify';
 import { useMediaQuery, useTheme } from '@mui/material';
+import debounce from 'lodash/debounce';
 
 const StyledAutocomplete = styled(Autocomplete)({
   '& .MuiInputBase-root': {
@@ -87,18 +88,14 @@ const DiaryAddProductForm = ({ handleClose }) => {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleProductSearch = (event, newInputValue) => {
+  const handleProductSearch = debounce((event, newInputValue) => {
     if (newInputValue.length > 2) {
       dispatch(searchProducts(newInputValue));
     }
-  };
+  }, 500); // Added debounce
 
   const handleAddProduct = () => {
     if (selectedProduct && grams) {
-      const calories = Math.round(
-        (selectedProduct.calories * parseInt(grams)) / 100
-      );
-
       dispatch(
         addToDiary({
           grams: parseInt(grams),
@@ -172,7 +169,9 @@ const DiaryAddProductForm = ({ handleClose }) => {
         onChange={(event, newValue) => {
           setSelectedProduct(newValue);
         }}
-        onInputChange={handleProductSearch}
+        onInputChange={(event, newInputValue) =>
+          handleProductSearch(event, newInputValue)
+        }
         sx={{ width: isTablet ? '100%' : '240px', mr: isTablet ? 3 : 6 }}
       />
 
