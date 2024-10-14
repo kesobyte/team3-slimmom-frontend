@@ -247,6 +247,10 @@
   background-color: #fff;
 }
 
+@media screen and (max-width: 767px) {
+  .modal{width: 100%;}
+}
+
 .modalTitle {
   font-size: 18px;
   line-height: calc(25.2 / 18);
