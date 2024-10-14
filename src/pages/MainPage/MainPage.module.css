@@ -79,7 +79,8 @@ text-align: start;
 
 .radioOptions{
   display: flex;  
-  gap:24px;
+  /*gap:24px;*/
+  gap:5px;
   border-top: 1px solid #E0E0E0;
   padding-top: 9px;
 }
