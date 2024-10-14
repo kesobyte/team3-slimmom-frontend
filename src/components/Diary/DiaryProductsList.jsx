@@ -19,10 +19,6 @@ const DiaryProductsList = () => {
     dispatch(fetchDiaryEntries(selectedDate));
   }, [dispatch, selectedDate]);
 
-  const handleRemoveProduct = productId => {
-    // Implement product removal logic here
-    console.log('Remove product:', productId);
-  };
 
   const StyledList = styled(List)({
     width: isMobile ? '100%' : '650px',
@@ -70,7 +66,6 @@ const DiaryProductsList = () => {
         <DiaryProductsListItem
           key={product._id}
           product={product}
-          onRemove={handleRemoveProduct}
         />
       ))}
     </StyledList>

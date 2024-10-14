@@ -98,11 +98,11 @@ const DiaryAddProductForm = ({ handleClose }) => {
       const calories = Math.round(
         (selectedProduct.calories * parseInt(grams)) / 100
       );
+
       dispatch(
         addToDiary({
-          title: selectedProduct.title,
           grams: parseInt(grams),
-          calories,
+          product: selectedProduct,
         })
       )
         .unwrap()

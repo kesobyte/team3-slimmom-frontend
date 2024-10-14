@@ -1,10 +1,9 @@
 import React from 'react';
 import css from './MainPage.module.css';
-import { useState } from 'react';
+import { useState , useEffect  } from 'react';
 import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
-import { useEffect } from 'react';
 import products from './products.json';
 
 export const MainPage = () => {

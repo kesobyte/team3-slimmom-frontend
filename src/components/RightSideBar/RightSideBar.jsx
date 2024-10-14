@@ -1,21 +1,21 @@
 import { useSelector } from "react-redux";
 import { Wrapper, SummaryWrap, FoodWrap, Title, Item, Text, RedText } from './RightSideBar.styled';
-
+import moment from "moment";
 export const RightSideBar = () => {
-
-    const date = useSelector((state) => state.products?.date) || "No date available";
+ 
+    const date = useSelector(state => state.diary.selectedDate) || "No date available";
     const dailyRate = useSelector((state) => state.auth?.userInfo?.dailyRate) || 0;
     const notAllowedProducts = useSelector((state) => state.auth?.userInfo?.notAllowedProducts) || [];
-    const productsList = useSelector((state) => state.products?.productsList) || [];
-    const totalCalories = productsList.map(product => product.productCalories)
+    const diaryEntries = useSelector((state) => state.diary.diaryEntries) || [];
+    const totalCalories = diaryEntries.map(product => product.calories)
         .reduce((prev, product) => { return Number.parseInt(prev) + Number.parseInt(product) }, 0);
     const leftCalories = dailyRate - totalCalories;
     const nOfNorm = dailyRate ? (totalCalories / dailyRate) * 100 : 0;
-
+     console.log(diaryEntries);
     return (
         <Wrapper>
             <SummaryWrap>
-                <Title>Summary for {date}</Title>
+                <Title>Summary for  {moment(date, 'YYYY-MM-DD').format('DD.MM.YYYY')}</Title>
                 <ul>
                     <Item>
                         <Text>Left</Text>
@@ -25,7 +25,7 @@ export const RightSideBar = () => {
                         }
                     </Item>
                     <Item>
-                        <Text>Consumed</Text>
+                        <Text>Consumed{}</Text>
                         <Text>{totalCalories ? totalCalories : '000'} kcal</Text>
                     </Item>
                     <Item>
