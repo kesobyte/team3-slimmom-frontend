@@ -41,7 +41,10 @@ export const App = () => {
         <Header />
         <Routes>
           {/* Public */}
-          <Route path="/" element={isLoggedIn ? <DiaryPage /> : <MainPage />} />
+          <Route
+            path="/"
+            element={isLoggedIn ? <CalculatorPage /> : <MainPage />}
+          />
 
           {/* Restricted Routes */}
           <Route
