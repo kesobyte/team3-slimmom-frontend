@@ -19,20 +19,28 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 export const addToDiary = createAsyncThunk(
   'diary/addToDiary',
-  async ({ grams , product }, { rejectWithValue }) => {
+  async ({ grams, product }, { getState, rejectWithValue }) => {
     try {
-  
-      const { calories, categories , title } = product;
+      const token = getToken(getState());
+      const { calories, categories, title } = product;
       const calorieIntake = (grams * calories) / 100;
 
-      const response = await axios.post('/diary/add', {
-        date: moment().format('YYYY-MM-DD'),
-        title,
-        grams,
-        calories,
-        calorieIntake,
-        category: categories,
-      });
+      const response = await axios.post(
+        '/diary/add',
+        {
+          date: moment().format('YYYY-MM-DD'),
+          title,
+          grams,
+          calories,
+          calorieIntake,
+          category: categories,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
 
       return response.data;
     } catch (error) {
