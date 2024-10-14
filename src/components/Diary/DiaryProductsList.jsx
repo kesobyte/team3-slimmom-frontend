@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { List, CircularProgress, Typography } from '@mui/material';
+import { List, Typography } from '@mui/material';
 import DiaryProductsListItem from './DiaryProductsListItem';
 import { styled } from '@mui/system';
 import { fetchDiaryEntries } from '../../redux/diary/diaryOperations';
