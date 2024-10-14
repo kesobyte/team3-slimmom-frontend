@@ -1,13 +1,12 @@
 import { createSlice } from '@reduxjs/toolkit';
 import moment from 'moment';
 import {
-  searchProducts,
-  addProductToDiary,
+  addToDiary,
   fetchDiaryEntries,
   deleteDiaryEntry,
-} from './productsOperations';
+} from './diaryOperations';
 
-const productsState = {
+const diaryState = {
   date: moment().format('DD.MM.YYYY'),
   productsList: [],
   searchResults: [],
@@ -17,9 +16,9 @@ const productsState = {
   error: null,
 };
 
-const productsSlice = createSlice({
-  name: 'products',
-  initialState: productsState,
+const diarySlice = createSlice({
+  name: 'diary',
+  initialState: diaryState,
   reducers: {
     setDate(state, action) {
       state.date = action.payload;
@@ -33,26 +32,14 @@ const productsSlice = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(searchProducts.pending, state => {
-        state.isLoading = true;
-        state.error = null;
-      })
-      .addCase(searchProducts.fulfilled, (state, action) => {
-        state.isLoading = false;
-        state.searchResults = action.payload;
-      })
-      .addCase(searchProducts.rejected, (state, action) => {
-        state.isLoading = false;
-        state.error = action.payload;
-      })
-      .addCase(addProductToDiary.pending, state => {
+      .addCase(addToDiary.pending, state => {
         state.isLoading = true;
       })
-      .addCase(addProductToDiary.fulfilled, (state, action) => {
+      .addCase(addToDiary.fulfilled, (state, action) => {
         state.isLoading = false;
         state.diaryEntries.push(action.payload);
       })
-      .addCase(addProductToDiary.rejected, (state, action) => {
+      .addCase(addToDiary.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
@@ -75,5 +62,5 @@ const productsSlice = createSlice({
   },
 });
 
-export const { setDate, setProducts, setSelectedDate } = productsSlice.actions;
-export const productsReducer = productsSlice.reducer;
+export const { setDate, setProducts, setSelectedDate } = diarySlice.actions;
+export const diaryReducer = diarySlice.reducer;

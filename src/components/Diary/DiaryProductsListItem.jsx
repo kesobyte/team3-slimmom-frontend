@@ -15,7 +15,7 @@ import {
 import { useDispatch } from 'react-redux';
 import { Close as CloseIcon } from '@mui/icons-material';
 import { styled } from '@mui/system';
-import { deleteDiaryEntry } from '../../redux/product/productsOperations';
+import { deleteDiaryEntry } from '../../redux/diary/diaryOperations';
 import { toast } from 'react-toastify';
 import { useMediaQuery, useTheme } from '@mui/material';
 const StyledTextField = styled(TextField)({
@@ -23,13 +23,13 @@ const StyledTextField = styled(TextField)({
     color: 'black',
   },
   '& .MuiInput-underline:before': {
-    borderBottomColor: 'rgba(0, 0, 0, 0.42)',
+    borderBottomColor: '#E0E0E0',
   },
   '& .MuiInput-underline:hover:not(.Mui-disabled):before': {
-    borderBottomColor: 'rgba(0, 0, 0, 0.87)',
+    borderBottomColor: '#E0E0E0',
   },
   '& .MuiInput-underline:after': {
-    borderBottomColor: 'black',
+    borderBottomColor: '#E0E0E0',
   },
 });
 
@@ -131,7 +131,7 @@ const DiaryProductsListItem = ({ product }) => {
         <DialogTitle id="alert-dialog-title">{'Confirm Deletion'}</DialogTitle>
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this product from your diary?
+            Are you sure you want to delete this item from your diary?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

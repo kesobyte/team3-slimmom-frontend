@@ -56,7 +56,9 @@ export const register = createAsyncThunk(
     try {
       const response = await axios.post('/auth/register', credentials);
       setAuthHeader(response.data.token);
-      toast.success('Account created successfully!');
+      toast.success(
+        'Account created! Verification has been sent to your email'
+      );
       return response.data;
     } catch (error) {
       const status = error.response?.status;

@@ -6,12 +6,12 @@ import { AdapterMoment } from '@mui/x-date-pickers/AdapterMoment';
 import { LocalizationProvider } from '@mui/x-date-pickers/LocalizationProvider';
 import { CalendarToday } from '@mui/icons-material';
 import moment from 'moment';
-import { setSelectedDate } from '../../redux/product/productsSlice';
-import { fetchDiaryEntries } from '../../redux/product/productsOperations';
+import { setSelectedDate } from '../../redux/diary/diarySlice';
+import { fetchDiaryEntries } from '../../redux/diary/diaryOperations';
 import { useMediaQuery, useTheme } from '@mui/material';
 const DiaryDateCalendar = () => {
   const dispatch = useDispatch();
-  const selectedDate = useSelector(state => state.products.selectedDate);
+  const selectedDate = useSelector(state => state.diary.selectedDate);
   const [open, setOpen] = useState(false);
 
   const theme = useTheme();

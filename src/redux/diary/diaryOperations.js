@@ -5,20 +5,20 @@ import { getToken } from '../auth/selectors';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-export const searchProducts = createAsyncThunk(
-  'products/searchProducts',
-  async (title, { rejectWithValue }) => {
-    try {
-      const response = await axios.get(`/product/search?title=${title}`);
-      return response.data;
-    } catch (error) {
-      return rejectWithValue(error.response.data);
-    }
-  }
-);
+// export const searchProducts = createAsyncThunk(
+//   'products/searchProducts',
+//   async (title, { rejectWithValue }) => {
+//     try {
+//       const response = await axios.get(`/product/search?title=${title}`);
+//       return response.data;
+//     } catch (error) {
+//       return rejectWithValue(error.response.data);
+//     }
+//   }
+// );
 
-export const addProductToDiary = createAsyncThunk(
-  'products/addProductToDiary',
+export const addToDiary = createAsyncThunk(
+  'diary/addToDiary',
   async ({ title, grams }, { rejectWithValue }) => {
     try {
       // Get the product info

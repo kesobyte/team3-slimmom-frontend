@@ -12,10 +12,9 @@ import {
 import { Add as AddIcon } from '@mui/icons-material';
 import KeyboardReturnIcon from '@mui/icons-material/KeyboardReturn';
 import { styled } from '@mui/system';
-import {
-  searchProducts,
-  addProductToDiary,
-} from '../../redux/product/productsOperations';
+import { addToDiary } from '../../redux/diary/diaryOperations';
+import { searchProducts } from '../../redux/product/productOperation';
+import { getProductLoading, getProducts } from '../../redux/product/selector';
 import { toast } from 'react-toastify';
 import { useMediaQuery, useTheme } from '@mui/material';
 
@@ -82,8 +81,8 @@ const DiaryAddProductForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [grams, setGrams] = useState('');
-  const searchResults = useSelector(state => state.products.searchResults);
-  const isLoading = useSelector(state => state.products.isLoading);
+  const searchResults = useSelector(getProducts);
+  const isLoading = useSelector(getProductLoading);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -100,7 +99,7 @@ const DiaryAddProductForm = ({ handleClose }) => {
         (selectedProduct.calories * parseInt(grams)) / 100
       );
       dispatch(
-        addProductToDiary({
+        addToDiary({
           title: selectedProduct.title,
           grams: parseInt(grams),
           calories,
@@ -145,6 +144,11 @@ const DiaryAddProductForm = ({ handleClose }) => {
       <StyledAutocomplete
         options={searchResults}
         getOptionLabel={option => option.title}
+        renderOption={(props, option) => (
+          <li {...props} key={option._id}>
+            {option.title}
+          </li>
+        )}
         renderInput={params => (
           <TextField
             {...params}
@@ -171,6 +175,7 @@ const DiaryAddProductForm = ({ handleClose }) => {
         onInputChange={handleProductSearch}
         sx={{ width: isTablet ? '100%' : '240px', mr: isTablet ? 3 : 6 }}
       />
+
       <Box
         display="flex"
         alignItems="flex-end"

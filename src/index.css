@@ -60,3 +60,8 @@ img {
 .animate-slideIn {
   animation: slideIn 0.3s ease-out;
 }
+
+/* MUI */
+.MuiCircularProgress-colorPrimary {
+  color: #fc842d !important;
+}

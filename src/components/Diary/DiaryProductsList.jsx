@@ -1,38 +1,34 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { 
-  List,
-  CircularProgress,
-  Typography
-} from '@mui/material';
+import { List, CircularProgress, Typography } from '@mui/material';
 import DiaryProductsListItem from './DiaryProductsListItem';
 import { styled } from '@mui/system';
-import { fetchDiaryEntries } from '../../redux/product/productsOperations';
+import { fetchDiaryEntries } from '../../redux/diary/diaryOperations';
 import { useMediaQuery, useTheme } from '@mui/material';
-
+import { Loader } from 'components/Loader/Loader';
 
 const DiaryProductsList = () => {
   const dispatch = useDispatch();
-  const diaryEntries = useSelector(state => state.products.diaryEntries);
-  const selectedDate = useSelector(state => state.products.selectedDate);
-  const isLoading = useSelector(state => state.products.isLoading);
-  const error = useSelector(state => state.products.error);
+  const diaryEntries = useSelector(state => state.diary.diaryEntries);
+  const selectedDate = useSelector(state => state.diary.selectedDate);
+  const isLoading = useSelector(state => state.diary.isLoading);
+  const error = useSelector(state => state.diary.error);
   const theme = useTheme();
-  const isMobile = useMediaQuery(theme.breakpoints.down('sm'))
+  const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   useEffect(() => {
     dispatch(fetchDiaryEntries(selectedDate));
   }, [dispatch, selectedDate]);
 
-  const handleRemoveProduct = (productId) => {
+  const handleRemoveProduct = productId => {
     // Implement product removal logic here
     console.log('Remove product:', productId);
   };
 
   const StyledList = styled(List)({
-    width: isMobile ? "100%":"590px",
-    maxHeight: '400px',
-    marginTop: isMobile  ? '10px' :'50px',
-    overflow: 'auto',
+    width: isMobile ? '100%' : '650px',
+    maxHeight: '300px',
+    marginTop: isMobile ? '10px' : '50px',
+    overflowY: 'auto',
     '&::-webkit-scrollbar': {
       width: '6px',
     },
@@ -46,10 +42,13 @@ const DiaryProductsList = () => {
       background: '#1c2f47',
     },
   });
-  
 
   if (isLoading) {
-    return <CircularProgress sx={{  marginTop: '50px',}} />;
+    return (
+      <div className="flex mt-[50px]">
+        <Loader />
+      </div>
+    );
   }
 
   if (error) {
@@ -57,13 +56,16 @@ const DiaryProductsList = () => {
   }
 
   if (diaryEntries.length === 0) {
-    return <Typography sx={{  marginTop: '50px',}}>No entries for this date.</Typography>;
+    return (
+      <Typography sx={{ marginTop: '50px' }}>
+        No entries for this date.
+      </Typography>
+    );
   }
-  
 
   return (
     <StyledList>
-      {diaryEntries.map((product) => (
+      {diaryEntries.map(product => (
         <DiaryProductsListItem
           key={product._id}
           product={product}
