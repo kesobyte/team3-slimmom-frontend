@@ -29,9 +29,7 @@ const DiaryDateCalendar = () => {
         display="flex"
         alignItems="center"
         sx={{
-          position: 'relative',
           mb: isMobile ? 0 : 2,
-          backgroundColor: 'transparent',
           pt: isMobile ? 2 : 0,
           pb: isMobile ? 2 : 0,
         }}
@@ -48,20 +46,30 @@ const DiaryDateCalendar = () => {
         >
           {moment(selectedDate, 'YYYY-MM-DD').format('DD.MM.YYYY')}
         </Typography>
-        <IconButton onClick={() => setOpen(true)} size="medium">
-          <CalendarToday />
-        </IconButton>
-        <DatePicker
-          // sx={{ position: 'absolute', zIndex: '-1', padding: 0 }}
-          sx={{ display: 'none' }}
-          value={moment(selectedDate, 'YYYY-MM-DD')}
-          onChange={handleDateChange}
-          open={open}
-          onClose={() => setOpen(false)}
-          onOpen={() => setOpen(true)}
-          format="DD.MM.YYYY"
-          renderInput={() => null}
-        />
+        <div className="relative bg-white">
+          <IconButton onClick={() => setOpen(true)} size="medium">
+            <CalendarToday />
+          </IconButton>
+          <div className="xl:block hidden absolute z-[-2] top-1">
+            <DatePicker
+              sx={{
+                '& .MuiInputBase-root': {
+                  width: '0px',
+                  height: '0px',
+                },
+                '& .MuiSvgIcon-root': {
+                  fontSize: '0px', // Calendar Icon (Default)
+                },
+              }}
+              value={moment(selectedDate, 'YYYY-MM-DD')}
+              onChange={handleDateChange}
+              open={open}
+              onClose={() => setOpen(false)}
+              onOpen={() => setOpen(true)}
+              format="DD.MM.YYYY"
+            />
+          </div>
+        </div>
       </Box>
     </LocalizationProvider>
   );
