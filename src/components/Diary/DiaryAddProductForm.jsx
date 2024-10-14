@@ -78,7 +78,7 @@ const StyledFab = styled(Fab)({
   },
 });
 
-const DiaryAddProductForm = ( { handleClose }) => {
+const DiaryAddProductForm = ({ handleClose }) => {
   const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [grams, setGrams] = useState('');
@@ -127,11 +127,20 @@ const DiaryAddProductForm = ( { handleClose }) => {
       flexWrap={isMobile ? 'wrap' : 'nowrap'}
       width="100%"
       position="relative"
-      pt={isMobile ? '50px': 0}
+      pt={isMobile ? '50px' : 0}
     >
-        <Box display="flex" onClick={handleClose} alignItems="center" position={'absolute'} top={'-60px'} zIndex={99}>
+      <div className="md:hidden">
+        <Box
+          display="flex"
+          onClick={handleClose}
+          alignItems="center"
+          position={'absolute'}
+          top={'-60px'}
+          zIndex={99}
+        >
           <KeyboardReturnIcon fontSize="medium" />
         </Box>
+      </div>
 
       <StyledAutocomplete
         options={searchResults}
@@ -189,25 +198,31 @@ const DiaryAddProductForm = ( { handleClose }) => {
           <AddIcon sx={{ color: 'white' }} />
         </StyledFab>
       </Box>
-    {isMobile &&   
-    <Box
-        sx={{ display: 'flex', justifyContent: 'center', width: '100%', mt: 4 }}
-      >
-        <Button
-          variant="contained"
+      {isMobile && (
+        <Box
           sx={{
-            backgroundColor: '#FC842D',
-            borderRadius: '30px',
-            width: '176px',
-            fontWeight: 'bold',
-            marginBottom : isMobile ? "200px" : '10px' 
+            display: 'flex',
+            justifyContent: 'center',
+            width: '100%',
+            height: isMobile ? '100vh' : '0',
+            mt: 4,
           }}
-          onClick={handleAddProduct}
         >
-          Add
-        </Button>
-      </Box>
-      }
+          <Button
+            variant="contained"
+            sx={{
+              backgroundColor: '#FC842D',
+              borderRadius: '30px',
+              width: '176px',
+              height: '44px',
+              fontWeight: 'bold',
+            }}
+            onClick={handleAddProduct}
+          >
+            Add
+          </Button>
+        </Box>
+      )}
     </Box>
   );
 };
