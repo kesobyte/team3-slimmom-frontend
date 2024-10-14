@@ -10,25 +10,49 @@ import { RestrictedRoute } from './RestrictedRoute/RestrictedRoute';
 import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { useAuth } from 'hooks/useAuth';
 import { SharedLayout } from './SharedLayout/SharedLayout';
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
 import { logout } from '../redux/auth/authOperations';
 import { useIdleTimer } from 'react-idle-timer';
+import { fetchProfile } from '../redux/profile/profileOperations';
 
 export const App = () => {
   const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
+  const refreshInterval = useRef(null);
 
   useEffect(() => {
     if (isLoggedIn) {
-      dispatch(refreshUser());
+      dispatch(fetchProfile());
+
+      // Set interval to refresh user every 30 minutes if user is active
+      refreshInterval.current = setInterval(() => {
+        dispatch(refreshUser());
+      }, 30 * 60 * 1000); // 30 minutes
+
+      return () => {
+        // Clear interval when component unmounts or user logs out
+        if (refreshInterval.current) {
+          clearInterval(refreshInterval.current);
+        }
+      };
+    } else {
+      // Clear interval if the user is not logged in
+      if (refreshInterval.current) {
+        clearInterval(refreshInterval.current);
+      }
     }
   }, [dispatch, isLoggedIn]);
 
   useIdleTimer({
     timeout: 60 * 60 * 1000, // 1 Hour
-    onIdle: () => dispatch(logout()),
+    onIdle: () => {
+      dispatch(logout());
+      if (refreshInterval.current) {
+        clearInterval(refreshInterval.current);
+      }
+    },
     debounce: 500,
   });
 

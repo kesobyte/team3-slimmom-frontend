@@ -9,12 +9,15 @@ import {
   RedText,
 } from './RightSideBar.styled';
 import moment from 'moment';
+import { getDailyCalorie } from '../../redux/profile/selectors';
+
 export const RightSideBar = () => {
   const date =
     useSelector(state => state.diary.selectedDate) || 'No date available';
-  const dailyRate = useSelector(state => state.auth?.userInfo?.dailyRate) || 0;
+  const dailyRate = useSelector(getDailyCalorie) || 0;
+
   const notAllowedProducts =
-    useSelector(state => state.auth?.userInfo?.notAllowedProducts) || [];
+    useSelector(state => state.profile?.user?.notRecommended) || [];
   const diaryEntries = useSelector(state => state.diary.diaryEntries) || [];
   const totalCalories = diaryEntries
     .map(product => product.calories)
