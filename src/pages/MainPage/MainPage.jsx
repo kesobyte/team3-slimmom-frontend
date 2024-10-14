@@ -5,6 +5,7 @@ import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
 import { useEffect } from 'react';
+import products from './products.json';
 
 export const MainPage = () => {
 const [bloodType, setBloodType] = useState('');
@@ -14,6 +15,8 @@ const [cWeight, setCWeight] = useState('');
   const [dWeight, setDWeight] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [result, setResult] = useState();
+  const [productList, setProductList] = useState([]);
+  const [badFoods, setBadFoods] = useState([]);
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
   
@@ -47,8 +50,20 @@ const [cWeight, setCWeight] = useState('');
       161 -
       10 * (cWeight - dWeight));
     setResult(dailyCalorieIntake);
-   setModalOpen(true);
+    setModalOpen(true);
+
+
+    const notRecommended = productList.filter((aProduct) => (
+      aProduct.groupBloodNotAllowed[Number(bloodType)] === true
+    )
+    )
+
+    setBadFoods([...notRecommended])
+   
+
   }
+
+
 
   useEffect(() => {
     const handleKeyDown = event => {
@@ -67,13 +82,17 @@ const [cWeight, setCWeight] = useState('');
     };
   }, [isModalOpen]);
 
+  useEffect(() => {
+    setProductList(products);
+  },[])
+
   return (
     <div className="max-w-[1400px] mx-auto">
       <div className={css.overlayWrapper}>
         {isModalOpen === true && (
           <div className={css.overlay}>
             <button className={css.overlayBack} onClick={handleModalClose}>
-              <img src={backArrow} width="12px" height="7px" />
+              <img src={backArrow} width="12px" height="7px" alt="back" />
             </button>
 
             <div className={css.modal}>
@@ -103,10 +122,9 @@ const [cWeight, setCWeight] = useState('');
                     Foods you should not eat
                   </div>
                   <ul className={css.modalList}>
-                    <li>Flour products</li>
-                    <li>Milk</li>
-                    <li>Red meat</li>
-                    <li>Smoked meats</li>
+                    {badFoods.map(badFood => (
+                      <li key={badFood._id.$oid}>{badFood.title}</li>
+                    ))}
                   </ul>
                 </div>
                 <button className={css.modalSubmit}>Start losing weight</button>
@@ -204,8 +222,9 @@ const [cWeight, setCWeight] = useState('');
                           value="1"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="1"
+                          onChange={handleBloodTypeChange}
                         />
-                        <label className={css.radioLabelWrapper} for="1">
+                        <label className={css.radioLabelWrapper} htmlFor="1">
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
@@ -219,8 +238,9 @@ const [cWeight, setCWeight] = useState('');
                           value="2"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="2"
+                          onChange={handleBloodTypeChange}
                         />
-                        <label className={css.radioLabelWrapper} for="2">
+                        <label className={css.radioLabelWrapper} htmlFor="2">
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
@@ -234,8 +254,9 @@ const [cWeight, setCWeight] = useState('');
                           value="3"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="3"
+                          onChange={handleBloodTypeChange}
                         />
-                        <label className={css.radioLabelWrapper} for="3">
+                        <label className={css.radioLabelWrapper} htmlFor="3">
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
@@ -249,8 +270,9 @@ const [cWeight, setCWeight] = useState('');
                           value="4"
                           className={`${css.radioArea} ${css.radioInput}`}
                           id="4"
+                          onChange={handleBloodTypeChange}
                         />
-                        <label className={css.radioLabelWrapper} for="4">
+                        <label className={css.radioLabelWrapper} htmlFor="4">
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
