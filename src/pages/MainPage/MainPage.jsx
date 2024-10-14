@@ -8,10 +8,10 @@ import { useEffect } from 'react';
 import products from './products.json';
 
 export const MainPage = () => {
-const [bloodType, setBloodType] = useState('');
-const [height, setHeight] = useState('');
-const [age, setAge] = useState('');
-const [cWeight, setCWeight] = useState('');
+  const [bloodType, setBloodType] = useState('');
+  const [height, setHeight] = useState('');
+  const [age, setAge] = useState('');
+  const [cWeight, setCWeight] = useState('');
   const [dWeight, setDWeight] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [result, setResult] = useState();
@@ -19,7 +19,7 @@ const [cWeight, setCWeight] = useState('');
   const [badFoods, setBadFoods] = useState([]);
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
-  
+
   const handleBloodTypeChange = event => {
     setBloodType(event.target.value);
   };
@@ -36,34 +36,24 @@ const [cWeight, setCWeight] = useState('');
     setDWeight(event.target.value);
   };
 
-
   const handleModalClose = event => {
     setModalOpen(false);
   };
 
   const handleSubmit = event => {
     event.preventDefault();
-    const dailyCalorieIntake =
-      Math.ceil (10 * cWeight +
-      6.25 * height -
-      5 * age -
-      161 -
-      10 * (cWeight - dWeight));
+    const dailyCalorieIntake = Math.ceil(
+      10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
+    );
     setResult(dailyCalorieIntake);
     setModalOpen(true);
 
+    const notRecommended = productList.filter(
+      aProduct => aProduct.groupBloodNotAllowed[Number(bloodType)] === true
+    );
 
-    const notRecommended = productList.filter((aProduct) => (
-      aProduct.groupBloodNotAllowed[Number(bloodType)] === true
-    )
-    )
-
-    setBadFoods([...notRecommended])
-   
-
-  }
-
-
+    setBadFoods([...notRecommended]);
+  };
 
   useEffect(() => {
     const handleKeyDown = event => {
@@ -76,7 +66,6 @@ const [cWeight, setCWeight] = useState('');
       window.addEventListener('keydown', handleKeyDown);
     }
 
-    
     return () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
@@ -84,7 +73,7 @@ const [cWeight, setCWeight] = useState('');
 
   useEffect(() => {
     setProductList(products);
-  },[])
+  }, []);
 
   return (
     <div className="max-w-[1400px] mx-auto">
@@ -115,7 +104,7 @@ const [cWeight, setCWeight] = useState('');
                 )}
                 <div className={css.modalValueWrapper}>
                   <span className={css.modalValue}>{result}</span>
-                  <span className={css.modalValueUnit}>ккал</span>
+                  <span className={css.modalValueUnit}>kcal</span>
                 </div>
                 <div className={css.foodsWrapper}>
                   <div className={css.modalHeading}>

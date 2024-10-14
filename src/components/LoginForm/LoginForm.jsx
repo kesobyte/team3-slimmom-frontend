@@ -75,7 +75,7 @@ export const LoginForm = () => {
 
       <div>
         <Link to="/verify">
-          <p className="text-[12px] underline hover:text-orange cursor-pointer mt-[20px]">
+          <p className="text-[12px] underline hover:text-orange cursor-pointer mt-[20px] flex justify-center md:justify-normal">
             Resend verification email
           </p>
         </Link>

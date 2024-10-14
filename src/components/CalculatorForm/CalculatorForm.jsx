@@ -104,7 +104,7 @@ export const CalculatorForm = () => {
                 )}
                 <div className={css.modalValueWrapper}>
                   <span className={css.modalValue}>{result}</span>
-                  <span className={css.modalValueUnit}>ккал</span>
+                  <span className={css.modalValueUnit}>kcal</span>
                 </div>
                 <div className={css.foodsWrapper}>
                   <div className={css.modalHeading}>
