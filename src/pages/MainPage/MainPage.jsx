@@ -292,3 +292,5 @@ const [cWeight, setCWeight] = useState('');
     </div>
   );
 };
+
+export default MainPage;

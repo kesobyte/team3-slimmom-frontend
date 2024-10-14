@@ -1,126 +1,285 @@
+import React from 'react';
+import css from './CalculatorForm.module.css';
+import { useState } from 'react';
+import backArrow from './backArrow.png';
+import { useMediaQuery } from 'react-responsive';
+import svg from './icons.svg';
+import { useEffect } from 'react';
+import products from './products.json';
 
-import React, { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
-
-const CalculatorForm = () => {
-  // const dispatch=useDispatch();
+export const CalculatorForm = () => {
   const [bloodType, setBloodType] = useState('');
   const [height, setHeight] = useState('');
   const [age, setAge] = useState('');
-  const [cWeight, setCWeight] =useState('');
+  const [cWeight, setCWeight] = useState('');
   const [dWeight, setDWeight] = useState('');
-  const [dailyCalorie, setDailyCalorie] = useState('');
+  const [isModalOpen, setModalOpen] = useState(false);
+  const [result, setResult] = useState();
+  const [productList, setProductList] = useState([]);
+  const [badFoods, setBadFoods] = useState([]);
+  const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
+  const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
-  const handleBloodTypeChange = (event) => {
+  const handleBloodTypeChange = event => {
     setBloodType(event.target.value);
   };
-  const handleHeightChange = (event) => {
+  const handleHeightChange = event => {
     setHeight(event.target.value);
-  }
-  const handleAgeChange = (event) => {
+  };
+  const handleAgeChange = event => {
     setAge(event.target.value);
-  }
-  const handleCurrentWeightChange = (event) => {
+  };
+  const handleCurrentWeightChange = event => {
     setCWeight(event.target.value);
-  }
-  const handleDesiredWeight = (event) => {
+  };
+  const handleDesiredWeight = event => {
     setDWeight(event.target.value);
-  }
-  
-//   calculation of calorie
-  useEffect(() => {
-    const caloriePerWeight= cWeight*10;
-    const caloriePerHeight= height*6.25;
-    const caloriePerAge= age*5;
-    const adjustCalorie= (cWeight-dWeight)*10;
-    const calorieSum = caloriePerWeight + caloriePerHeight - caloriePerAge - 161 - adjustCalorie
-    setDailyCalorie(calorieSum);
-    return () => {
-      return dailyCalorie;
-    }
-  }, [height,age,cWeight,dWeight,dailyCalorie])
-  
+  };
 
-//   submit details to backend
-  const calculateBMR = (event) => {
+  const handleModalClose = event => {
+    setModalOpen(false);
+  };
+
+  const handleSubmit = event => {
     event.preventDefault();
-    console.log(dailyCalorie)
-  }
+    const dailyCalorieIntake = Math.ceil(
+      10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
+    );
+    setResult(dailyCalorieIntake);
+    setModalOpen(true);
+
+    const notRecommended = productList.filter(
+      aProduct => aProduct.groupBloodNotAllowed[Number(bloodType)] === true
+    );
+
+    setBadFoods([...notRecommended]);
+  };
+
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+
+    if (isModalOpen === true) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
+
+  useEffect(() => {
+    setProductList(products);
+  }, []);
 
   return (
-  <>
-    <div className='w-[608px] max-md:hidden pb-[48px]' >
-      <h1 className='text-4xl font-bold pb-[68px]'>Calculate your daily calorie <br /> intake right now</h1>
-      <form className="text-sm font-bold"
-      onSubmit={calculateBMR}>
-        <ul className='flex flex-wrap gap-x-8 gap-y-10'>
-          <li className='leading-3'>
-            <label htmlFor="userHeight">Height(cm) *
-            </label><br/><br/>
-            <input type="text" className="border-b-2" id="userHeight" name="userHeight" onChange={handleHeightChange} value={height}/>
-          </li>
-          <li className='leading-3'>
-            <label htmlFor="dWeight">Desired weight(kg) *</label><br /><br />
-            <input type="text" className="border-b-2" id="dWeight" onChange={handleDesiredWeight} value={dWeight}/>
-          </li>
-          <li className='leading-3'>
-            <label htmlFor="age">Age(years) *</label><br /><br />
-            <input type="text" className="border-b-2" id="age" onChange={handleAgeChange} value={age}/>
-          </li>
-          <li className='leading-3'>
-            <div>Blood type *<br /><br />
-              <input type="radio" name="blood" id="A" onChange={handleBloodTypeChange} value="1"/><label className='pl-1 pr-2' htmlFor="A">1(A)</label>
-              <input type="radio" name="blood" id="B" onChange={handleBloodTypeChange} value="2"/><label className='pl-1 pr-2' htmlFor="B">2(B)</label>
-              <input type="radio" name="blood" id="AB" onChange={handleBloodTypeChange} value="3"/><label className='pl-1 pr-2' htmlFor="AB">3(AB)</label>
-              <input type="radio" name="blood" id="O" onChange={handleBloodTypeChange} value="4"/><label className='pl-1 pr-2' htmlFor="O">4(O)</label>
-            </div>
-          </li>
-          <li className='leading-3'>
-            <label htmlFor="cWeight">Current weight(kg) *</label><br /><br />
-            <input type="text" className="border-b-2" id="cWeight" onChange={handleCurrentWeightChange} value={cWeight}/>
-          </li>
-        </ul>
-        <button className="flex rounded-[30px] bg-[#FC842D] mt-[60px] md:mx-0 xl:mx-auto py-[13px] px-[25px] shadow-[0px_4px_10px_0px_rgba(252,132,45,0.50)]" type="submit">Start losing weight</button>
-      </form>
-      {/* <Modal bloodType={bloodType} age={age} height={height} cWeight={cWeight} dWeight={dWeight} dailyCalorie={dailyCalorie} isHidden/> */}
-    </div>
+    <div className="max-w-[1400px] mx-auto">
+      <div className={css.overlayWrapper}>
+        {isModalOpen === true && (
+          <div className={css.overlay}>
+            <button className={css.overlayBack} onClick={handleModalClose}>
+              <img src={backArrow} width="12px" height="7px" alt="back" />
+            </button>
 
-{/* mobile */}
-    <div className='w-[280px] md:hidden pb-[48px]'>
-      <h1 className='text-lg font-bold pb-[32px]'>Calculate your daily calorie<br/> intake right now</h1>
-      <form className="text-sm font-bold" onSubmit={calculateBMR}>
-        <ul className='flex flex-wrap gap-y-8'>
-          <li className='leading-3'>
-            <label htmlFor="userHeight">Height(cm) *
-            </label><br/> <br />
-            <input type="text" id="userHeight" className="border-b-2" name="userHeight" onChange={handleHeightChange} value={height}/>
-          </li>
-          <li className='leading-3'>
-            <label htmlFor="age">Age(years) *</label><br /> <br />
-            <input type="text" id="age" className="border-b-2" onChange={handleAgeChange} value={age}/>
-          </li>
-          <li className='leading-3'>
-            <label htmlFor="cWeight">Current weight(kg) *</label><br /> <br />
-            <input type="text" id="cWeight" className="border-b-2" onChange={handleCurrentWeightChange} value={cWeight}/>
-          </li>
-          <li className='leading-3'>
-            <label htmlFor="dWeight">Desired weight(kg) *</label><br /> <br />
-            <input type="text" id="dWeight" className="border-b-2" onChange={handleDesiredWeight} value={dWeight}/>
-          </li>
-          <li className='leading-3'>
-          <div>Blood type *<br /><br />
-              <input type="radio" name="blood" id="A" onChange={handleBloodTypeChange} value="1"/><label className='pl-1 pr-2' htmlFor="A">1(A)</label>
-              <input type="radio" name="blood" id="B" onChange={handleBloodTypeChange} value="2"/><label className='pl-1 pr-2' htmlFor="B">2(B)</label>
-              <input type="radio" name="blood" id="AB" onChange={handleBloodTypeChange} value="3"/><label className='pl-1 pr-2' htmlFor="AB">3(AB)</label>
-              <input type="radio" name="blood" id="O" onChange={handleBloodTypeChange} value="4"/><label className='pl-1 pr-2' htmlFor="O">4(O)</label>
+            <div className={css.modal}>
+              <button className={css.overlayClose} onClick={handleModalClose}>
+                <svg width="11.67px" height="11.67px" className={css.modalIcon}>
+                  <use href={`${svg}#icon-close`}></use>
+                </svg>
+              </button>
+              <div className={css.modalContainer}>
+                {isMobile && (
+                  <div className={css.modalTitle}>
+                    Your recommended daily calorie intake is
+                  </div>
+                )}
+                {isTablet && (
+                  <div className={css.modalTitle}>
+                    <div>Your recommended daily</div>
+                    <div>calorie intake is</div>
+                  </div>
+                )}
+                <div className={css.modalValueWrapper}>
+                  <span className={css.modalValue}>{result}</span>
+                  <span className={css.modalValueUnit}>ккал</span>
+                </div>
+                <div className={css.foodsWrapper}>
+                  <div className={css.modalHeading}>
+                    Foods you should not eat
+                  </div>
+                  <ul className={css.modalList}>
+                    {badFoods.map(badFood => (
+                      <li key={badFood._id.$oid}>{badFood.title}</li>
+                    ))}
+                  </ul>
+                </div>
+                <button className={css.modalSubmit}>Start losing weight</button>
+              </div>
             </div>
-          </li>
-        </ul>
-        <button className="flex rounded-[30px] bg-[#FC842D] mt-[40px] md:mx-0 xl:mx-auto py-[13px] px-[25px] shadow-[0px_4px_10px_0px_rgba(252,132,45,0.50)]" type="submit">Start losing weight</button>
-      </form>
-    </div>
-  </>
-  )
-}
+          </div>
+        )}
+        <div className={css.pageContainer}>
+          <div className={css.formWrapper}>
+            <form className={css.form} onSubmit={handleSubmit}>
+              <span className={css.formTitle}>
+                <span className={css.formTitleSection}>
+                  Calculate your daily calorie
+                </span>
+                <span className={css.formTitleSection}>intake right now</span>
+              </span>
+              <div className={css.formInputs}>
+                <div className={css.formSection}>
+                  <label className={css.label}>
+                    {height === '' && (
+                      <span className={css.labelText}>
+                        Height<span className={css.labelTextSmall}>(cm)</span> *
+                      </span>
+                    )}
+                    <input
+                      type="number"
+                      name="height"
+                      className={css.input}
+                      title="Enter your height in Centimeters"
+                      autoComplete="off"
+                      required
+                      onChange={handleHeightChange}
+                    />
+                  </label>
+                  <label className={css.label}>
+                    {age === '' && (
+                      <span className={css.labelText}>
+                        Age<span className={css.labelTextSmall}>(years)</span> *
+                      </span>
+                    )}
+                    <input
+                      type="number"
+                      name="age"
+                      className={css.input}
+                      title="Enter your age"
+                      autoComplete="off"
+                      required
+                      onChange={handleAgeChange}
+                    />
+                  </label>
+                  <label className={css.label}>
+                    {cWeight === '' && (
+                      <span className={css.labelText}>
+                        Current weight
+                        <span className={css.labelTextSmall}>(kg)</span> *
+                      </span>
+                    )}
+                    <input
+                      type="number"
+                      name="currentWeight"
+                      className={css.input}
+                      title="Enter your Current weight in Kilograms"
+                      autoComplete="off"
+                      required
+                      onChange={handleCurrentWeightChange}
+                    />
+                  </label>
+                </div>
+                <div className={css.formSection}>
+                  <label className={css.label}>
+                    {dWeight === '' && (
+                      <span className={css.labelText}>
+                        Desired weight
+                        <span className={css.labelTextSmall}>(kg)</span> *
+                      </span>
+                    )}
+                    <input
+                      type="number"
+                      name="desiredWeight"
+                      className={css.input}
+                      title="Enter your Desired weight in Kilograms"
+                      autoComplete="off"
+                      required
+                      onChange={handleDesiredWeight}
+                    />
+                  </label>
 
-export default CalculatorForm
+                  <div className={css.radioWrapper}>
+                    <div className={css.radioTitleLabel}>Blood type *</div>
+                    <div className={css.radioOptions}>
+                      <div className={css.radioOptionsWrapper}>
+                        <input
+                          type="radio"
+                          name="blood-type"
+                          value="1"
+                          className={`${css.radioArea} ${css.radioInput}`}
+                          id="1"
+                          onChange={handleBloodTypeChange}
+                        />
+                        <label className={css.radioLabelWrapper} htmlFor="1">
+                          <span className={css.radioCircle}>
+                            <span className={css.radioSelector}></span>
+                          </span>
+                          <span className={css.radioLabelText}>1(A)</span>
+                        </label>
+                      </div>
+                      <div className={css.radioOptionsWrapper}>
+                        <input
+                          type="radio"
+                          name="blood-type"
+                          value="2"
+                          className={`${css.radioArea} ${css.radioInput}`}
+                          id="2"
+                          onChange={handleBloodTypeChange}
+                        />
+                        <label className={css.radioLabelWrapper} htmlFor="2">
+                          <span className={css.radioCircle}>
+                            <span className={css.radioSelector}></span>
+                          </span>
+                          <span className={css.radioLabelText}>2(B)</span>
+                        </label>
+                      </div>
+                      <div className={css.radioOptionsWrapper}>
+                        <input
+                          type="radio"
+                          name="blood-type"
+                          value="3"
+                          className={`${css.radioArea} ${css.radioInput}`}
+                          id="3"
+                          onChange={handleBloodTypeChange}
+                        />
+                        <label className={css.radioLabelWrapper} htmlFor="3">
+                          <span className={css.radioCircle}>
+                            <span className={css.radioSelector}></span>
+                          </span>
+                          <span className={css.radioLabelText}>3(AB)</span>
+                        </label>
+                      </div>
+                      <div className={css.radioOptionsWrapper}>
+                        <input
+                          type="radio"
+                          name="blood-type"
+                          value="4"
+                          className={`${css.radioArea} ${css.radioInput}`}
+                          id="4"
+                          onChange={handleBloodTypeChange}
+                        />
+                        <label className={css.radioLabelWrapper} htmlFor="4">
+                          <span className={css.radioCircle}>
+                            <span className={css.radioSelector}></span>
+                          </span>
+                          <span className={css.radioLabelText}>4(O)</span>
+                        </label>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <button className={css.button}>Start losing weight</button>
+            </form>
+          </div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default CalculatorForm;
