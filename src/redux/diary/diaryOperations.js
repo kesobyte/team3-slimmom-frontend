@@ -19,18 +19,10 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 export const addToDiary = createAsyncThunk(
   'diary/addToDiary',
-  async ({ title, grams }, { rejectWithValue }) => {
+  async ({ grams , product }, { rejectWithValue }) => {
     try {
-      // Get the product info
-      const searchResponse = await axios.get(`/product/search?title=${title}`);
-
-      if (searchResponse.data.length === 0) {
-        return rejectWithValue('Product not found');
-      }
-
-      // Calculate the calorieIntake
-      const product = searchResponse.data[0];
-      const { calories, categories } = product;
+  
+      const { calories, categories , title } = product;
       const calorieIntake = (grams * calories) / 100;
 
       const response = await axios.post('/diary/add', {
