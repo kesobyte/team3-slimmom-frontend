@@ -3,7 +3,8 @@ import css from './MainPage.module.css';
 import { useState } from 'react';
 import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
-import svg from './icons.svg'
+import svg from './icons.svg';
+import { useEffect } from 'react';
 
 export const MainPage = () => {
 const [bloodType, setBloodType] = useState('');
@@ -48,6 +49,23 @@ const [cWeight, setCWeight] = useState('');
     setResult(dailyCalorieIntake);
    setModalOpen(true);
   }
+
+  useEffect(() => {
+    const handleKeyDown = event => {
+      if (event.key === 'Escape') {
+        setModalOpen(false);
+      }
+    };
+
+    if (isModalOpen === true) {
+      window.addEventListener('keydown', handleKeyDown);
+    }
+
+    
+    return () => {
+      window.removeEventListener('keydown', handleKeyDown);
+    };
+  }, [isModalOpen]);
 
   return (
     <div className="max-w-[1400px] mx-auto">
