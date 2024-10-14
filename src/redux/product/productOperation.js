@@ -15,6 +15,7 @@ export const fetchProductsByBloodType = createAsyncThunk(
       const response = await axios.get(`/product/blood-type/${bloodType}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
+      console.log(response.data);
       return response.data;
     } catch (error) {
       const status = error.response?.status;
@@ -23,6 +24,22 @@ export const fetchProductsByBloodType = createAsyncThunk(
     }
   }
 );
+
+export const fetchProductsByBloodTypeOpen = createAsyncThunk(
+  'product/fetchByBloodTypeOpen',
+  async (bloodType, thunkAPI) => {
+
+    try {
+      const response = await axios.get(`/product/blood-type/${bloodType}`);
+      return response.data.data;
+    } catch (error) {
+      const status = error.response?.status;
+      const message = error.response?.data?.message || error.message;
+      return thunkAPI.rejectWithValue({ status, message });
+    }
+  }
+);
+
 
 // Search Products by Title
 // export const searchProducts = createAsyncThunk(

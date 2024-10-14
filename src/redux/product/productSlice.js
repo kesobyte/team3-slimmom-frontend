@@ -1,5 +1,9 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { fetchProductsByBloodType, searchProducts } from './productOperation';
+import {
+  fetchProductsByBloodType,
+  searchProducts,
+  fetchProductsByBloodTypeOpen,
+} from './productOperation';
 
 const initialState = {
   productsList: [],
@@ -18,15 +22,29 @@ const productSlice = createSlice({
       .addCase(fetchProductsByBloodType.pending, state => {
         state.isLoading = true;
       })
-      .addCase(fetchProductsByBloodType.fulfilled, (state, { payload }) => {
-        state.products = payload;
+      .addCase(fetchProductsByBloodType.fulfilled, (state, action) => {
+        state.productsList = action.payload;
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(fetchProductsByBloodType.rejected, (state, { payload }) => {
+      .addCase(fetchProductsByBloodType.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = payload;
+        state.error = action.payload;
       })
+
+      .addCase(fetchProductsByBloodTypeOpen.pending, state => {
+        state.isLoading = true;
+      })
+      .addCase(fetchProductsByBloodTypeOpen.fulfilled, (state, action) => {
+        state.productsList = action.payload;
+        state.isLoading = false;
+        state.error = null;
+      })
+      .addCase(fetchProductsByBloodTypeOpen.rejected, (state, action) => {
+        state.isLoading = false;
+        state.error = action.payload;
+      })
+
       .addCase(searchProducts.pending, state => {
         state.isLoading = true;
         state.error = null;

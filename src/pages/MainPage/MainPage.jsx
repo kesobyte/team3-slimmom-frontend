@@ -3,11 +3,23 @@ import css from './MainPage.module.css';
 import { useState } from 'react';
 import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
+import {CircularProgress} from '@mui/material';
 import svg from './icons.svg';
 import { useEffect } from 'react';
-import products from './products.json';
+//import products from './products.json';
+import { fetchProductsByBloodTypeOpen } from '../../redux/product/productOperation';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  getProductsbyBlood,
+  getProductLoading,
+} from '../../redux/product/selector';
+
 
 export const MainPage = () => {
+  const dispatch = useDispatch();
+  const notAllowedFoods = useSelector(getProductsbyBlood);
+  const isLoading = useSelector(getProductLoading);
+
   const [bloodType, setBloodType] = useState('');
   const [height, setHeight] = useState('');
   const [age, setAge] = useState('');
@@ -15,8 +27,8 @@ export const MainPage = () => {
   const [dWeight, setDWeight] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [result, setResult] = useState();
-  const [productList, setProductList] = useState([]);
-  const [badFoods, setBadFoods] = useState([]);
+ // const [productList, setProductList] = useState([]);
+ // const [badFoods, setBadFoods] = useState([]);
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
@@ -46,13 +58,15 @@ export const MainPage = () => {
       10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
     );
     setResult(dailyCalorieIntake);
+    dispatch(fetchProductsByBloodTypeOpen(bloodType));
+    
     setModalOpen(true);
 
-    const notRecommended = productList.filter(
+    /*const notRecommended = productList.filter(
       aProduct => aProduct.groupBloodNotAllowed[Number(bloodType)] === true
     );
 
-    setBadFoods([...notRecommended]);
+    setBadFoods([...notRecommended]);*/
   };
 
   useEffect(() => {
@@ -71,9 +85,9 @@ export const MainPage = () => {
     };
   }, [isModalOpen]);
 
-  useEffect(() => {
+  /*useEffect(() => {
     setProductList(products);
-  }, []);
+  }, []);*/
 
   return (
     <div className="max-w-[1400px] mx-auto">
@@ -110,11 +124,26 @@ export const MainPage = () => {
                   <div className={css.modalHeading}>
                     Foods you should not eat
                   </div>
-                  <ul className={css.modalList}>
-                    {badFoods.map(badFood => (
+                  {isLoading === true ? (
+                    <CircularProgress
+                      style={{ color: '#fc842d', marginBottom: '40px' }}
+                      size={50}
+                    />
+                  ) : (
+                    <ul className={css.modalList}>
+                      {/*badFoods.map(badFood => (
                       <li key={badFood._id.$oid}>{badFood.title}</li>
-                    ))}
-                  </ul>
+                    ))*/}
+                      {notAllowedFoods.map(food => (
+                        <li
+                          className={css.modalListItem}
+                          key={notAllowedFoods.indexOf(food)}
+                        >
+                          {notAllowedFoods.indexOf(food) + 1}. {food}
+                        </li>
+                      ))}
+                    </ul>
+                  )}
                 </div>
                 <button className={css.modalSubmit}>Start losing weight</button>
               </div>
