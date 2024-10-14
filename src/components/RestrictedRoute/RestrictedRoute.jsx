@@ -10,4 +10,4 @@ export const RestrictedRoute = ({
   return isLoggedIn ? <Navigate to={redirectTo} /> : <Component {...rest} />;
 };
 
-// This component will render a page only if the user is not logged in. If the user is logged in, it will redirect them to another page (like the main transactions page).
+// This component will render a page only if the user is not logged in. If the user is logged in, it will redirect them to another page.
