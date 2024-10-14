@@ -1,15 +1,16 @@
 import React from 'react';
 import { RightSideBar } from 'components/RightSideBar/RightSideBar';
+import CalculatorForm from 'components/CalculatorForm/CalculatorForm.jsx';
 
 export const CalculatorPage = () => {
   return (
     <>
       <div className="max-w-[1400px] mx-auto">
         <div className="flex xl:flex-row flex-col xl:pt-[160px] md:pt-[100px] pt-[32px] xl:px-[0px] md:px-[32px] px-[20px] min-h-full">
-          <div className="w-[65vw]">
-            <p>CalculatorPage</p>
+          <div className="md:w-[65vw] w-full">
+            <CalculatorForm />
           </div>
-          <div className="w-[30vw] hidden xl:block">
+          <div className="w-[35vw] hidden xl:block">
             <RightSideBar />
           </div>
         </div>

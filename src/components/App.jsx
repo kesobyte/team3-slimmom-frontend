@@ -1,6 +1,6 @@
 import { Header } from './Header/Header';
 import { Routes, Route } from 'react-router-dom';
-import { MainPage } from 'pages/MainPage';
+import { MainPage } from 'pages/MainPage/MainPage';
 import { LoginPage } from 'pages/LoginPage';
 import { RegistrationPage } from 'pages/RegistrationPage';
 import { VerificationPage } from 'pages/VerificationPage';

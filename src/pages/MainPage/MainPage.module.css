@@ -1,0 +1,406 @@
+.pageContainer{
+  padding-top: 32px;
+  padding-left:20px;
+  padding-right:20px;
+}
+
+
+.formWrapper{
+    
+}
+
+  .form {
+    font-family: Verdana;
+    text-align: center;
+  }
+
+  .formTitle{
+    font-size: 18px;
+    line-height: calc(25.2/18);
+    display: block;
+    margin-bottom: 34px;
+    font-weight: 700;
+    text-align: start;
+  }
+
+  .formTitleSection{
+    display: block;
+  }
+
+  .formInputs{
+  width: 240px;
+  font-weight: 700;
+  margin-bottom: 40px;
+  }
+
+  .label {
+  display: flex;
+  flex-direction: column;
+  text-align: start;
+  border-bottom: 1px solid #E0E0E0;
+  position: relative;
+  margin-bottom:32px;
+}
+
+
+.labelText{
+position: absolute; 
+top: 0;
+left: 0;   
+color: #9B9FAA;
+font-size: 14px;
+line-height: calc(17.01/14);
+letter-spacing: 0.04em;
+}
+
+.labelTextSmall{
+  font-size: 11px;
+}
+
+.input{
+  height: 24px;
+padding-left: 5px;
+
+}
+
+.radioWrapper{
+
+font-weight: 700; 
+text-align: start;
+}
+
+.radioTitleLabel{
+    color: #9B9FAA;
+    margin-bottom: 8px;
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    line-height: calc(17.01 / 14);
+}
+
+.radioOptions{
+  display: flex;  
+  /*gap:24px;*/
+  gap:5px;
+  border-top: 1px solid #E0E0E0;
+  padding-top: 9px;
+}
+
+.radioOptionsWrapper{
+    display: flex;
+    gap:8px;
+    font-weight: 400;
+    line-height: calc(17.01/14);
+    font-size: 14px;
+    letter-spacing: 0.04em;
+    color: #9B9FAA;
+
+}
+
+.radioInput{
+opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+  display: none;
+}
+
+.radioLabelWrapper{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.radioCircle{
+    height: 20px;
+    width:20px;
+    border: 1px solid #E0E0E0;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+}
+
+.radioSelector{
+    height: 10px;
+    width:10px;
+    border-radius: 50%;
+     display: block;
+}
+
+.radioLabelText{
+margin-left: 8px;
+}
+
+.radioArea:checked + .radioLabelWrapper > .radioCircle > .radioSelector {
+  background-color: #FC842D;
+  
+}
+
+.radioArea:checked + .radioLabelWrapper  {
+  color: #FC842D;
+  font-weight: 700;
+}
+
+.button{
+    background-color: #FC842D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(17.01/14);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
+    letter-spacing: 0.04em;
+    margin-bottom: 100px;
+}
+
+@media screen and (min-width: 768px) {
+
+  .pageContainer{
+  padding-top: 100px;
+  padding-left:32px;
+  padding-right:32px;
+}
+
+ .form {
+    text-align: start;
+  }
+
+   .formTitle{
+    font-size: 34px;
+    line-height: calc(47.6/34);
+    margin-bottom: 68px;
+  }
+
+  .formInputs{
+  width: 512px;
+  display: flex;
+  justify-content: center;
+  margin-bottom: 60px;
+  gap:32px;
+  }
+
+  .formSection{
+    width: 240px;
+  }
+
+    .label {    
+  margin-bottom:40px;
+}
+
+.input {
+  height: 36px;
+  
+}
+
+.radioTitleLabel {
+  height: 36px;
+  margin-bottom: 0px;
+}
+
+.button{
+  margin-bottom: 398px;
+  /*margin-right: 75px;*/
+}
+}
+
+@media screen and (min-width: 1280px) {
+
+  .button{
+   margin-left:336px;
+  }
+
+}
+
+/* Modal */
+
+.overlayWrapper{
+  position: relative;
+}
+
+.overlay{
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color:#EFF1F3;
+  z-index: 3;
+}
+
+.overlayBack{
+  width: 100%;
+  position: absolute;
+  top:0;
+  padding-left: 20px;
+  padding-top: 17px;
+  padding-bottom: 16px;
+}
+
+.overlayClose{
+  display: none;
+}
+
+.modal{
+  position: absolute;
+  top:40px;
+  left: 0;
+  padding-top: 40px;
+  padding-left: 20px;
+  padding-right: 20px;
+  font-family: Verdana;
+  font-weight: 700;
+  text-align: center;
+  z-index: 5;
+  background-color:#fff;
+}
+
+.modalTitle{
+font-size: 18px;
+line-height: calc(25.2/18);
+margin-bottom: 42px;
+text-align: start;
+}
+
+.modalValueWrapper{
+  color:#264061;
+  padding-bottom: 32px;
+  text-align: center;
+}
+
+.foodsWrapper{
+border-top: 1px solid #E0E0E0;
+padding-top: 20px;
+}
+
+.modalValue{
+font-size: 48px;
+line-height: calc(58.34/48);
+letter-spacing: 0.04em;
+}
+
+.modalValueUnit{
+font-size: 26px;
+line-height: calc(31.6/26);
+letter-spacing: 0.04em;
+}
+
+.modalHeading{
+font-size: 14px;
+line-height: calc(17.01/14);
+letter-spacing: 0.04em;
+margin-bottom: 20px;
+text-align: start;
+}
+
+.modalList{
+font-size: 14px;
+font-weight: 400;
+line-height: 17.01px;
+letter-spacing: 0.04em;
+color: #9B9FAA;
+text-align: start;
+display: flex;
+flex-direction: column;
+gap:14.65px;
+margin-bottom: 40px;
+height: 112px;
+overflow-y: auto;
+}
+
+.modalSubmit{
+   background-color: #FC842D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(17.01/14);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
+    letter-spacing: 0.04em;
+    margin-bottom: 119px;
+}
+
+@media screen and (min-width: 768px) {
+
+  .overlay{
+    background-color: #2121211F;
+    position: fixed;
+    z-index: 51;
+  }
+
+.overlayBack{
+  display: none;
+}  
+
+.overlayClose{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 20px;
+  height: 20px;
+  position: absolute;
+  top:19px;
+  right:20px;
+  
+}
+
+.modal{
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
+  padding-top: 64px;
+  padding-left: 82px;
+  padding-right: 82px;
+  
+}
+
+.modalContainer{
+width: 508px;
+display: flex;
+flex-direction: column;
+align-items: center;
+}
+
+.modalTitle{
+font-size: 26px;
+line-height: calc(36.4/26);
+margin-bottom: 20px;
+text-align: center;
+}
+
+.modalValueWrapper{
+  
+  
+}
+
+.foodsWrapper{
+width: 330px;
+border-top: 1px solid #E0E0E0;
+padding-top: 12px;
+}
+
+.modalSubmit{
+   background-color: #FC842D;
+    color: #fff;
+    font-weight: 700;
+    font-size: 14px;
+    line-height: calc(17.01/14);
+    padding-left: 25px;
+    padding-right: 25px;
+    padding-top: 13px;
+    padding-bottom: 13px;
+    border-radius: 30px;
+    box-shadow: 0px 4px 10px 0px rgba(252, 132, 45, 0.5);
+    letter-spacing: 0.04em;
+  margin-bottom: 80px;
+}
+
+
+}
