@@ -72,11 +72,10 @@ const [cWeight, setCWeight] = useState('');
       <div className={css.overlayWrapper}>
         {isModalOpen === true && (
           <div className={css.overlay}>
-            
-              <button className={css.overlayBack} onClick={handleModalClose}>
-                <img src={backArrow} width="12px" height="7px" />
-              </button>
-            
+            <button className={css.overlayBack} onClick={handleModalClose}>
+              <img src={backArrow} width="12px" height="7px" />
+            </button>
+
             <div className={css.modal}>
               <button className={css.overlayClose} onClick={handleModalClose}>
                 <svg width="11.67px" height="11.67px" className={css.modalIcon}>
@@ -143,7 +142,11 @@ const [cWeight, setCWeight] = useState('');
                     />
                   </label>
                   <label className={css.label}>
-                    {age === '' && <span className={css.labelText}>Age *</span>}
+                    {age === '' && (
+                      <span className={css.labelText}>
+                        Age<span className={css.labelTextSmall}>(years)</span> *
+                      </span>
+                    )}
                     <input
                       type="number"
                       name="age"
@@ -206,7 +209,7 @@ const [cWeight, setCWeight] = useState('');
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
-                          <span className={css.radioLabelText}>1</span>
+                          <span className={css.radioLabelText}>1(A)</span>
                         </label>
                       </div>
                       <div className={css.radioOptionsWrapper}>
@@ -221,7 +224,7 @@ const [cWeight, setCWeight] = useState('');
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
-                          <span className={css.radioLabelText}>2</span>
+                          <span className={css.radioLabelText}>2(B)</span>
                         </label>
                       </div>
                       <div className={css.radioOptionsWrapper}>
@@ -236,7 +239,7 @@ const [cWeight, setCWeight] = useState('');
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
-                          <span className={css.radioLabelText}>3</span>
+                          <span className={css.radioLabelText}>3(AB)</span>
                         </label>
                       </div>
                       <div className={css.radioOptionsWrapper}>
@@ -251,7 +254,7 @@ const [cWeight, setCWeight] = useState('');
                           <span className={css.radioCircle}>
                             <span className={css.radioSelector}></span>
                           </span>
-                          <span className={css.radioLabelText}>4</span>
+                          <span className={css.radioLabelText}>4(O)</span>
                         </label>
                       </div>
                     </div>
