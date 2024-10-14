@@ -28,6 +28,7 @@ const DiaryProductsList = () => {
     width: isMobile ? '100%' : '650px',
     maxHeight: '300px',
     marginTop: isMobile ? '10px' : '50px',
+    marginBottom: isMobile ? '0' : '50px',
     overflowY: 'auto',
     '&::-webkit-scrollbar': {
       width: '6px',
@@ -45,7 +46,7 @@ const DiaryProductsList = () => {
 
   if (isLoading) {
     return (
-      <div className="flex mt-[50px]">
+      <div className="flex mt-[50px] mb-[50px] justify-center xl:justify-normal">
         <Loader />
       </div>
     );
