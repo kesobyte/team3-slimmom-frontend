@@ -3,7 +3,7 @@ import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getToken } from '../auth/selectors';
 import { toast } from 'react-toastify';
 
-axios.defaults.baseURL = process.env.REACT_APP_LOCAL_API_URL;
+axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // Fetch Products by Blood Type
 export const fetchProductsByBloodType = createAsyncThunk(
