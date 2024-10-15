@@ -1,10 +1,7 @@
 .pageContainer {
   padding-top: 32px;
   padding-left: 20px;
-  padding-right: 20px;
-}
-
-.formWrapper {
+  padding-right: 20xp;
 }
 
 .form {
@@ -40,23 +37,29 @@
   margin-bottom: 32px;
 }
 
+.label:active,
+.label:hover {
+  border-bottom: 1px solid orange;
+}
+
 .labelText {
   position: absolute;
   top: 0;
   left: 0;
   color: #9b9faa;
   font-size: 14px;
-  line-height: calc(17.01 / 14);
+  line-height: calc(17.01 / 12);
   letter-spacing: 0.04em;
 }
 
 .labelTextSmall {
-  font-size: 11px;
+  font-size: 12px;
 }
 
 .input {
   height: 24px;
-  padding-left: 5px;
+
+  outline: none;
 }
 
 .radioWrapper {
@@ -150,6 +153,10 @@
   margin-bottom: 100px;
 }
 
+.button:hover {
+  background-color: #f7700f;
+}
+
 @media screen and (min-width: 768px) {
   .pageContainer {
     padding-top: 100px;
@@ -183,6 +190,10 @@
     margin-bottom: 40px;
   }
 
+  .labelText {
+    line-height: calc(17.01 / 7);
+  }
+
   .input {
     height: 36px;
   }
@@ -202,6 +213,11 @@
   .button {
     margin-left: 336px;
   }
+}
+
+.pageContainer {
+  padding-left: 0px;
+  padding-right: 0px;
 }
 
 /* Modal */

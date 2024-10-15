@@ -1,10 +1,11 @@
 import React from 'react';
 import css from './MainPage.module.css';
-import { useState , useEffect  } from 'react';
+import { useState, useEffect } from 'react';
 import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
 import products from './products.json';
+import { NavLink } from 'react-router-dom';
 
 export const MainPage = () => {
   const [bloodType, setBloodType] = useState('');
@@ -115,7 +116,11 @@ export const MainPage = () => {
                     ))}
                   </ul>
                 </div>
-                <button className={css.modalSubmit}>Start losing weight</button>
+                <NavLink to="/login">
+                  <button className={css.modalSubmit}>
+                    Start losing weight
+                  </button>
+                </NavLink>
               </div>
             </div>
           </div>
@@ -134,7 +139,8 @@ export const MainPage = () => {
                   <label className={css.label}>
                     {height === '' && (
                       <span className={css.labelText}>
-                        Height<span className={css.labelTextSmall}>(cm)</span> *
+                        Height<span className={css.labelTextSmall}> (cm)</span>{' '}
+                        *
                       </span>
                     )}
                     <input
@@ -150,7 +156,8 @@ export const MainPage = () => {
                   <label className={css.label}>
                     {age === '' && (
                       <span className={css.labelText}>
-                        Age<span className={css.labelTextSmall}>(years)</span> *
+                        Age<span className={css.labelTextSmall}> (years)</span>{' '}
+                        *
                       </span>
                     )}
                     <input
@@ -166,8 +173,8 @@ export const MainPage = () => {
                   <label className={css.label}>
                     {cWeight === '' && (
                       <span className={css.labelText}>
-                        Current weight
-                        <span className={css.labelTextSmall}>(kg)</span> *
+                        Current Weight
+                        <span className={css.labelTextSmall}> (kg)</span> *
                       </span>
                     )}
                     <input
@@ -185,8 +192,8 @@ export const MainPage = () => {
                   <label className={css.label}>
                     {dWeight === '' && (
                       <span className={css.labelText}>
-                        Desired weight
-                        <span className={css.labelTextSmall}>(kg)</span> *
+                        Desired Weight
+                        <span className={css.labelTextSmall}> (kg)</span> *
                       </span>
                     )}
                     <input
@@ -201,7 +208,7 @@ export const MainPage = () => {
                   </label>
 
                   <div className={css.radioWrapper}>
-                    <div className={css.radioTitleLabel}>Blood type *</div>
+                    <div className={css.radioTitleLabel}>Blood Type *</div>
                     <div className={css.radioOptions}>
                       <div className={css.radioOptionsWrapper}>
                         <input

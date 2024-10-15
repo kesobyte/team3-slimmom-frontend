@@ -170,7 +170,8 @@ export const CalculatorForm = () => {
                   <label className={css.label}>
                     {height === '' && (
                       <span className={css.labelText}>
-                        Height<span className={css.labelTextSmall}>(cm)</span> *
+                        Height<span className={css.labelTextSmall}> (cm)</span>{' '}
+                        *
                       </span>
                     )}
                     <input
@@ -186,7 +187,8 @@ export const CalculatorForm = () => {
                   <label className={css.label}>
                     {age === '' && (
                       <span className={css.labelText}>
-                        Age<span className={css.labelTextSmall}>(years)</span> *
+                        Age<span className={css.labelTextSmall}> (years)</span>{' '}
+                        *
                       </span>
                     )}
                     <input
@@ -202,8 +204,8 @@ export const CalculatorForm = () => {
                   <label className={css.label}>
                     {cWeight === '' && (
                       <span className={css.labelText}>
-                        Current weight
-                        <span className={css.labelTextSmall}>(kg)</span> *
+                        Current Weight
+                        <span className={css.labelTextSmall}> (kg)</span> *
                       </span>
                     )}
                     <input
@@ -221,8 +223,8 @@ export const CalculatorForm = () => {
                   <label className={css.label}>
                     {dWeight === '' && (
                       <span className={css.labelText}>
-                        Desired weight
-                        <span className={css.labelTextSmall}>(kg)</span> *
+                        Desired Weight
+                        <span className={css.labelTextSmall}> (kg)</span> *
                       </span>
                     )}
                     <input
@@ -237,7 +239,7 @@ export const CalculatorForm = () => {
                   </label>
 
                   <div className={css.radioWrapper}>
-                    <div className={css.radioTitleLabel}>Blood type *</div>
+                    <div className={css.radioTitleLabel}>Blood Type *</div>
                     <div className={css.radioOptions}>
                       <div className={css.radioOptionsWrapper}>
                         <input

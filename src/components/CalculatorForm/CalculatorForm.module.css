@@ -20,6 +20,7 @@
 
 .formTitleSection {
   display: block;
+  line-height: normal;
 }
 
 .formInputs {
@@ -37,13 +38,18 @@
   margin-bottom: 32px;
 }
 
+.label:active,
+.label:hover {
+  border-bottom: 1px solid orange;
+}
+
 .labelText {
   position: absolute;
   top: 0;
   left: 0;
   color: #9b9faa;
   font-size: 14px;
-  line-height: calc(17.01 / 14);
+  line-height: calc(17.01 / 12);
   letter-spacing: 0.04em;
 }
 
@@ -53,7 +59,7 @@
 
 .input {
   height: 24px;
-  padding-left: 5px;
+  outline: none;
 }
 
 .radioWrapper {
@@ -147,6 +153,10 @@
   margin-bottom: 50px;
 }
 
+.button:hover {
+  background-color: #f7700f;
+}
+
 @media screen and (min-width: 768px) {
   .pageContainer {
   }
@@ -175,6 +185,10 @@
 
   .label {
     margin-bottom: 40px;
+  }
+
+  .labelText {
+    line-height: calc(17.01 / 7);
   }
 
   .input {

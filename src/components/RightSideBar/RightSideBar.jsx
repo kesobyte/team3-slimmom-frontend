@@ -16,24 +16,26 @@ import {
 import { Loader } from 'components/Loader/Loader';
 
 export const RightSideBar = () => {
+  const selectedDate =
+    useSelector(state => state.diary.selectedDate) || 'No date available';
+  const userProfile = useSelector(getProfileUser);
+  const isLoading = useSelector(getProfileLoading);
+  const diaryEntries = useSelector(state => state.diary.diaryEntries) || [];
 
-    const selectedDate = useSelector(state => state.diary.selectedDate) || 'No date available';
-    const userProfile = useSelector(getProfileUser);
-    const isLoading = useSelector(getProfileLoading);
-    const diaryEntries = useSelector(state => state.diary.diaryEntries) || [];
-  
-    const dailyCalorieLimit = userProfile?.data?.dailyCalories || 0;
-  
-    const calculateTotalCalories = () => {
-      return diaryEntries.reduce((total, product) => {
-        return total + Number.parseInt(product.calories || 0);
-      }, 0);
-    };
-  
-    const totalCalories = calculateTotalCalories();
-    const leftCalories = dailyCalorieLimit - totalCalories;
-    const nOfNorm = dailyCalorieLimit ? (totalCalories / dailyCalorieLimit) * 100 : 0;
-    const notAllowedProducts = userProfile?.notRecommended || 0;
+  const dailyCalorieLimit = userProfile?.data?.dailyCalories || 0;
+
+  const calculateTotalCalories = () => {
+    return diaryEntries.reduce((total, product) => {
+      return total + Number.parseInt(product.calories || 0);
+    }, 0);
+  };
+
+  const totalCalories = calculateTotalCalories();
+  const leftCalories = dailyCalorieLimit - totalCalories;
+  const nOfNorm = dailyCalorieLimit
+    ? (totalCalories / dailyCalorieLimit) * 100
+    : 0;
+  const notAllowedProducts = userProfile?.notRecommended || 0;
 
   return (
     <div>
@@ -46,7 +48,8 @@ export const RightSideBar = () => {
           <>
             <SummaryWrap>
               <Title>
-                Summary for {moment(selectedDate, 'YYYY-MM-DD').format('DD.MM.YYYY')}
+                Summary for{' '}
+                {moment(selectedDate, 'YYYY-MM-DD').format('DD.MM.YYYY')}
               </Title>
               <ul>
                 <Item>
@@ -63,9 +66,7 @@ export const RightSideBar = () => {
                 </Item>
                 <Item>
                   <Text>Daily rate</Text>
-                  <Text>
-                    {userProfile ? dailyCalorieLimit : '000'} kcal
-                  </Text>
+                  <Text>{userProfile ? dailyCalorieLimit : '000'} kcal</Text>
                 </Item>
                 <Item>
                   <Text>n% of normal</Text>
@@ -80,10 +81,11 @@ export const RightSideBar = () => {
             <FoodWrap>
               <Title>Food not recommended</Title>
               {notAllowedProducts.length > 0 ? (
-                <ul>
+                <ul className="flex flex-col gap-[10px]">
                   {notAllowedProducts.map((prod, index) => (
                     <Text key={index}>
-                      {index + 1}. {prod}
+                      {index + 1}.{' '}
+                      {prod.charAt(0).toUpperCase() + prod.slice(1)}
                     </Text>
                   ))}
                 </ul>

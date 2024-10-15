@@ -1,6 +1,7 @@
 import React from 'react';
 import { RightSideBar } from 'components/RightSideBar/RightSideBar';
 import CalculatorForm from 'components/CalculatorForm/CalculatorForm.jsx';
+import image from '../images/leave-tab.png';
 
 export const CalculatorPage = () => {
   return (
@@ -16,7 +17,14 @@ export const CalculatorPage = () => {
         </div>
       </div>
       {/* Tablet / Mobile */}
-      <div className="w-full xl:hidden bg-[#f0f1f3]">
+      <div
+        className="w-full xl:hidden bg-[#f0f1f3]"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundSize: 'cover',
+          backgroundPosition: 'center',
+        }}
+      >
         <RightSideBar />
       </div>
     </>

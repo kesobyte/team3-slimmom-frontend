@@ -50,21 +50,21 @@ export const RegistrationForm = () => {
       <form onSubmit={handleSubmit} className="mt-[60px]">
         <div className="flex flex-col gap-[40px] text-[14px] font-bold placeholder:text-textgray tracking-[0.56px] w-full md:max-w-[300px]">
           <input
-            className="border-b-[1px] outline-0 pb-[20px]"
+            className="border-b-[1px] focus:border-orange outline-0 pb-[20px]"
             type="text"
             value={name}
             onChange={e => setName(e.target.value)}
             placeholder="Name *"
           />
           <input
-            className="border-b-[1px] outline-0 pb-[20px]"
+            className="border-b-[1px] focus:border-orange outline-0 pb-[20px]"
             type="email"
             value={email}
             onChange={e => setEmail(e.target.value)}
             placeholder="Email *"
           />
           <input
-            className="border-b-[1px] outline-0 pb-[20px]"
+            className="border-b-[1px] focus:border-orange outline-0 pb-[20px]"
             type="password"
             value={password}
             onChange={e => setPassword(e.target.value)}
