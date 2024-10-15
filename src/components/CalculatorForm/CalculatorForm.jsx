@@ -157,7 +157,7 @@ export const CalculatorForm = () => {
                     </ul>
                   )}
                 </div>
-                <button className={css.modalSubmit}>Start losing weight</button>
+                <button className={css.modalSubmit} onClick={handleModalClose}>Start losing weight</button>
               </div>
             </div>
           </div>
