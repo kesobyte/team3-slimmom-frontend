@@ -50,7 +50,7 @@ export const addToDiary = createAsyncThunk(
 );
 
 export const fetchDiaryEntries = createAsyncThunk(
-  'products/fetchDiaryEntries',
+  'diary/fetchDiaryEntries',
   async (date, { getState, rejectWithValue }) => {
     const token = getToken(getState());
 
@@ -75,7 +75,7 @@ export const fetchDiaryEntries = createAsyncThunk(
 );
 
 export const deleteDiaryEntry = createAsyncThunk(
-  'products/deleteDiaryEntry',
+  'diary/deleteDiaryEntry',
   async (id, { getState, rejectWithValue }) => {
     const token = getToken(getState());
 
