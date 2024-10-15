@@ -12,25 +12,44 @@ import { useAuth } from 'hooks/useAuth';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshUser } from '../redux/auth/authOperations';
+import { refreshUser, logout } from '../redux/auth/authOperations';
 import { fetchProfile } from '../redux/profile/profileOperations';
-// import { getProfileUser } from '../redux/profile/selectors';
 import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
 import { Loader } from './Loader/Loader';
+import { jwtDecode } from 'jwt-decode';
 
 export const App = () => {
   const { isLoggedIn, isRefreshing } = useAuth();
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
-  // const diaryEntries = useSelector(state => state.diary.diaryEntries);
   const selectedDate = useSelector(state => state.diary.selectedDate);
-  // const profileData = useSelector(getProfileUser);
-
-  // useEffect(() => {
-  //   console.log('Profile Data:', profileData);
-  // }, [profileData]);
 
   useEffect(() => {
+    // Check for a valid token on app load
+    const checkTokenValidity = () => {
+      const token = localStorage.getItem('persist:auth');
+      if (token) {
+        try {
+          const decodedToken = jwtDecode(JSON.parse(token).token);
+          const currentTime = Date.now() / 1000; // Convert to seconds
+
+          // Check if token has expired
+          if (decodedToken.exp < currentTime) {
+            // Token is expired, force logout
+            dispatch(logout());
+            localStorage.removeItem('persist:auth'); // Clear local storage
+          }
+        } catch (error) {
+          // Invalid token, force logout
+          console.error('Invalid token:', error);
+          dispatch(logout());
+          localStorage.removeItem('persist:auth');
+        }
+      }
+    };
+
+    checkTokenValidity();
+
     if (isLoggedIn) {
       dispatch(fetchProfile());
       dispatch(fetchDiaryEntries(selectedDate));
