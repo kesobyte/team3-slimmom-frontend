@@ -7,7 +7,7 @@ import svg from './icons.svg';
 import { useEffect } from 'react';
 //import products from './products.json';
 import {fetchProductsByBloodTypePrivate} from '../../redux/product/productOperation';
-import {updateUserProfile} from '../../redux/user/userOperations';
+import {updateUserProfile,getUserProfile} from '../../redux/user/userOperations';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getProductsbyBlood,
@@ -16,6 +16,7 @@ import {
 import { CircularProgress } from '@mui/material';
 
 export const CalculatorForm = () => {
+  
   const dispatch = useDispatch();
   const notAllowedFoods = useSelector(getProductsbyBlood);
   const isLoading = useSelector(getProductLoading);
@@ -31,6 +32,7 @@ export const CalculatorForm = () => {
   //const [badFoods, setBadFoods] = useState([]);
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
+
 
   const handleBloodTypeChange = event => {
     setBloodType(event.target.value);
@@ -69,6 +71,7 @@ export const CalculatorForm = () => {
         dailyCalories,
       })
     );
+    dispatch(getUserProfile());
     setModalOpen(true);
 
     /*const notRecommended = productList.filter(

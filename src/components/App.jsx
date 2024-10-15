@@ -15,6 +15,7 @@ import { useDispatch } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
 import { logout } from '../redux/auth/authOperations';
 import { useIdleTimer } from 'react-idle-timer';
+import { getUserProfile } from '../redux/user/userOperations';
 
 export const App = () => {
   const { isLoggedIn } = useAuth();
@@ -23,6 +24,13 @@ export const App = () => {
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(refreshUser());
+    }
+    
+  }, [dispatch, isLoggedIn]);
+
+  useEffect(() => {
+    if (isLoggedIn) {
+      dispatch(getUserProfile());
     }
   }, [dispatch, isLoggedIn]);
 
