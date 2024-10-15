@@ -13,6 +13,7 @@ import {
   REGISTER,
 } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
+import { userReducer } from './user/userSlice';
 
 const authPersistConfig = {
   key: 'auth',
@@ -27,6 +28,7 @@ export const store = configureStore({
     auth: persistedReducer,
     diary: diaryReducer,
     product: productReducer,
+    user:userReducer
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({

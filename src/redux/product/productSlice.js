@@ -1,8 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import {
-  fetchProductsByBloodType,
+  fetchProductsByBloodTypePrivate,
   searchProducts,
-  fetchProductsByBloodTypeOpen,
+  fetchProductsByBloodTypePublic,
 } from './productOperation';
 
 const initialState = {
@@ -19,28 +19,28 @@ const productSlice = createSlice({
   reducers: {},
   extraReducers: builder => {
     builder
-      .addCase(fetchProductsByBloodType.pending, state => {
+      .addCase(fetchProductsByBloodTypePrivate.pending, state => {
         state.isLoading = true;
       })
-      .addCase(fetchProductsByBloodType.fulfilled, (state, action) => {
+      .addCase(fetchProductsByBloodTypePrivate.fulfilled, (state, action) => {
         state.productsList = action.payload;
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(fetchProductsByBloodType.rejected, (state, action) => {
+      .addCase(fetchProductsByBloodTypePrivate.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })
 
-      .addCase(fetchProductsByBloodTypeOpen.pending, state => {
+      .addCase(fetchProductsByBloodTypePublic.pending, state => {
         state.isLoading = true;
       })
-      .addCase(fetchProductsByBloodTypeOpen.fulfilled, (state, action) => {
+      .addCase(fetchProductsByBloodTypePublic.fulfilled, (state, action) => {
         state.productsList = action.payload;
         state.isLoading = false;
         state.error = null;
       })
-      .addCase(fetchProductsByBloodTypeOpen.rejected, (state, action) => {
+      .addCase(fetchProductsByBloodTypePublic.rejected, (state, action) => {
         state.isLoading = false;
         state.error = action.payload;
       })

@@ -6,7 +6,8 @@ import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
 import { useEffect } from 'react';
 //import products from './products.json';
-import { fetchProductsByBloodTypeOpen } from '../../redux/product/productOperation';
+import {fetchProductsByBloodTypePrivate} from '../../redux/product/productOperation';
+import {updateUserProfile} from '../../redux/user/userOperations';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getProductsbyBlood,
@@ -53,11 +54,21 @@ export const CalculatorForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
-    const dailyCalorieIntake = Math.ceil(
+    const dailyCalories = Math.ceil(
       10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
     );
-    setResult(dailyCalorieIntake);
-    dispatch(fetchProductsByBloodTypeOpen(bloodType));
+    setResult(dailyCalories);
+    dispatch(fetchProductsByBloodTypePrivate(bloodType));
+    dispatch(
+      updateUserProfile({
+        height,
+        dWeight,
+        age,
+        bloodType,
+        cWeight,
+        dailyCalories,
+      })
+    );
     setModalOpen(true);
 
     /*const notRecommended = productList.filter(

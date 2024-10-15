@@ -5,8 +5,8 @@ import { getToken } from '../auth/selectors';
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // Fetch Products by Blood Type
-export const fetchProductsByBloodType = createAsyncThunk(
-  'product/fetchByBloodType',
+export const fetchProductsByBloodTypePrivate = createAsyncThunk(
+  'product/fetchByBloodTypePrivate',
   async (bloodType, thunkAPI) => {
     const token = getToken(thunkAPI.getState());
     if (!token) return thunkAPI.rejectWithValue('No token found');
@@ -16,7 +16,7 @@ export const fetchProductsByBloodType = createAsyncThunk(
         headers: { Authorization: `Bearer ${token}` },
       });
       console.log(response.data);
-      return response.data;
+      return response.data.data;
     } catch (error) {
       const status = error.response?.status;
       const message = error.response?.data?.message || error.message;
@@ -25,8 +25,8 @@ export const fetchProductsByBloodType = createAsyncThunk(
   }
 );
 
-export const fetchProductsByBloodTypeOpen = createAsyncThunk(
-  'product/fetchByBloodTypeOpen',
+export const fetchProductsByBloodTypePublic = createAsyncThunk(
+  'product/fetchByBloodTypePublic',
   async (bloodType, thunkAPI) => {
 
     try {
@@ -39,6 +39,7 @@ export const fetchProductsByBloodTypeOpen = createAsyncThunk(
     }
   }
 );
+
 
 
 // Search Products by Title

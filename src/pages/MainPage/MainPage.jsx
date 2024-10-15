@@ -7,7 +7,7 @@ import {CircularProgress} from '@mui/material';
 import svg from './icons.svg';
 import { useEffect } from 'react';
 //import products from './products.json';
-import { fetchProductsByBloodTypeOpen } from '../../redux/product/productOperation';
+import { fetchProductsByBloodTypePublic } from '../../redux/product/productOperation';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   getProductsbyBlood,
@@ -58,7 +58,7 @@ export const MainPage = () => {
       10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
     );
     setResult(dailyCalorieIntake);
-    dispatch(fetchProductsByBloodTypeOpen(bloodType));
+    dispatch(fetchProductsByBloodTypePublic(bloodType));
     
     setModalOpen(true);
 
