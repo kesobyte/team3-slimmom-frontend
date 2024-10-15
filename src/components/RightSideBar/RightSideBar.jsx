@@ -16,22 +16,24 @@ import {
 import { Loader } from 'components/Loader/Loader';
 
 export const RightSideBar = () => {
-  const date =
-    useSelector(state => state.diary.selectedDate) || 'No date available';
-  const dailyRate = useSelector(getProfileUser);
-  const isLoading = useSelector(getProfileLoading);
 
-  const notAllowedProducts = 0;
-  const diaryEntries = useSelector(state => state.diary.diaryEntries) || [];
-  const totalCalories = diaryEntries
-    .map(product => product.calories)
-    .reduce((prev, product) => {
-      return Number.parseInt(prev) + Number.parseInt(product);
-    }, 0);
-  const leftCalories = dailyRate?.data?.dailyCalories - totalCalories;
-  const nOfNorm = dailyRate?.data?.dailyCalories
-    ? (totalCalories / dailyRate?.data?.dailyCalories) * 100
-    : 0;
+    const selectedDate = useSelector(state => state.diary.selectedDate) || 'No date available';
+    const userProfile = useSelector(getProfileUser);
+    const isLoading = useSelector(getProfileLoading);
+    const diaryEntries = useSelector(state => state.diary.diaryEntries) || [];
+  
+    const dailyCalorieLimit = userProfile?.data?.dailyCalories || 0;
+  
+    const calculateTotalCalories = () => {
+      return diaryEntries.reduce((total, product) => {
+        return total + Number.parseInt(product.calories || 0);
+      }, 0);
+    };
+  
+    const totalCalories = calculateTotalCalories();
+    const leftCalories = dailyCalorieLimit - totalCalories;
+    const nOfNorm = dailyCalorieLimit ? (totalCalories / dailyCalorieLimit) * 100 : 0;
+    const notAllowedProducts = userProfile?.notRecommended || 0;
 
   return (
     <div>
@@ -44,7 +46,7 @@ export const RightSideBar = () => {
           <>
             <SummaryWrap>
               <Title>
-                Summary for {moment(date, 'YYYY-MM-DD').format('DD.MM.YYYY')}
+                Summary for {moment(selectedDate, 'YYYY-MM-DD').format('DD.MM.YYYY')}
               </Title>
               <ul>
                 <Item>
@@ -62,7 +64,7 @@ export const RightSideBar = () => {
                 <Item>
                   <Text>Daily rate</Text>
                   <Text>
-                    {dailyRate ? dailyRate?.data?.dailyCalories : '000'} kcal
+                    {userProfile ? dailyCalorieLimit : '000'} kcal
                   </Text>
                 </Item>
                 <Item>
