@@ -15,6 +15,7 @@ const profileSlice = createSlice({
     builder
       .addCase(fetchProfile.pending, state => {
         state.isLoading = true;
+        state.profile = null;
       })
       .addCase(fetchProfile.fulfilled, (state, { payload }) => {
         state.profile = payload;
@@ -24,6 +25,7 @@ const profileSlice = createSlice({
       .addCase(fetchProfile.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.error = payload;
+        state.profile = null;
       })
       .addCase(updateProfile.pending, state => {
         state.isLoading = true;

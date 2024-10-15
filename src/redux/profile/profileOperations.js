@@ -1,6 +1,7 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { getToken } from '../auth/selectors';
+import { toast } from 'react-toastify';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
@@ -59,10 +60,12 @@ export const fetchProfile = createAsyncThunk(
 
       return response.data;
     } catch (error) {
-      const status = error?.response?.status || 500;
-      const message =
-        error?.response?.data?.message || 'An unexpected error occurred.';
-      return thunkAPI.rejectWithValue({ status, message });
+      const status = error.response?.status;
+      // const message = error.response?.data?.message || error.message;
+
+      if (status === 404) {
+        toast.error('Please calculate your daily calorie intake.');
+      }
     }
   }
 );

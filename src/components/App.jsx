@@ -84,7 +84,7 @@ export const App = () => {
           <Route
             path="/login"
             element={
-              <RestrictedRoute component={LoginPage} redirectTo="/diary" />
+              <RestrictedRoute component={LoginPage} redirectTo="/calculator" />
             }
           />
           <Route
@@ -92,7 +92,7 @@ export const App = () => {
             element={
               <RestrictedRoute
                 component={RegistrationPage}
-                redirectTo="/diary"
+                redirectTo="/calculator"
               />
             }
           />
@@ -101,7 +101,7 @@ export const App = () => {
             element={
               <RestrictedRoute
                 component={VerificationPage}
-                redirectTo="/diary"
+                redirectTo="/calculator"
               />
             }
           />

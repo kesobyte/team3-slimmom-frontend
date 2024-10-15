@@ -34,60 +34,62 @@ export const RightSideBar = () => {
     : 0;
 
   return (
-    <Wrapper>
-      {isLoading ? (
-        <Loader />
-      ) : (
-        <>
-          <SummaryWrap>
-            <Title>
-              Summary for {moment(date, 'YYYY-MM-DD').format('DD.MM.YYYY')}
-            </Title>
-            <ul>
-              <Item>
-                <Text>Left</Text>
-                {leftCalories < 0 ? (
-                  <RedText>{leftCalories} kcal</RedText>
-                ) : (
-                  <Text>{leftCalories ? leftCalories : '000'} kcal</Text>
-                )}
-              </Item>
-              <Item>
-                <Text>Consumed{}</Text>
-                <Text>{totalCalories ? totalCalories : '000'} kcal</Text>
-              </Item>
-              <Item>
-                <Text>Daily rate</Text>
-                <Text>
-                  {dailyRate ? dailyRate?.data?.dailyCalories : '000'} kcal
-                </Text>
-              </Item>
-              <Item>
-                <Text>n% of normal</Text>
-                {nOfNorm > 100 ? (
-                  <RedText>{nOfNorm ? Math.round(nOfNorm) : '0'} %</RedText>
-                ) : (
-                  <Text>{nOfNorm ? Math.round(nOfNorm) : '0'} %</Text>
-                )}
-              </Item>
-            </ul>
-          </SummaryWrap>
-          <FoodWrap>
-            <Title>Food not recommended</Title>
-            {notAllowedProducts.length > 0 ? (
+    <div className="flex justify-center">
+      <Wrapper>
+        {isLoading ? (
+          <Loader />
+        ) : (
+          <>
+            <SummaryWrap>
+              <Title>
+                Summary for {moment(date, 'YYYY-MM-DD').format('DD.MM.YYYY')}
+              </Title>
               <ul>
-                {notAllowedProducts.map((prod, index) => (
-                  <Text key={index}>
-                    {index + 1}. {prod}
+                <Item>
+                  <Text>Left</Text>
+                  {leftCalories < 0 ? (
+                    <RedText>{leftCalories} kcal</RedText>
+                  ) : (
+                    <Text>{leftCalories ? leftCalories : '000'} kcal</Text>
+                  )}
+                </Item>
+                <Item>
+                  <Text>Consumed{}</Text>
+                  <Text>{totalCalories ? totalCalories : '000'} kcal</Text>
+                </Item>
+                <Item>
+                  <Text>Daily rate</Text>
+                  <Text>
+                    {dailyRate ? dailyRate?.data?.dailyCalories : '000'} kcal
                   </Text>
-                ))}
+                </Item>
+                <Item>
+                  <Text>n% of normal</Text>
+                  {nOfNorm > 100 ? (
+                    <RedText>{nOfNorm ? Math.round(nOfNorm) : '0'} %</RedText>
+                  ) : (
+                    <Text>{nOfNorm ? Math.round(nOfNorm) : '0'} %</Text>
+                  )}
+                </Item>
               </ul>
-            ) : (
-              <Text>Your diet will be displayed here</Text>
-            )}
-          </FoodWrap>
-        </>
-      )}
-    </Wrapper>
+            </SummaryWrap>
+            <FoodWrap>
+              <Title>Food not recommended</Title>
+              {notAllowedProducts.length > 0 ? (
+                <ul>
+                  {notAllowedProducts.map((prod, index) => (
+                    <Text key={index}>
+                      {index + 1}. {prod}
+                    </Text>
+                  ))}
+                </ul>
+              ) : (
+                <Text>Your diet will be displayed here</Text>
+              )}
+            </FoodWrap>
+          </>
+        )}
+      </Wrapper>
+    </div>
   );
 };
