@@ -6,23 +6,37 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // Update Profile
 export const updateProfile = createAsyncThunk(
-  'profile/updateProfile',
-  async (profileData, thunkAPI) => {
-    const token = getToken(thunkAPI.getState());
+  'user/updateProfile',
+  async (
+    { height, dWeight, age, bloodType, cWeight, dailyCalories },
+    { getState, rejectWithValue }
+  ) => {
+    const token = getToken(getState());
     if (!token) {
-      return thunkAPI.rejectWithValue('No token found');
+      return rejectWithValue('No token found');
     }
 
     try {
-      const response = await axios.put('/profile/update', profileData, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      return response.data;
+      const response = await axios.put(
+        '/profile/update',
+        {
+          height,
+          dWeight,
+          age,
+          bloodType,
+          cWeight,
+          dailyCalories,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      console.log(response.data);
+      return response.data.data;
     } catch (error) {
-      const status = error?.response?.status || 500;
-      const message =
-        error?.response?.data?.message || 'An unexpected error occurred.';
-      return thunkAPI.rejectWithValue({ status, message });
+      return rejectWithValue(error.response.data);
     }
   }
 );
@@ -38,10 +52,10 @@ export const fetchProfile = createAsyncThunk(
 
     try {
       const response = await axios.get('/profile/fetch', {
-        headers: { Authorization: `Bearer ${token}` },
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
       });
-
-      console.log(response.data?.data?.dailyCalories);
 
       return response.data;
     } catch (error) {

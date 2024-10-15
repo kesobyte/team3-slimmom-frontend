@@ -6,8 +6,11 @@ import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
 import { useEffect } from 'react';
 import products from './products.json';
+import { useDispatch } from 'react-redux';
+import { updateProfile } from '../../redux/profile/profileOperations';
 
 export const CalculatorForm = () => {
+  const dispatch = useDispatch();
   const [bloodType, setBloodType] = useState('');
   const [height, setHeight] = useState('');
   const [age, setAge] = useState('');
@@ -42,11 +45,33 @@ export const CalculatorForm = () => {
 
   const handleSubmit = event => {
     event.preventDefault();
+
     const dailyCalorieIntake = Math.ceil(
       10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
     );
+
     setResult(dailyCalorieIntake);
     setModalOpen(true);
+
+    // Prepare the object to be sent to the updateProfile action
+    const profileData = {
+      height: Number(height),
+      dWeight: Number(dWeight),
+      age: Number(age),
+      bloodType: Number(bloodType),
+      cWeight: Number(cWeight),
+      dailyCalories: dailyCalorieIntake,
+    };
+
+    // Dispatch the updateProfile action
+    dispatch(updateProfile(profileData))
+      .unwrap()
+      .then(() => {
+        console.log('Profile updated successfully.');
+      })
+      .catch(error => {
+        console.error('Failed to update profile:', error);
+      });
 
     const notRecommended = productList.filter(
       aProduct => aProduct.groupBloodNotAllowed[Number(bloodType)] === true

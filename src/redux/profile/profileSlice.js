@@ -2,7 +2,7 @@ import { createSlice } from '@reduxjs/toolkit';
 import { updateProfile, fetchProfile } from './profileOperations';
 
 const initialState = {
-  user: null,
+  profile: null,
   isLoading: false,
   error: null,
 };
@@ -17,7 +17,7 @@ const profileSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchProfile.fulfilled, (state, { payload }) => {
-        state.user = payload.data;
+        state.profile = payload;
         state.isLoading = false;
         state.error = null;
       })
@@ -29,7 +29,7 @@ const profileSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(updateProfile.fulfilled, (state, { payload }) => {
-        state.user = payload.data;
+        state.profile = payload;
         state.isLoading = false;
         state.error = null;
       })

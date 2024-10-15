@@ -15,10 +15,10 @@ const DiaryProductsList = () => {
   const error = useSelector(state => state.diary.error);
   const theme = useTheme();
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
+
   useEffect(() => {
     dispatch(fetchDiaryEntries(selectedDate));
   }, [dispatch, selectedDate]);
-
 
   const StyledList = styled(List)({
     width: isMobile ? '100%' : '650px',
@@ -63,10 +63,7 @@ const DiaryProductsList = () => {
   return (
     <StyledList>
       {diaryEntries.map(product => (
-        <DiaryProductsListItem
-          key={product._id}
-          product={product}
-        />
+        <DiaryProductsListItem key={product._id} product={product} />
       ))}
     </StyledList>
   );

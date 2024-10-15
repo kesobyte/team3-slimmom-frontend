@@ -11,20 +11,30 @@ import { ProtectedRoute } from './ProtectedRoute/ProtectedRoute';
 import { useAuth } from 'hooks/useAuth';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import { useEffect, useRef } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
 import { logout } from '../redux/auth/authOperations';
 import { useIdleTimer } from 'react-idle-timer';
 import { fetchProfile } from '../redux/profile/profileOperations';
+// import { getProfileUser } from '../redux/profile/selectors';
+import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
 
 export const App = () => {
   const { isLoggedIn } = useAuth();
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
+  // const diaryEntries = useSelector(state => state.diary.diaryEntries);
+  const selectedDate = useSelector(state => state.diary.selectedDate);
+  // const profileData = useSelector(getProfileUser);
+
+  // useEffect(() => {
+  //   console.log('Profile Data:', profileData);
+  // }, [profileData]);
 
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchProfile());
+      dispatch(fetchDiaryEntries(selectedDate));
 
       // Set interval to refresh user every 30 minutes if user is active
       refreshInterval.current = setInterval(() => {
@@ -43,7 +53,7 @@ export const App = () => {
         clearInterval(refreshInterval.current);
       }
     }
-  }, [dispatch, isLoggedIn]);
+  }, [dispatch, isLoggedIn, selectedDate]);
 
   useIdleTimer({
     timeout: 60 * 60 * 1000, // 1 Hour
