@@ -5,13 +5,20 @@ import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
 import { useEffect } from 'react';
-import products from './products.json';
-import { useDispatch } from 'react-redux';
+import { Loader } from 'components/Loader/Loader';
+import { useDispatch , useSelector } from 'react-redux';
 import {
   updateProfile,
   fetchProfile,
 } from '../../redux/profile/profileOperations';
+import {
+  fetchProductsByBloodType
+} from '../../redux/product/productOperation';
 import { NavLink } from 'react-router-dom';
+import {
+  getProductNotRecommended,
+  getProductLoading
+} from '../../redux/product/selector';
 
 export const CalculatorForm = () => {
   const dispatch = useDispatch();
@@ -22,13 +29,14 @@ export const CalculatorForm = () => {
   const [dWeight, setDWeight] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
   const [result, setResult] = useState();
-  const [productList, setProductList] = useState([]);
-  const [badFoods, setBadFoods] = useState([]);
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
+  const notRecommendedProducts = useSelector(getProductNotRecommended);
+  const isLoading = useSelector(getProductLoading);
   const handleBloodTypeChange = event => {
     setBloodType(event.target.value);
+    dispatch(fetchProductsByBloodType(Number(event.target.value)));
   };
   const handleHeightChange = event => {
     setHeight(event.target.value);
@@ -72,18 +80,13 @@ export const CalculatorForm = () => {
       .unwrap()
       .then(() => {
         console.log('Profile updated successfully.');
-        // Fetch the updated profile
         dispatch(fetchProfile());
       })
       .catch(error => {
         console.error('Failed to update profile:', error);
       });
 
-    const notRecommended = productList.filter(
-      aProduct => aProduct.groupBloodNotAllowed[Number(bloodType)] === true
-    );
 
-    setBadFoods([...notRecommended]);
   };
 
   useEffect(() => {
@@ -102,9 +105,7 @@ export const CalculatorForm = () => {
     };
   }, [isModalOpen]);
 
-  useEffect(() => {
-    setProductList(products);
-  }, []);
+
 
   return (
     <div className="max-w-[1400px] mx-auto">
@@ -141,11 +142,15 @@ export const CalculatorForm = () => {
                   <div className={css.modalHeading}>
                     Foods you should not eat
                   </div>
-                  <ul className={css.modalList}>
-                    {badFoods.map(badFood => (
-                      <li key={badFood._id.$oid}>{badFood.title}</li>
-                    ))}
-                  </ul>
+                  <ol className={css.modalList}>
+                    {isLoading ? (
+                     <li>  <Loader /> </li>
+                    ) : (
+                      notRecommendedProducts?.data.map((badFood, index) => (
+                        <li key={index}>{index + 1}. {badFood.charAt(0).toUpperCase() + badFood.slice(1)}</li>
+                      ))
+                    )}
+                  </ol>
                 </div>
                 <NavLink to="/diary">
                   <button className={css.modalSubmit}>

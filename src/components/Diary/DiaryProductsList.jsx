@@ -7,7 +7,7 @@ import { fetchDiaryEntries } from '../../redux/diary/diaryOperations';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { Loader } from 'components/Loader/Loader';
 
-const DiaryProductsList = () => {
+const DiaryProductsList = ( { disabled = false } ) => {
   const dispatch = useDispatch();
   const diaryEntries = useSelector(state => state.diary.diaryEntries);
   const selectedDate = useSelector(state => state.diary.selectedDate);
@@ -61,7 +61,7 @@ const DiaryProductsList = () => {
   }
 
   return (
-    <StyledList>
+    <StyledList disabled={disabled}>
       {diaryEntries.map(product => (
         <DiaryProductsListItem key={product._id} product={product} />
       ))}

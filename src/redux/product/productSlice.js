@@ -7,6 +7,7 @@ const initialState = {
   isLoading: false,
   diaryEntries: [],
   error: null,
+  notRecommended : []
 };
 
 const productSlice = createSlice({
@@ -19,7 +20,7 @@ const productSlice = createSlice({
         state.isLoading = true;
       })
       .addCase(fetchProductsByBloodType.fulfilled, (state, { payload }) => {
-        state.products = payload;
+        state.notRecommended = payload;
         state.isLoading = false;
         state.error = null;
       })
