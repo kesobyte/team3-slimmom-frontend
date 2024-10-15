@@ -7,7 +7,11 @@ import svg from './icons.svg';
 import { useEffect } from 'react';
 import products from './products.json';
 import { useDispatch } from 'react-redux';
-import { updateProfile } from '../../redux/profile/profileOperations';
+import {
+  updateProfile,
+  // fetchProfile,
+} from '../../redux/profile/profileOperations';
+import { NavLink } from 'react-router-dom';
 
 export const CalculatorForm = () => {
   const dispatch = useDispatch();
@@ -141,7 +145,11 @@ export const CalculatorForm = () => {
                     ))}
                   </ul>
                 </div>
-                <button className={css.modalSubmit}>Start losing weight</button>
+                <NavLink to="/diary">
+                  <button className={css.modalSubmit}>
+                    Start losing weight
+                  </button>
+                </NavLink>
               </div>
             </div>
           </div>

@@ -34,10 +34,12 @@ export const RightSideBar = () => {
     : 0;
 
   return (
-    <div className="flex justify-center">
+    <div>
       <Wrapper>
         {isLoading ? (
-          <Loader />
+          <div className="flex justify-center mx-auto xl:mt-[70px] mt-[40px]">
+            <Loader />
+          </div>
         ) : (
           <>
             <SummaryWrap>
