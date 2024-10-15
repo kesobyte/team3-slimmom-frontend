@@ -48,7 +48,6 @@ const authSlice = createSlice({
         state.isLoading = false;
         state.error = null;
       })
-
       .addCase(login.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.error = payload;
@@ -63,6 +62,7 @@ const authSlice = createSlice({
         state.isLoggedIn = false;
         state.isLoading = false;
         state.error = null;
+        localStorage.removeItem('persist:auth');
       })
       .addCase(logout.rejected, (state, { payload }) => {
         state.isLoading = false;
@@ -87,6 +87,7 @@ const authSlice = createSlice({
         state.refreshToken = null;
         state.user = null;
         state.isLoggedIn = false;
+        localStorage.removeItem('persist:auth');
       })
       .addCase(resendVerifyEmail.pending, state => {
         state.isLoading = true;
