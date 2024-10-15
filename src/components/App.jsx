@@ -13,14 +13,13 @@ import { SharedLayout } from './SharedLayout/SharedLayout';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { refreshUser } from '../redux/auth/authOperations';
-import { logout } from '../redux/auth/authOperations';
-import { useIdleTimer } from 'react-idle-timer';
 import { fetchProfile } from '../redux/profile/profileOperations';
 // import { getProfileUser } from '../redux/profile/selectors';
 import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
+import { Loader } from './Loader/Loader';
 
 export const App = () => {
-  const { isLoggedIn } = useAuth();
+  const { isLoggedIn, isRefreshing } = useAuth();
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
   // const diaryEntries = useSelector(state => state.diary.diaryEntries);
@@ -55,16 +54,14 @@ export const App = () => {
     }
   }, [dispatch, isLoggedIn, selectedDate]);
 
-  useIdleTimer({
-    timeout: 60 * 60 * 1000, // 1 Hour
-    onIdle: () => {
-      dispatch(logout());
-      if (refreshInterval.current) {
-        clearInterval(refreshInterval.current);
-      }
-    },
-    debounce: 500,
-  });
+  // Loader for refreshing the token
+  if (isRefreshing) {
+    return (
+      <div>
+        <Loader />
+      </div>
+    );
+  }
 
   return (
     <div className="relative">

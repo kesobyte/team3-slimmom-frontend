@@ -9,7 +9,7 @@ import products from './products.json';
 import { useDispatch } from 'react-redux';
 import {
   updateProfile,
-  // fetchProfile,
+  fetchProfile,
 } from '../../redux/profile/profileOperations';
 import { NavLink } from 'react-router-dom';
 
@@ -72,6 +72,8 @@ export const CalculatorForm = () => {
       .unwrap()
       .then(() => {
         console.log('Profile updated successfully.');
+        // Fetch the updated profile
+        dispatch(fetchProfile());
       })
       .catch(error => {
         console.error('Failed to update profile:', error);
