@@ -306,6 +306,7 @@
   margin-bottom: 40px;
   height: 112px;
   overflow-y: auto;
+  list-style-type: decimal!important;
 }
 
 .modalSubmit {

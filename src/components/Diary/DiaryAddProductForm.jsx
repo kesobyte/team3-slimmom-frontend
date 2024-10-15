@@ -78,7 +78,7 @@ const StyledFab = styled(Fab)({
   },
 });
 
-const DiaryAddProductForm = ({ handleClose }) => {
+const DiaryAddProductForm = ({ handleClose , disabled = false }) => {
   const dispatch = useDispatch();
   const [selectedProduct, setSelectedProduct] = useState(null);
   const [grams, setGrams] = useState('');
@@ -124,6 +124,7 @@ const DiaryAddProductForm = ({ handleClose }) => {
       width="100%"
       position="relative"
       pt={isMobile ? '50px' : 0}
+      
     >
       <div className="md:hidden">
         <Box
@@ -152,6 +153,7 @@ const DiaryAddProductForm = ({ handleClose }) => {
             label="Enter product name"
             variant="standard"
             sx={{ width: isTablet ? '100%' : '240px' }}
+            
             InputProps={{
               ...params.InputProps,
               endAdornment: (
@@ -198,6 +200,7 @@ const DiaryAddProductForm = ({ handleClose }) => {
           sx={{ display: isMobile ? 'none' : '' }}
           size="small"
           onClick={handleAddProduct}
+          disabled={disabled}
         >
           <AddIcon sx={{ color: 'white' }} />
         </StyledFab>
@@ -221,6 +224,7 @@ const DiaryAddProductForm = ({ handleClose }) => {
               height: '44px',
               fontWeight: 'bold',
             }}
+            disabled={disabled}
             onClick={handleAddProduct}
           >
             Add

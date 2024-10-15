@@ -14,7 +14,6 @@ import {
   getProfileLoading,
 } from '../../redux/profile/selectors';
 import { Loader } from 'components/Loader/Loader';
-
 export const RightSideBar = () => {
   const selectedDate =
     useSelector(state => state.diary.selectedDate) || 'No date available';
@@ -36,6 +35,7 @@ export const RightSideBar = () => {
     ? (totalCalories / dailyCalorieLimit) * 100
     : 0;
   const notAllowedProducts = userProfile?.notRecommended || 0;
+
 
   return (
     <div>
