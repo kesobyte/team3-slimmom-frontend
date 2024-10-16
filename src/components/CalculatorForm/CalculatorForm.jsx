@@ -6,18 +6,16 @@ import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
 import { useEffect } from 'react';
 import { Loader } from 'components/Loader/Loader';
-import { useDispatch , useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {
   updateProfile,
   fetchProfile,
 } from '../../redux/profile/profileOperations';
-import {
-  fetchProductsByBloodType
-} from '../../redux/product/productOperation';
+import { fetchProductsByBloodType } from '../../redux/product/productOperation';
 import { NavLink } from 'react-router-dom';
 import {
   getProductNotRecommended,
-  getProductLoading
+  getProductLoading,
 } from '../../redux/product/selector';
 
 export const CalculatorForm = () => {
@@ -79,14 +77,11 @@ export const CalculatorForm = () => {
     dispatch(updateProfile(profileData))
       .unwrap()
       .then(() => {
-        console.log('Profile updated successfully.');
         dispatch(fetchProfile());
       })
       .catch(error => {
         console.error('Failed to update profile:', error);
       });
-
-
   };
 
   useEffect(() => {
@@ -104,8 +99,6 @@ export const CalculatorForm = () => {
       window.removeEventListener('keydown', handleKeyDown);
     };
   }, [isModalOpen]);
-
-
 
   return (
     <div className="max-w-[1400px] mx-auto">
@@ -144,10 +137,16 @@ export const CalculatorForm = () => {
                   </div>
                   <ol className={css.modalList}>
                     {isLoading ? (
-                     <li>  <Loader /> </li>
+                      <li>
+                        {' '}
+                        <Loader />{' '}
+                      </li>
                     ) : (
                       notRecommendedProducts?.data.map((badFood, index) => (
-                        <li key={index}>{index + 1}. {badFood.charAt(0).toUpperCase() + badFood.slice(1)}</li>
+                        <li key={index}>
+                          {index + 1}.{' '}
+                          {badFood.charAt(0).toUpperCase() + badFood.slice(1)}
+                        </li>
                       ))
                     )}
                   </ol>

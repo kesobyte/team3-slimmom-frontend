@@ -34,7 +34,7 @@ export const updateProfile = createAsyncThunk(
           },
         }
       );
-      console.log(response.data);
+
       return response.data.data;
     } catch (error) {
       return rejectWithValue(error.response.data);
@@ -62,6 +62,10 @@ export const fetchProfile = createAsyncThunk(
     } catch (error) {
       const status = error.response?.status;
       // const message = error.response?.data?.message || error.message;
+
+      if (status === 404) {
+        toast.error('Please calculate your daily calorie intake.');
+      }
 
       if (status === 404) {
         toast.error('Please calculate your daily calorie intake.');
