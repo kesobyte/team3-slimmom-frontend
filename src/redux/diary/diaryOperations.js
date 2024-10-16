@@ -5,18 +5,6 @@ import { getToken } from '../auth/selectors';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
-// export const searchProducts = createAsyncThunk(
-//   'products/searchProducts',
-//   async (title, { rejectWithValue }) => {
-//     try {
-//       const response = await axios.get(`/product/search?title=${title}`);
-//       return response.data;
-//     } catch (error) {
-//       return rejectWithValue(error.response.data);
-//     }
-//   }
-// );
-
 export const addToDiary = createAsyncThunk(
   'diary/addToDiary',
   async ({ grams, product }, { getState, rejectWithValue }) => {

@@ -24,18 +24,21 @@ export const RightSideBar = () => {
   const dailyCalorieLimit = userProfile?.data?.dailyCalories || 0;
 
   const calculateTotalCalories = () => {
+    console.log(diaryEntries);
     return diaryEntries.reduce((total, product) => {
-      return total + Number.parseInt(product.calories || 0);
+      return total + Number.parseInt(product.calorieIntake || 0);
     }, 0);
   };
 
   const totalCalories = calculateTotalCalories();
-  const leftCalories = dailyCalorieLimit - totalCalories;
+  let leftCalories = dailyCalorieLimit - totalCalories;
+  // If leftCalories is negative, set it to 0
+  leftCalories = leftCalories < 0 ? 0 : leftCalories;
+
   const nOfNorm = dailyCalorieLimit
     ? (totalCalories / dailyCalorieLimit) * 100
     : 0;
   const notAllowedProducts = userProfile?.notRecommended || 0;
-
 
   return (
     <div>

@@ -12,23 +12,35 @@ import { useAuth } from 'hooks/useAuth';
 import { SharedLayout } from './SharedLayout/SharedLayout';
 import { useEffect, useRef } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { refreshUser } from '../redux/auth/authOperations';
+import { jwtDecode } from 'jwt-decode';
+import { logout, refreshUser } from '../redux/auth/authOperations';
 import { fetchProfile } from '../redux/profile/profileOperations';
-// import { getProfileUser } from '../redux/profile/selectors';
 import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
 import { Loader } from './Loader/Loader';
 
 export const App = () => {
-  const { isLoggedIn, isRefreshing } = useAuth();
+  const { isLoggedIn, token, isRefreshing } = useAuth();
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
-  // const diaryEntries = useSelector(state => state.diary.diaryEntries);
   const selectedDate = useSelector(state => state.diary.selectedDate);
-  // const profileData = useSelector(getProfileUser);
 
-  // useEffect(() => {
-  //   console.log('Profile Data:', profileData);
-  // }, [profileData]);
+  useEffect(() => {
+    if (token) {
+      try {
+        // Decode token to check its expiry
+        const { exp } = jwtDecode(token);
+        const currentTime = Date.now() / 1000;
+
+        // If the token is expired, force logout
+        if (exp < currentTime) {
+          dispatch(logout());
+        }
+      } catch (error) {
+        console.error('Error decoding token:', error);
+        dispatch(logout());
+      }
+    }
+  }, [token, dispatch]);
 
   useEffect(() => {
     if (isLoggedIn) {
