@@ -1,7 +1,5 @@
 .pageContainer {
   padding-top: 32px;
-  padding-left: 20px;
-  padding-right: 20xp;
 }
 
 .form {
@@ -341,6 +339,10 @@
 
   .overlayBack {
     display: none;
+  }
+
+  .formTitleSection {
+    width: 600px;
   }
 
   .overlayClose {

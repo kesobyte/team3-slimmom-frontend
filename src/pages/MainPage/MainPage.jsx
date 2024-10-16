@@ -76,7 +76,7 @@ export const MainPage = () => {
   }, []);
 
   return (
-    <div className="max-w-[1400px] mx-auto">
+    <div className="max-w-[1400px] mx-auto px-[20px] md:px-[32px] xl:px-[0]">
       <div className={css.overlayWrapper}>
         {isModalOpen === true && (
           <div className={css.overlay}>

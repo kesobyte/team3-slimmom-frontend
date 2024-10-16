@@ -11,7 +11,7 @@ import {
   DialogActions,
   Button,
   Fab,
-  Alert
+  Alert,
 } from '@mui/material';
 import { ToastContainer } from 'react-toastify';
 import { styled } from '@mui/system';
@@ -21,6 +21,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import { useSelector } from 'react-redux';
 import { getProfileUser } from '../redux/profile/selectors';
 import { useNavigate } from 'react-router-dom';
+import image from '../images/leave-tab.png';
 
 const StyledFab = styled(Fab)({
   backgroundColor: '#FC842D',
@@ -59,39 +60,44 @@ export const DiaryPage = () => {
       <div className="max-w-[1400px] mx-auto">
         <div className="flex xl:flex-row flex-col xl:pt-[160px] md:pt-[100px] pt-[32px] xl:px-[0px] md:px-[32px] px-[20px] min-h-full">
           <div
-            className={`md:w-[65vw] w-full ${!isProfileSetup ? 'opacity-50' : ''}`}
-           
+            className={`md:w-[65vw] w-full ${
+              !isProfileSetup ? 'opacity-50' : ''
+            }`}
           >
-            <Box  onClick={handleComponentClick}>
-            {!open && <DiaryDateCalendar disabled={!isProfileSetup} />}
-            {open && <DiaryAddProductForm disabled={!isProfileSetup} handleClose={handleClose} />}
-            <div className="hidden md:block">
-              <DiaryAddProductForm disabled={!isProfileSetup}/>
-            </div>
-            {!open && <DiaryProductsList disabled={!isProfileSetup}/>}
-            {!open && isMobile && (
-              <Box
-                sx={{
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  width: '100%',
-                }}
-              >
-                <StyledFab
+            <Box onClick={handleComponentClick}>
+              {!open && <DiaryDateCalendar disabled={!isProfileSetup} />}
+              {open && (
+                <DiaryAddProductForm
+                  disabled={!isProfileSetup}
+                  handleClose={handleClose}
+                />
+              )}
+              <div className="hidden md:block">
+                <DiaryAddProductForm disabled={!isProfileSetup} />
+              </div>
+              {!open && <DiaryProductsList disabled={!isProfileSetup} />}
+              {!open && isMobile && (
+                <Box
                   sx={{
-                    display: isMobile ? '' : 'flex',
-                    mb: '50px',
-                    mt: '50px',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    width: '100%',
                   }}
-                  size="small"
-                  onClick={handleAddProduct}
                 >
-                  <AddIcon sx={{ color: 'white' }} />
-                </StyledFab>
-              </Box>
-            )}
-            
+                  <StyledFab
+                    sx={{
+                      display: isMobile ? '' : 'flex',
+                      mb: '50px',
+                      mt: '50px',
+                    }}
+                    size="small"
+                    onClick={handleAddProduct}
+                  >
+                    <AddIcon sx={{ color: 'white' }} />
+                  </StyledFab>
+                </Box>
+              )}
             </Box>
             <ToastContainer
               position="top-right"
@@ -107,13 +113,15 @@ export const DiaryPage = () => {
             <Dialog open={dialogOpen} onClose={handleCloseDialog}>
               <DialogTitle>Profile Not Set Up</DialogTitle>
               <DialogContent>
-                <Alert severity="warning">Please set up your profile to access the Diary functionality.</Alert>
+                <Alert severity="warning">
+                  Please set up your profile to access the Diary functionality.
+                </Alert>
               </DialogContent>
-              <DialogActions >
+              <DialogActions>
                 <Button onClick={handleCloseDialog}>Close</Button>
                 <Button
-                   variant="contained"
-                   sx={{ backgroundColor: '#FC842D' }}
+                  variant="contained"
+                  sx={{ backgroundColor: '#FC842D' }}
                   onClick={() => {
                     navigate('/calculator');
                   }}
@@ -122,7 +130,6 @@ export const DiaryPage = () => {
                 </Button>
               </DialogActions>
             </Dialog>
-
           </div>
           <div className="w-[35vw] hidden xl:block">
             <RightSideBar />
@@ -130,7 +137,15 @@ export const DiaryPage = () => {
         </div>
       </div>
       {/* Tablet / Mobile */}
-      <div className="w-full xl:hidden bg-[#f0f1f3]">
+      <div
+        className="w-full xl:hidden bg-[#f0f1f3] -z-10"
+        style={{
+          backgroundImage: `url(${image})`,
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'right bottom',
+          backgroundSize: '300px',
+        }}
+      >
         <RightSideBar />
       </div>
     </>

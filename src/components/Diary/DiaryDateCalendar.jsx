@@ -9,6 +9,7 @@ import moment from 'moment';
 import { setSelectedDate } from '../../redux/diary/diarySlice';
 import { fetchDiaryEntries } from '../../redux/diary/diaryOperations';
 import { useMediaQuery, useTheme } from '@mui/material';
+
 const DiaryDateCalendar = ({ disabled = false }) => {
   const dispatch = useDispatch();
   const selectedDate = useSelector(state => state.diary.selectedDate);
@@ -36,7 +37,7 @@ const DiaryDateCalendar = ({ disabled = false }) => {
         disabled={disabled}
       >
         <Typography
-         disabled={disabled}
+          disabled={disabled}
           fontWeight="bold"
           sx={{
             mr: 2,
@@ -48,7 +49,11 @@ const DiaryDateCalendar = ({ disabled = false }) => {
           {moment(selectedDate, 'YYYY-MM-DD').format('DD.MM.YYYY')}
         </Typography>
         <div className="relative bg-white">
-          <IconButton  disabled={disabled} onClick={() => setOpen(true)} size="medium">
+          <IconButton
+            disabled={disabled}
+            onClick={() => setOpen(true)}
+            size="medium"
+          >
             <CalendarToday />
           </IconButton>
           <div className="xl:block hidden absolute z-[-2] top-1">

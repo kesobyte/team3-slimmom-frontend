@@ -18,11 +18,12 @@ export const CalculatorPage = () => {
       </div>
       {/* Tablet / Mobile */}
       <div
-        className="w-full xl:hidden bg-[#f0f1f3]"
+        className="w-full xl:hidden bg-[#f0f1f3] -z-10"
         style={{
           backgroundImage: `url(${image})`,
-          backgroundSize: 'cover',
-          backgroundPosition: 'center',
+          backgroundRepeat: 'no-repeat',
+          backgroundPosition: 'right bottom',
+          backgroundSize: '300px',
         }}
       >
         <RightSideBar />

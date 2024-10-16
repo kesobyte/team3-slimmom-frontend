@@ -306,7 +306,7 @@
   margin-bottom: 40px;
   height: 112px;
   overflow-y: auto;
-  list-style-type: decimal!important;
+  list-style-type: decimal !important;
 }
 
 .modalSubmit {
@@ -345,6 +345,10 @@
     position: absolute;
     top: 19px;
     right: 20px;
+  }
+
+  .formTitleSection {
+    width: 600px;
   }
 
   .modal {
