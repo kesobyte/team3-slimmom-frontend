@@ -15,7 +15,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import { logout, refreshUser } from '../redux/auth/authOperations';
 import { fetchProfile } from '../redux/profile/profileOperations';
-import { getProfileLoading } from '../redux/profile/selectors';
 import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
 import { Loader } from './Loader/Loader';
 import { ToastContainer } from 'react-toastify';
@@ -26,7 +25,7 @@ export const App = () => {
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
   const selectedDate = useSelector(state => state.diary.selectedDate);
-  const isLoading = useSelector(getProfileLoading);
+  // const isLoading = useSelector(getProfileLoading);
 
   useEffect(() => {
     if (token) {
@@ -70,7 +69,7 @@ export const App = () => {
     }
   }, [dispatch, isLoggedIn, selectedDate]);
 
-  if (isLoading || isRefreshing) {
+  if (isRefreshing) {
     return (
       <div className="h-[100vh] w-[100vw] flex justify-center items-center">
         <Loader />
