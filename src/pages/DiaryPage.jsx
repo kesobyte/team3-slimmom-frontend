@@ -8,10 +8,9 @@ import { styled } from '@mui/system';
 import { Add as AddIcon } from '@mui/icons-material';
 import { useMediaQuery, useTheme } from '@mui/material';
 import { useSelector } from 'react-redux';
-import { getProfileUser } from '../redux/profile/selectors';
+import { getProfileUser, getProfileLoading } from '../redux/profile/selectors';
 import { useNavigate } from 'react-router-dom';
 import image from '../images/leave-tab.png';
-import { getProfileLoading } from '../redux/profile/selectors';
 import { BtnLoader } from 'components/BtnLoader/BtnLoader';
 
 const StyledFab = styled(Button)({
@@ -48,7 +47,7 @@ export const DiaryPage = () => {
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
   const userProfile = useSelector(getProfileUser);
   const navigate = useNavigate();
-  const isLoading = useSelector(getProfileLoading);
+  const isProfileLoading = useSelector(getProfileLoading);
 
   const handleAddProduct = () => {
     setOpen(true);
@@ -60,14 +59,20 @@ export const DiaryPage = () => {
 
   const isProfileSetup = userProfile ?? false;
 
+  if (isProfileLoading) {
+    return (
+      <div className="h-[70vh] w-[100vw] flex justify-center items-center">
+        <BtnLoader color="orange" />
+      </div>
+    );
+  }
+
   return (
     <>
       <div className="max-w-[1400px] mx-auto">
         <div className="flex xl:flex-row flex-col xl:pt-[160px] md:pt-[100px] pt-[32px] xl:px-[0px] md:px-[32px] px-[20px] min-h-full">
           <div className="md:w-[65vw] w-full">
-            {isLoading ? (
-              <BtnLoader color="orange" />
-            ) : !isProfileSetup ? (
+            {!isProfileSetup ? (
               <Box display="flex" flexDirection="column" mb={4}>
                 <Typography variant="standard" gutterBottom>
                   Profile is not yet created. Please calculate your recommended

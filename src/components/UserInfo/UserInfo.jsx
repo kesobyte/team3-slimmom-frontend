@@ -35,14 +35,7 @@ export const UserInfo = () => {
       'Yes',
       'No',
       () => {
-        Notiflix.Loading.standard('Logging out...');
-        dispatch(logout())
-          .then(() => {
-            Notiflix.Loading.remove();
-          })
-          .catch(() => {
-            Notiflix.Loading.remove();
-          });
+        dispatch(logout());
       }
     );
   };

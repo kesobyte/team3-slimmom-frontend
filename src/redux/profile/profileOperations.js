@@ -6,7 +6,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 // Update Profile
 export const updateProfile = createAsyncThunk(
-  'user/updateProfile',
+  'profile/updateProfile',
   async (
     { height, dWeight, age, bloodType, cWeight, dailyCalories },
     { getState, rejectWithValue }
