@@ -5,9 +5,9 @@ import DiaryProductsListItem from './DiaryProductsListItem';
 import { styled } from '@mui/system';
 import { fetchDiaryEntries } from '../../redux/diary/diaryOperations';
 import { useMediaQuery, useTheme } from '@mui/material';
-import { Loader } from 'components/Loader/Loader';
+import { BtnLoader } from 'components/BtnLoader/BtnLoader';
 
-const DiaryProductsList = ( { disabled = false } ) => {
+const DiaryProductsList = ({ disabled = false }) => {
   const dispatch = useDispatch();
   const diaryEntries = useSelector(state => state.diary.diaryEntries);
   const selectedDate = useSelector(state => state.diary.selectedDate);
@@ -43,7 +43,7 @@ const DiaryProductsList = ( { disabled = false } ) => {
   if (isLoading) {
     return (
       <div className="flex mt-[50px] mb-[50px] justify-center xl:justify-normal">
-        <Loader />
+        <BtnLoader color="orange" />
       </div>
     );
   }

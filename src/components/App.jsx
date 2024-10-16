@@ -15,14 +15,18 @@ import { useDispatch, useSelector } from 'react-redux';
 import { jwtDecode } from 'jwt-decode';
 import { logout, refreshUser } from '../redux/auth/authOperations';
 import { fetchProfile } from '../redux/profile/profileOperations';
+import { getProfileLoading } from '../redux/profile/selectors';
 import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
 import { Loader } from './Loader/Loader';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 export const App = () => {
   const { isLoggedIn, token, isRefreshing } = useAuth();
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
   const selectedDate = useSelector(state => state.diary.selectedDate);
+  const isLoading = useSelector(getProfileLoading);
 
   useEffect(() => {
     if (token) {
@@ -66,10 +70,9 @@ export const App = () => {
     }
   }, [dispatch, isLoggedIn, selectedDate]);
 
-  // Loader for refreshing the token
-  if (isRefreshing) {
+  if (isLoading || isRefreshing) {
     return (
-      <div>
+      <div className="h-[100vh] w-[100vw] flex justify-center items-center">
         <Loader />
       </div>
     );
@@ -77,6 +80,7 @@ export const App = () => {
 
   return (
     <div className="relative">
+      <ToastContainer />
       <div className="fixed -z-[1]">
         <SharedLayout />
       </div>

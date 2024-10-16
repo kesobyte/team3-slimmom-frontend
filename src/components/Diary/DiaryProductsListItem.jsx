@@ -1,16 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import {
   ListItem,
   TextField,
   IconButton,
   Box,
   InputAdornment,
-  Dialog,
-  DialogActions,
-  DialogContent,
-  DialogContentText,
-  DialogTitle,
-  Button,
 } from '@mui/material';
 import { useDispatch } from 'react-redux';
 import { Close as CloseIcon } from '@mui/icons-material';
@@ -18,6 +12,18 @@ import { styled } from '@mui/system';
 import { deleteDiaryEntry } from '../../redux/diary/diaryOperations';
 import { toast } from 'react-toastify';
 import { useMediaQuery, useTheme } from '@mui/material';
+import Notiflix from 'notiflix';
+
+Notiflix.Confirm.init({
+  titleColor: '#FC842D',
+  okButtonBackground: '#FC842D',
+  cancelButtonBackground: '#CCCCCC',
+});
+
+Notiflix.Loading.init({
+  svgColor: '#FC842D',
+});
+
 const StyledTextField = styled(TextField)({
   '& .MuiInputBase-input': {
     color: 'black',
@@ -40,31 +46,35 @@ const StyledListItem = styled(ListItem)({
 
 const DiaryProductsListItem = ({ product }) => {
   const dispatch = useDispatch();
-  const [openDialog, setOpenDialog] = useState(false);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
-  const handleOpenDialog = () => {
-    setOpenDialog(true);
-  };
-
-  const handleCloseDialog = () => {
-    setOpenDialog(false);
-  };
-
   const handleDelete = () => {
-    dispatch(deleteDiaryEntry(product._id))
-      .unwrap()
-      .then(() => {
-        toast.success('Product deleted successfully');
-        handleCloseDialog();
-      })
-      .catch(error => {
-        toast.error(`Error deleting product: ${error.message}`);
-        handleCloseDialog();
-      });
+    Notiflix.Confirm.show(
+      'Confirm Deletion',
+      'Are you sure you want to delete this item from your diary?',
+      'Delete',
+      'Cancel',
+      function okCallback() {
+        dispatch(deleteDiaryEntry(product._id))
+          .unwrap()
+          .then(() => {
+            toast.success('Product deleted successfully');
+          })
+          .catch(error => {
+            toast.error(`Error deleting product: ${error.message}`);
+          });
+      },
+      function cancelCallback() {
+        // User canceled the deletion, do nothing
+      },
+      {
+        okButtonBackground: '#FC842D',
+      }
+    );
   };
+
   return (
     <>
       <StyledListItem>
@@ -98,7 +108,6 @@ const DiaryProductsListItem = ({ product }) => {
             value={product.calorieIntake}
             InputProps={{
               readOnly: true,
-
               endAdornment: (
                 <InputAdornment position="end">kcal</InputAdornment>
               ),
@@ -111,7 +120,7 @@ const DiaryProductsListItem = ({ product }) => {
             }}
           />
           <IconButton
-            onClick={handleOpenDialog}
+            onClick={handleDelete}
             size="small"
             sx={{
               ml: isMobile ? 1 : 'auto',
@@ -122,32 +131,6 @@ const DiaryProductsListItem = ({ product }) => {
           </IconButton>
         </Box>
       </StyledListItem>
-      <Dialog
-        open={openDialog}
-        onClose={handleCloseDialog}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">{'Confirm Deletion'}</DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            Are you sure you want to delete this item from your diary?
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleCloseDialog} variant="text">
-            Cancel
-          </Button>
-          <Button
-            onClick={handleDelete}
-            variant="contained"
-            sx={{ backgroundColor: '#FC842D' }}
-            autoFocus
-          >
-            Delete
-          </Button>
-        </DialogActions>
-      </Dialog>
     </>
   );
 };
