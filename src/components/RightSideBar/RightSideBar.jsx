@@ -24,7 +24,6 @@ export const RightSideBar = () => {
   const dailyCalorieLimit = userProfile?.data?.dailyCalories || 0;
 
   const calculateTotalCalories = () => {
-    console.log(diaryEntries);
     return diaryEntries.reduce((total, product) => {
       return total + Number.parseInt(product.calorieIntake || 0);
     }, 0);
