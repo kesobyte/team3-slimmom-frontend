@@ -88,9 +88,7 @@ export const DiaryPage = () => {
             ) : (
               <Box>
                 {!open && <DiaryDateCalendar />}
-                <div className="z-0">
-                  {open && <DiaryAddProductForm handleClose={handleClose} />}
-                </div>
+                {open && <DiaryAddProductForm handleClose={handleClose} />}
                 <div className="hidden sm:block">
                   <DiaryAddProductForm />
                 </div>

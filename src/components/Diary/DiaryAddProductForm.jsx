@@ -84,6 +84,7 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
   const [grams, setGrams] = useState('');
   const searchResults = useSelector(getProducts);
   const isLoading = useSelector(getProductLoading);
+  const selectedDate = useSelector(state => state.diary.selectedDate);
   const theme = useTheme();
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
@@ -98,6 +99,7 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
     if (selectedProduct && grams) {
       dispatch(
         addToDiary({
+          date: selectedDate, // Use the selected date from Redux
           grams: parseInt(grams),
           product: selectedProduct,
         })
@@ -194,14 +196,16 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
             mr: 2,
           }}
         />
-        <StyledFab
-          sx={{ display: isMobile ? 'none' : '' }}
-          size="small"
-          onClick={handleAddProduct}
-          disabled={disabled}
-        >
-          <AddIcon sx={{ color: 'white' }} />
-        </StyledFab>
+        <div className="z-0">
+          <StyledFab
+            sx={{ display: isMobile ? 'none' : '' }}
+            size="small"
+            onClick={handleAddProduct}
+            disabled={disabled}
+          >
+            <AddIcon sx={{ color: 'white' }} />
+          </StyledFab>
+        </div>
       </Box>
       {isMobile && (
         <Box

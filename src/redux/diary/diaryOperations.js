@@ -7,7 +7,7 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 
 export const addToDiary = createAsyncThunk(
   'diary/addToDiary',
-  async ({ grams, product }, { getState, rejectWithValue }) => {
+  async ({ date, grams, product }, { getState, rejectWithValue }) => {
     try {
       const token = getToken(getState());
       const { calories, categories, title } = product;
@@ -16,7 +16,7 @@ export const addToDiary = createAsyncThunk(
       const response = await axios.post(
         '/diary/add',
         {
-          date: moment().format('YYYY-MM-DD'),
+          date, // Use the passed date here
           title,
           grams,
           calories,
