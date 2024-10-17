@@ -1,6 +1,5 @@
 import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
-import { getToken } from '../auth/selectors';
 import { toast } from 'react-toastify';
 
 axios.defaults.baseURL = process.env.REACT_APP_API_URL;
@@ -9,13 +8,8 @@ axios.defaults.baseURL = process.env.REACT_APP_API_URL;
 export const fetchProductsByBloodType = createAsyncThunk(
   'product/fetchByBloodType',
   async (bloodType, thunkAPI) => {
-    const token = getToken(thunkAPI.getState());
-    if (!token) return thunkAPI.rejectWithValue('No token found');
-
     try {
-      const response = await axios.get(`/product/blood-type/${bloodType}`, {
-        headers: { Authorization: `Bearer ${token}` },
-      });
+      const response = await axios.get(`/product/blood-type/${bloodType}`);
       return response.data;
     } catch (error) {
       const status = error.response?.status;

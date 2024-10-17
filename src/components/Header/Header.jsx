@@ -17,7 +17,7 @@ export const Header = () => {
   return (
     <div className="relative z-50">
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex xl:pt-[80px] justify-between border-b-[2px] xl:border-none">
+        <div className="flex xl:pt-[80px] justify-between border-b-[2px] xl:border-none px-0 xl:px-[32px]">
           <div className="flex w-full md:pl-[32px] md:py-[16px] md:pb-[8px] p-[20px] xl:p-0 justify-between xl:gap-[20px] xl:w-auto">
             <Logo />
             <div className="hidden xl:flex xl:items-end">
@@ -78,7 +78,7 @@ export const Header = () => {
 
       {/* BurgerMenu */}
       {isMenuOpen && (
-        <div className="fixed md:top-[70px] top-[85px] left-0 w-full h-full bg-[#264061] animate-slideIn z-40">
+        <div className="fixed md:top-[70px] top-[85px] left-0 w-full h-full bg-[#264061] animate-slideIn z-50">
           <div className="flex flex-col items-center gap-[24px] uppercase text-[24px] font-bold md:pt-[100px] pt-[60px]">
             <NavLink
               to="/diary"

@@ -21,7 +21,7 @@ const DiaryProductsList = ({ disabled = false }) => {
   }, [dispatch, selectedDate]);
 
   const StyledList = styled(List)({
-    width: isMobile ? '100%' : '650px',
+    width: isMobile ? '100%' : '550px',
     maxHeight: '300px',
     marginTop: isMobile ? '10px' : '50px',
     marginBottom: isMobile ? '0' : '50px',
@@ -54,7 +54,7 @@ const DiaryProductsList = ({ disabled = false }) => {
 
   if (diaryEntries.length === 0) {
     return (
-      <Typography sx={{ marginTop: '50px' }}>
+      <Typography sx={{ marginTop: '50px', marginBottom: '20px' }}>
         No entries for this date.
       </Typography>
     );

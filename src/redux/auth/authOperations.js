@@ -64,7 +64,7 @@ export const register = createAsyncThunk(
       const status = error.response?.status;
       const message = error.response?.data?.message || error.message;
 
-      if (status === 409) {
+      if (status === 409 && message === 'Email already registered') {
         toast.error('Email is already in use.');
       }
 
@@ -105,10 +105,10 @@ export const login = createAsyncThunk(
         (status === 401 && message === 'Invalid user') ||
         message === 'Invalid credentials'
       ) {
-        toast.error('Invalid credentials, please try again.');
+        toast.error('Invalid credentials. Please try again.');
       }
 
-      if (status === 400) {
+      if (status === 400 && message) {
         toast.warning('Please enter valid email address');
       }
 

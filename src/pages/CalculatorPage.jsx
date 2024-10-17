@@ -7,7 +7,7 @@ export const CalculatorPage = () => {
   return (
     <>
       <div className="max-w-[1400px] mx-auto">
-        <div className="flex xl:flex-row flex-col xl:pt-[160px] md:pt-[100px] pt-[32px] xl:px-[0px] md:px-[32px] px-[20px] min-h-full">
+        <div className="flex xl:flex-row flex-col xl:pt-[160px] md:pt-[100px] pt-[32px] px-[20px] md:px-[32px] xl:px-[32px] min-h-full">
           <div className="md:w-[65vw] w-full">
             <CalculatorForm />
           </div>

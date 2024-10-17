@@ -1,60 +1,71 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import css from './MainPage.module.css';
-import { useState, useEffect } from 'react';
 import backArrow from './backArrow.png';
 import { useMediaQuery } from 'react-responsive';
 import svg from './icons.svg';
-import products from './products.json';
+import { useDispatch, useSelector } from 'react-redux';
 import { NavLink } from 'react-router-dom';
+import { fetchProductsByBloodType } from '../../redux/product/productOperation';
+import {
+  getProductNotRecommended,
+  getProductLoading,
+} from '../../redux/product/selector';
+import { Loader } from 'components/Loader/Loader';
 
 export const MainPage = () => {
-  const [bloodType, setBloodType] = useState('');
+  const dispatch = useDispatch();
   const [height, setHeight] = useState('');
   const [age, setAge] = useState('');
   const [cWeight, setCWeight] = useState('');
   const [dWeight, setDWeight] = useState('');
   const [isModalOpen, setModalOpen] = useState(false);
-  const [result, setResult] = useState();
-  const [productList, setProductList] = useState([]);
-  const [badFoods, setBadFoods] = useState([]);
+  const [result, setResult] = useState(null);
   const isTablet = useMediaQuery({ query: '(min-width: 768px)' });
   const isMobile = useMediaQuery({ query: '(max-width: 767px)' });
 
+  const notRecommendedProducts = useSelector(getProductNotRecommended);
+  const isLoading = useSelector(getProductLoading);
+
+  // Handle changes in the blood type and fetch products based on it
   const handleBloodTypeChange = event => {
-    setBloodType(event.target.value);
+    const selectedBloodType = event.target.value;
+    dispatch(fetchProductsByBloodType(Number(selectedBloodType)));
   };
+
   const handleHeightChange = event => {
     setHeight(event.target.value);
   };
+
   const handleAgeChange = event => {
     setAge(event.target.value);
   };
+
   const handleCurrentWeightChange = event => {
     setCWeight(event.target.value);
   };
-  const handleDesiredWeight = event => {
+
+  const handleDesiredWeightChange = event => {
     setDWeight(event.target.value);
   };
 
-  const handleModalClose = event => {
-    setModalOpen(false);
-  };
-
+  // Handle form submission and calculate daily calorie intake
   const handleSubmit = event => {
     event.preventDefault();
+
+    // Calculate daily calorie intake
     const dailyCalorieIntake = Math.ceil(
       10 * cWeight + 6.25 * height - 5 * age - 161 - 10 * (cWeight - dWeight)
     );
+
     setResult(dailyCalorieIntake);
     setModalOpen(true);
-
-    const notRecommended = productList.filter(
-      aProduct => aProduct.groupBloodNotAllowed[Number(bloodType)] === true
-    );
-
-    setBadFoods([...notRecommended]);
   };
 
+  const handleModalClose = () => {
+    setModalOpen(false);
+  };
+
+  // Close the modal using the Escape key
   useEffect(() => {
     const handleKeyDown = event => {
       if (event.key === 'Escape') {
@@ -62,7 +73,7 @@ export const MainPage = () => {
       }
     };
 
-    if (isModalOpen === true) {
+    if (isModalOpen) {
       window.addEventListener('keydown', handleKeyDown);
     }
 
@@ -71,14 +82,10 @@ export const MainPage = () => {
     };
   }, [isModalOpen]);
 
-  useEffect(() => {
-    setProductList(products);
-  }, []);
-
   return (
-    <div className="max-w-[1400px] mx-auto px-[20px] md:px-[32px] xl:px-[0]">
+    <div className="max-w-[1400px] mx-auto px-[20px] md:px-[32px] xl:px-[32px]">
       <div className={css.overlayWrapper}>
-        {isModalOpen === true && (
+        {isModalOpen && (
           <div className={css.overlay}>
             <button className={css.overlayBack} onClick={handleModalClose}>
               <img src={backArrow} width="12px" height="7px" alt="back" />
@@ -110,11 +117,21 @@ export const MainPage = () => {
                   <div className={css.modalHeading}>
                     Foods you should not eat
                   </div>
-                  <ul className={css.modalList}>
-                    {badFoods.map(badFood => (
-                      <li key={badFood._id.$oid}>{badFood.title}</li>
-                    ))}
-                  </ul>
+                  <ol className={css.modalList}>
+                    {isLoading ? (
+                      <li>
+                        {' '}
+                        <Loader />{' '}
+                      </li>
+                    ) : (
+                      notRecommendedProducts?.data.map((badFood, index) => (
+                        <li key={index}>
+                          {index + 1}.{' '}
+                          {badFood.charAt(0).toUpperCase() + badFood.slice(1)}
+                        </li>
+                      ))
+                    )}
+                  </ol>
                 </div>
                 <NavLink to="/login">
                   <button className={css.modalSubmit}>
@@ -150,6 +167,7 @@ export const MainPage = () => {
                       title="Enter your height in Centimeters"
                       autoComplete="off"
                       required
+                      value={height}
                       onChange={handleHeightChange}
                     />
                   </label>
@@ -167,6 +185,7 @@ export const MainPage = () => {
                       title="Enter your age"
                       autoComplete="off"
                       required
+                      value={age}
                       onChange={handleAgeChange}
                     />
                   </label>
@@ -184,6 +203,7 @@ export const MainPage = () => {
                       title="Enter your Current weight in Kilograms"
                       autoComplete="off"
                       required
+                      value={cWeight}
                       onChange={handleCurrentWeightChange}
                     />
                   </label>
@@ -203,7 +223,8 @@ export const MainPage = () => {
                       title="Enter your Desired weight in Kilograms"
                       autoComplete="off"
                       required
-                      onChange={handleDesiredWeight}
+                      value={dWeight}
+                      onChange={handleDesiredWeightChange}
                     />
                   </label>
 
@@ -279,7 +300,9 @@ export const MainPage = () => {
                 </div>
               </div>
 
-              <button className={css.button}>Start losing weight</button>
+              <button className={css.button} type="submit">
+                Start losing weight
+              </button>
             </form>
           </div>
         </div>
