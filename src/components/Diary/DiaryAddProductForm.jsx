@@ -1,4 +1,5 @@
-import React, { useState } from 'react';
+import { useState, useEffect } from 'react';
+import PropTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   Autocomplete,
@@ -89,17 +90,28 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
   const isTablet = useMediaQuery(theme.breakpoints.down('md'));
   const isMobile = useMediaQuery(theme.breakpoints.down('sm'));
 
+  // Handle product search with debounce and cleanup
   const handleProductSearch = debounce((event, newInputValue) => {
     if (newInputValue.length > 2) {
-      dispatch(searchProducts(newInputValue));
+      dispatch(searchProducts(newInputValue)).catch(error => {
+        toast.error('Failed to search products');
+      });
     }
-  }, 500); // Added debounce
+  }, 500);
 
+  // Cleanup the debounce function
+  useEffect(() => {
+    return () => {
+      handleProductSearch.cancel(); // cleanup on unmount
+    };
+  }, [handleProductSearch]);
+
+  // Handle adding product to the diary
   const handleAddProduct = () => {
     if (selectedProduct && grams) {
       dispatch(
         addToDiary({
-          date: selectedDate, // Use the selected date from Redux
+          date: selectedDate,
           grams: parseInt(grams),
           product: selectedProduct,
         })
@@ -127,7 +139,8 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
       position="relative"
       pt={isMobile ? '50px' : 0}
     >
-      <div className="md:hidden">
+      {/* Back button for mobile */}
+      {isMobile && (
         <Box
           display="flex"
           onClick={handleClose}
@@ -138,8 +151,9 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
         >
           <KeyboardReturnIcon fontSize="medium" />
         </Box>
-      </div>
+      )}
 
+      {/* Product Search Autocomplete */}
       <StyledAutocomplete
         options={searchResults}
         getOptionLabel={option => option.title}
@@ -169,7 +183,9 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
         )}
         value={selectedProduct}
         onChange={(event, newValue) => {
-          setSelectedProduct(newValue);
+          if (newValue !== selectedProduct) {
+            setSelectedProduct(newValue); // Update only when necessary
+          }
         }}
         onInputChange={(event, newInputValue) =>
           handleProductSearch(event, newInputValue)
@@ -177,6 +193,7 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
         sx={{ width: isTablet ? '100%' : '240px', mr: isTablet ? 3 : 6 }}
       />
 
+      {/* Grams Input */}
       <Box
         display="flex"
         alignItems="flex-end"
@@ -196,17 +213,20 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
             mr: 2,
           }}
         />
-        <div className="z-0">
+
+        {/* Add Button */}
+        {!isMobile && (
           <StyledFab
-            sx={{ display: isMobile ? 'none' : '' }}
             size="small"
             onClick={handleAddProduct}
             disabled={disabled}
           >
             <AddIcon sx={{ color: 'white' }} />
           </StyledFab>
-        </div>
+        )}
       </Box>
+
+      {/* Add Button for mobile */}
       {isMobile && (
         <Box
           sx={{
@@ -235,6 +255,12 @@ const DiaryAddProductForm = ({ handleClose, disabled = false }) => {
       )}
     </Box>
   );
+};
+
+// PropTypes for validation
+DiaryAddProductForm.propTypes = {
+  handleClose: PropTypes.func,
+  disabled: PropTypes.bool,
 };
 
 export default DiaryAddProductForm;

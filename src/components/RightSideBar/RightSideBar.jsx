@@ -14,6 +14,7 @@ import {
   getProfileLoading,
 } from '../../redux/profile/selectors';
 import { Loader } from 'components/Loader/Loader';
+
 export const RightSideBar = () => {
   const selectedDate =
     useSelector(state => state.diary.selectedDate) || 'No date available';

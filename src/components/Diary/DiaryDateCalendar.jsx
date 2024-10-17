@@ -34,7 +34,6 @@ const DiaryDateCalendar = ({ disabled = false }) => {
           pt: isMobile ? 2 : 0,
           pb: isMobile ? 2 : 0,
         }}
-        disabled={disabled}
       >
         <Typography
           disabled={disabled}
@@ -44,17 +43,22 @@ const DiaryDateCalendar = ({ disabled = false }) => {
             backgroundColor: 'white',
             fontFamily: 'Verdana, sans-serif',
             fontSize: isMobile ? '20px' : '36px',
+            opacity: disabled ? 0.5 : 1,
           }}
         >
           {moment(selectedDate, 'YYYY-MM-DD').format('DD.MM.YYYY')}
         </Typography>
+
+        {/* Calendar Icon Button */}
         <div className="relative bg-white">
           <IconButton
             disabled={disabled}
             onClick={() => setOpen(true)}
             size="medium"
+            sx={{ opacity: disabled ? 0.5 : 1 }}
+            aria-label="Open calendar"
           >
-            <CalendarToday />
+            <CalendarToday aria-hidden="true" />
           </IconButton>
           <div className="xl:block hidden absolute z-[-2] top-1">
             <DatePicker
@@ -64,7 +68,7 @@ const DiaryDateCalendar = ({ disabled = false }) => {
                   height: '0px',
                 },
                 '& .MuiSvgIcon-root': {
-                  fontSize: '0px', // Calendar Icon (Default)
+                  fontSize: '0px',
                 },
               }}
               value={moment(selectedDate, 'YYYY-MM-DD')}

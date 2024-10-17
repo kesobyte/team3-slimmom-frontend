@@ -19,25 +19,22 @@ import { fetchDiaryEntries } from '../redux/diary/diaryOperations';
 import { Loader } from './Loader/Loader';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-// import { getIsLoading } from '../redux/auth/selectors';
 
 export const App = () => {
   const { isLoggedIn, token, isRefreshing } = useAuth();
   const dispatch = useDispatch();
   const refreshInterval = useRef(null);
   const selectedDate = useSelector(state => state.diary.selectedDate);
-  // const isLoading = useSelector(getIsLoading);
 
+  // Effect to check and decode token
   useEffect(() => {
     if (token) {
       try {
-        // Decode token to check its expiry
-        const { exp } = jwtDecode(token);
+        const { exp } = jwtDecode(token); // Decode token to get expiry
         const currentTime = Date.now() / 1000;
 
-        // If the token is expired, force logout
         if (exp < currentTime) {
-          dispatch(logout());
+          dispatch(logout()); // Force logout if the token is expired
         }
       } catch (error) {
         console.error('Error decoding token:', error);
@@ -46,30 +43,29 @@ export const App = () => {
     }
   }, [token, dispatch]);
 
+  // Effect to refresh user profile and diary entries
   useEffect(() => {
     if (isLoggedIn) {
       dispatch(fetchProfile());
       dispatch(fetchDiaryEntries(selectedDate));
 
-      // Set interval to refresh user every 30 minutes if user is active
       refreshInterval.current = setInterval(() => {
         dispatch(refreshUser());
-      }, 30 * 60 * 1000); // 30 minutes
+      }, 30 * 60 * 1000); // Refresh every 30 minutes
 
       return () => {
-        // Clear interval when component unmounts or user logs out
         if (refreshInterval.current) {
           clearInterval(refreshInterval.current);
         }
       };
     } else {
-      // Clear interval if the user is not logged in
       if (refreshInterval.current) {
         clearInterval(refreshInterval.current);
       }
     }
   }, [dispatch, isLoggedIn, selectedDate]);
 
+  // Render Loader if refreshing token
   if (isRefreshing) {
     return (
       <div className="h-[100vh] w-[100vw] flex justify-center items-center">
@@ -133,7 +129,7 @@ export const App = () => {
             }
           />
 
-          {/* Routing for non-existent pages */}
+          {/* Catch-all for non-existent routes */}
           <Route
             path="/*"
             element={

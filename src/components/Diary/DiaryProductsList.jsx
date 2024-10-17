@@ -22,9 +22,9 @@ const DiaryProductsList = ({ disabled = false }) => {
 
   const StyledList = styled(List)({
     width: isMobile ? '100%' : '550px',
-    maxHeight: '300px',
-    marginTop: isMobile ? '10px' : '50px',
-    marginBottom: isMobile ? '0' : '50px',
+    maxHeight: '250px',
+    marginTop: isMobile ? '10px' : '40px',
+    marginBottom: isMobile ? '0' : '40px',
     overflowY: 'auto',
     '&::-webkit-scrollbar': {
       width: '6px',
@@ -49,12 +49,18 @@ const DiaryProductsList = ({ disabled = false }) => {
   }
 
   if (error) {
-    return <Typography color="error">Error: {error}</Typography>;
+    return (
+      <Typography color="error" sx={{ marginTop: '40px' }}>
+        {typeof error === 'string'
+          ? `Error: ${error}`
+          : 'An error occurred. Please reload the page.'}
+      </Typography>
+    );
   }
 
   if (diaryEntries.length === 0) {
     return (
-      <Typography sx={{ marginTop: '50px', marginBottom: '20px' }}>
+      <Typography sx={{ marginTop: '40px', marginBottom: '20px' }}>
         No entries for this date.
       </Typography>
     );

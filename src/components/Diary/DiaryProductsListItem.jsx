@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   ListItem,
   TextField,
@@ -27,6 +28,8 @@ Notiflix.Loading.init({
 const StyledTextField = styled(TextField)({
   '& .MuiInputBase-input': {
     color: 'black',
+    fontFamily: 'verdana',
+    fontSize: '14px',
   },
   '& .MuiInput-underline:before': {
     borderBottomColor: '#E0E0E0',
@@ -133,6 +136,16 @@ const DiaryProductsListItem = ({ product }) => {
       </StyledListItem>
     </>
   );
+};
+
+// PropTypes validation
+DiaryProductsListItem.propTypes = {
+  product: PropTypes.shape({
+    title: PropTypes.string.isRequired,
+    grams: PropTypes.number.isRequired,
+    calorieIntake: PropTypes.number.isRequired,
+    _id: PropTypes.string.isRequired,
+  }).isRequired,
 };
 
 export default DiaryProductsListItem;
